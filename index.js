@@ -65,11 +65,9 @@ let appChoice = document.getElementById("appchoice");
         let logicEditor = document.getElementById("logic-editor");
         logicEditor.addEventListener("save", async event => {
             await LogicsStorage.set(event.key, event.logic);
-            logicEditor.setPatch(await LogicsStorage.getAll());
         });
         logicEditor.addEventListener("clear", async event => {
             await LogicsStorage.delete(event.key);
-            logicEditor.setPatch(await LogicsStorage.getAll());
         });
         NAVIGATION.set("logic-editor", [{
             "content": "FILE",

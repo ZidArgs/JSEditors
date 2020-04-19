@@ -180,6 +180,7 @@ class LogicEditor extends HTMLElement {
         workingarea.addEventListener('save', function(event) {
             let key = workingarea.dataset.logicKey;
             if (!!key) {
+                LOGIC_PATCH.get(this)[key] = workingarea.getLogic();
                 let e = new Event('save');
                 e.key = key;
                 e.logic = workingarea.getLogic();
@@ -199,6 +200,8 @@ class LogicEditor extends HTMLElement {
         workingarea.addEventListener('clear', function(event) {
             let key = workingarea.dataset.logicKey;
             if (!!key) {
+                LOGIC_PATCH.get(this)[key] = undefined;
+                workingarea.loadLogic(LOGIC.get(this)[key]);
                 let e = new Event('clear');
                 e.key = key;
                 this.dispatchEvent(e);
