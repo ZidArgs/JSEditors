@@ -19,20 +19,14 @@ const TPL = new Template(`
         cursor: pointer;
     }
 </style>
-<div>
-    Exit
-</div>
 `);
 
-class LogicEditor extends HTMLElement {
+class EditorChoice extends HTMLElement {
 
     constructor() {
         super();
         this.attachShadow({mode: 'open'});
         this.shadowRoot.append(TPL.generate());
-        this.shadowRoot.querySelector("div").addEventListener("click", event => {
-            this.dispatchEvent(new Event('exit'));
-        });
     }
 
     register(id, name = id) {
@@ -48,4 +42,4 @@ class LogicEditor extends HTMLElement {
 
 }
 
-customElements.define('ted-logiceditor', LogicEditor);
+customElements.define('ted-editorchoice', EditorChoice);

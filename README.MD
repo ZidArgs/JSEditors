@@ -1,1 +1,1 @@
-editor collection for game trackers
+editor collection
