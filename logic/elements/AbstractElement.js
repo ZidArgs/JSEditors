@@ -168,6 +168,7 @@ const SVG = new Template(`
 `);
 
 function dragStart(event) {
+    DragDropMemory.clear();
     DragDropMemory.add(event.currentTarget);
     event.stopPropagation();
 }
