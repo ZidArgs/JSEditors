@@ -1,3 +1,4 @@
+import DragDropMemory from "/emcJS/util/DragDropMemory.js";
 import Template from "/emcJS/util/Template.js";
 import UGen from "/emcJS/util/UniqueGenerator.js";
 
@@ -167,8 +168,8 @@ const SVG = new Template(`
 `);
 
 function dragStart(event) {
-    event.dataTransfer.setData("logic-transfer-id", event.target.id);
-    event.dataTransfer.setData("Text", event.target.id);
+    DragDropMemory.add(event.currentTarget);
+    event.stopPropagation();
 }
 
 // TODO add on placeholder click dialog to append logic elements
@@ -416,9 +417,9 @@ export default class AbstractElement extends HTMLElement {
     }
 
     static dropOnPlaceholder(event) {
-        if (!!event.dataTransfer) {
-            let id = event.dataTransfer.getData("logic-transfer-id");
-            let el = this.getRootNode().getElementById(id);
+        let els = DragDropMemory.get();
+        if (!!els.length) {
+            let el = els[0];
             if (!!el && el instanceof AbstractElement) {
                 let ne = event.target.getRootNode().host.append(el.getElement(event.ctrlKey));
                 if (!!ne) {

@@ -1,3 +1,4 @@
+import DragDropMemory from "/emcJS/util/DragDropMemory.js";
 import Template from "/emcJS/util/Template.js";
 import LogicAbstractElement from "./elements/AbstractElement.js";
 
@@ -30,9 +31,9 @@ function allowDrop(event) {
 }
 
 function dropOnPlaceholder(event) {
-    if (!!event.dataTransfer) {
-        let id = event.dataTransfer.getData("logic-transfer-id");
-        let el = this.getRootNode().getElementById(id);
+    let els = DragDropMemory.get();
+    if (!!els.length) {
+        let el = els[0];
         if (!!el && el instanceof LogicAbstractElement && (typeof el.template != "string" || el.template == "false")) {
             el.parentElement.removeChild(el);
         }
