@@ -432,6 +432,7 @@ export default class AbstractElement extends HTMLElement {
                 }
             }
         }
+        DragDropMemory.clear();
         event.preventDefault();
         event.stopPropagation();
         return false;
