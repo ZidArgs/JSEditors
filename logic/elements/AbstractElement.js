@@ -498,10 +498,16 @@ class LogicError extends AbstractElement {
     }
 
     loadLogic(logic) {
-        if (!!logic.category) {
-            this.shadowRoot.getElementById('ref').innerHTML = `${logic.type.toUpperCase()}(${logic.category.toUpperCase()})`;
+        let type = logic.type;
+        if (!!type) {
+            type = type.toUpperCase();
         } else {
-            this.shadowRoot.getElementById("ref").innerHTML = logic.type.toUpperCase()
+            type = "UNKNOWN TYPE";
+        }
+        if (!!logic.category) {
+            this.shadowRoot.getElementById('ref').innerHTML = `${type}(${logic.category.toUpperCase()})`;
+        } else {
+            this.shadowRoot.getElementById("ref").innerHTML = type;
         }
     }
 
