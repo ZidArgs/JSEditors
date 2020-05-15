@@ -9,8 +9,8 @@ import "./EditorWorkingarea.js";
 
 import "./elements/LiteralFalse.js";
 import "./elements/LiteralTrue.js";
-import "./elements/LiteralNumber.js";
 import "./elements/LiteralValue.js";
+import "./elements/LiteralState.js";
 import "./elements/OperatorAnd.js";
 import "./elements/OperatorNand.js";
 import "./elements/OperatorOr.js";
