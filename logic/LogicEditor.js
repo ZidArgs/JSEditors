@@ -16,6 +16,7 @@ import "./elements/OperatorNand.js";
 import "./elements/OperatorOr.js";
 import "./elements/OperatorNor.js";
 import "./elements/OperatorXor.js";
+import "./elements/OperatorXnor.js";
 import "./elements/OperatorNot.js";
 import "./elements/OperatorMin.js";
 import "./elements/OperatorMax.js";
