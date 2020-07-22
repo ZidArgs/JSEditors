@@ -466,6 +466,7 @@ const TPL_E = new Template(`
         }
     </style>
     <div class="header">ERROR: REFERENCE NOT FOUND</div>
+    <div id="ref" class="body"></div>
 `);
 const SVG_E = new Template(`
     <div class="logic-element" style="--logic-color-back: #ff0000; --logic-color-border: #770000; --logic-color-text: #ffffff;">

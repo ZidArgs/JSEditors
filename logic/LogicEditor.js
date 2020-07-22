@@ -117,7 +117,12 @@ function loadLogics(config, container, loadLogic) {
             container.append(cnt);
         } else {
             let el = document.createElement("div");
-            el.dataset.ref = item.access;
+            if (!!item.access) {
+                el.dataset.ref = item.access;
+            } else if (!!item.edge) {
+                el.dataset.ref = item.edge[0];
+                el.dataset.target = item.edge[1];
+            }
             el.dataset.cat = item.category;
             el.dataset.type = item.type;
             el.className = "logic-location";
@@ -161,12 +166,21 @@ function loadOperators(config, container) {
 
 async function loadLogic(event) {
     let workingarea = WORKINGAREA.get(this);
-    let ref = event.target.dataset.ref;
     let cat = event.target.dataset.cat;
     let caption = `${event.target.innerHTML} [${cat}]`;
     workingarea.dataset.logicType = cat;
-    workingarea.dataset.logicKey = ref;
-    workingarea.loadLogic(this.getLogic(ref));
+
+    if (!!event.target.dataset.ref) {
+        let ref = event.target.dataset.ref;
+        workingarea.dataset.logicKey = ref;
+        let target = event.target.dataset.target;
+        workingarea.dataset.targetKey = target || "";
+        workingarea.loadLogic(this.getLogic(ref, target));
+        if (!!target) {
+            caption = `${ref} -> ${target} [${cat}]`;
+        }
+    }
+
     this.shadowRoot.getElementById("workingarea-panel").caption = caption;
 }
 
@@ -183,9 +197,17 @@ class LogicEditor extends HTMLElement {
         workingarea.addEventListener('save', function(event) {
             let key = workingarea.dataset.logicKey;
             if (!!key) {
-                LOGIC_PATCH.get(this)[key] = workingarea.getLogic();
+                let target = workingarea.dataset.targetKey;
+                if (!!target) {
+                    LOGIC_PATCH.get(this).edges[ref][target] = workingarea.getLogic();
+                } else {
+                    LOGIC_PATCH.get(this).logic[key] = workingarea.getLogic();
+                }
                 let e = new Event('save');
                 e.key = key;
+                if (!!target) {
+                    e.target = target;
+                }
                 e.logic = workingarea.getLogic();
                 this.dispatchEvent(e);
             }
@@ -195,7 +217,8 @@ class LogicEditor extends HTMLElement {
         workingarea.addEventListener('load', function (event) {
             let key = workingarea.dataset.logicKey;
             if (!!key) {
-                workingarea.loadLogic(this.getLogic(key));
+                let target = workingarea.dataset.targetKey;
+                workingarea.loadLogic(this.getLogic(key, target));
             }
             event.preventDefault();
             return false;
@@ -203,10 +226,18 @@ class LogicEditor extends HTMLElement {
         workingarea.addEventListener('clear', function(event) {
             let key = workingarea.dataset.logicKey;
             if (!!key) {
-                LOGIC_PATCH.get(this)[key] = undefined;
-                workingarea.loadLogic(LOGIC.get(this)[key]);
+                let target = workingarea.dataset.targetKey;
+                if (!!target) {
+                    LOGIC_PATCH.get(this).edges[ref][target] = undefined;
+                } else {
+                    LOGIC_PATCH.get(this).logic[key] = undefined;
+                }
+                workingarea.loadLogic(this.getLogic(key, target));
                 let e = new Event('clear');
                 e.key = key;
+                if (!!target) {
+                    e.target = target;
+                }
                 this.dispatchEvent(e);
             }
             event.preventDefault();
@@ -231,7 +262,8 @@ class LogicEditor extends HTMLElement {
         LOGIC.set(this, logic);
         let key = workingarea.dataset.logicKey;
         if (!!key) {
-            workingarea.loadLogic(this.getLogic(key));
+            let target = workingarea.dataset.targetKey;
+            workingarea.loadLogic(this.getLogic(key, target));
         }
     }
 
@@ -240,18 +272,33 @@ class LogicEditor extends HTMLElement {
         LOGIC_PATCH.set(this, logic);
         let key = workingarea.dataset.logicKey;
         if (!!key) {
-            workingarea.loadLogic(this.getLogic(key));
+            let target = workingarea.dataset.targetKey;
+            workingarea.loadLogic(this.getLogic(key, target));
         }
     }
 
-    getLogic(ref) {
-        return LOGIC_PATCH.get(this)[ref] || LOGIC.get(this)[ref];
+    getLogic(ref, target) {
+        if (!!target) {
+            if (LOGIC_PATCH.get(this).edges != null && LOGIC_PATCH.get(this).edges[ref] != null && LOGIC_PATCH.get(this).edges[ref][target] != null) {
+                return LOGIC_PATCH.get(this).edges[ref][target];
+            } else if (LOGIC.get(this).edges != null && LOGIC.get(this).edges[ref] != null && LOGIC.get(this).edges[ref][target] != null) {
+                return LOGIC.get(this).edges[ref][target];
+            }
+            return {};
+        }
+        if (LOGIC_PATCH.get(this).logic != null && LOGIC_PATCH.get(this).logic[ref] != null) {
+            return LOGIC_PATCH.get(this).logic[ref];
+        } else if (LOGIC.get(this).logic != null && LOGIC.get(this).logic[ref] != null) {
+            return LOGIC.get(this).logic[ref];
+        }
+        return {};
     }
 
     resetWorkingarea() {
         let workingarea = WORKINGAREA.get(this);
         workingarea.dataset.logicType = "";
         workingarea.dataset.logicKey = "";
+        workingarea.dataset.targetKey = "";
         workingarea.loadLogic();
     }
 
