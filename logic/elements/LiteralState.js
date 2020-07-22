@@ -1,7 +1,7 @@
 import Template from "/emcJS/util/Template.js";
 import AbstractElement from "./AbstractElement.js";
 
-const TPL_CAPTION = "VALUE";
+const TPL_CAPTION = "STATE";
 const TPL_BACKGROUND = "#ffffff";
 const TPL_BORDER = "#777777";
 
@@ -93,7 +93,9 @@ export default class LiteralState extends AbstractElement {
     }
 
     static getSVG(logic) {
-        return SVG.generate().children[0];
+        let el = SVG.generate().children[0];
+        // TODO
+        return el;
     }
 
 }
