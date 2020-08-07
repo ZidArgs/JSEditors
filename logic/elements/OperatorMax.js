@@ -46,9 +46,24 @@ export default class OperatorMax extends AbstractElement {
             this.dispatchEvent(e);
             event.stopPropagation();
         }.bind(this);
-        this.shadowRoot.getElementById("input").addEventListener('change', (event) => {
-            this.update();
-        });
+        let input = this.shadowRoot.getElementById("input");
+        input.onchange = function() {
+            this.value = parseInt(input.value) || 0;
+        }.bind(this);
+    }
+
+    get value() {
+        return this.getAttribute('value');
+    }
+
+    set value(val) {
+        this.setAttribute('value', val);
+    }
+
+    getElement(forceCopy = false) {
+        let el = super.getElement(forceCopy);
+        el.value = this.value;
+        return el;
     }
 
     calculate(state = {}) {
@@ -64,17 +79,9 @@ export default class OperatorMax extends AbstractElement {
         return value;
     }
 
-    toJSON() {
-        return {
-            type: "max",
-            el: Array.from(this.children).slice(0,1).map(e => e.toJSON())[0],
-            value: parseInt(this.shadowRoot.getElementById("input").value) || 0
-        };
-    }
-
     loadLogic(logic) {
         if (!!logic && !!logic.el) {
-            this.shadowRoot.getElementById("input").value = parseInt(logic.value) || 0;
+            this.value = parseInt(logic.value) || 0;
             let cl;
             if (!!logic.el.category) {
                 cl = AbstractElement.getReference(logic.el.category, logic.el.type);
@@ -84,6 +91,41 @@ export default class OperatorMax extends AbstractElement {
             let el = new cl;
             el.loadLogic(logic.el);
             this.append(el);
+        }
+    }
+
+    toJSON() {
+        return {
+            type: "max",
+            el: Array.from(this.children).slice(0,1).map(e => e.toJSON())[0],
+            value: parseInt(this.value) || 0
+        };
+    }
+
+    static get observedAttributes() {
+        let attr = AbstractElement.observedAttributes;
+        attr.push('value');
+        return attr;
+    }
+      
+    attributeChangedCallback(name, oldValue, newValue) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        switch (name) {
+            case 'readonly':
+                if (oldValue != newValue) {
+                    let input = this.shadowRoot.getElementById('input');
+                    if (newValue != null) {
+                        input.setAttribute("disabled", newValue);
+                    } else {
+                        input.removeAttribute("disabled");
+                    }
+                }
+                break;
+            case 'value':
+                if (oldValue != newValue) {
+                    this.shadowRoot.getElementById("input").value = parseInt(newValue) || 0;
+                }
+                break;
         }
     }
 
@@ -106,22 +148,6 @@ export default class OperatorMax extends AbstractElement {
             hdr.dataset.value = +newValue;
         }
         return el;
-    }
-      
-    attributeChangedCallback(name, oldValue, newValue) {
-        super.attributeChangedCallback(name, oldValue, newValue);
-        switch (name) {
-            case 'readonly':
-                if (oldValue != newValue) {
-                    let input = this.shadowRoot.getElementById('input');
-                    if (newValue != null) {
-                        input.setAttribute("disabled", newValue);
-                    } else {
-                        input.removeAttribute("disabled");
-                    }
-                }
-                break;
-        }
     }
 
 }

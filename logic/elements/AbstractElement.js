@@ -22,6 +22,7 @@ const TPL = new Template(`
             border-color: var(--logic-color-border, black);
             -webkit-user-select: none;
             user-select: none;
+            word-break: break-word;
         }
         .header {
             display: flex;

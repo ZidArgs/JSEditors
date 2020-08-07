@@ -57,11 +57,7 @@ export default class LiteralValue extends AbstractElement {
 
     loadLogic(logic) {
         this.ref = logic.el;
-        this.shadowRoot.getElementById("ref").innerHTML = this.ref;
-        this.category = logic.category;
-        if (!!logic.category) {
-            this.shadowRoot.getElementById('header').innerHTML = `${TPL_CAPTION}(${logic.category.toUpperCase()})`;
-        }
+        this.category = logic.category || "";
     }
 
     toJSON() {
@@ -76,6 +72,32 @@ export default class LiteralValue extends AbstractElement {
                 type: "value",
                 el: this.ref
             };
+        }
+    }
+
+    static get observedAttributes() {
+        let attr = AbstractElement.observedAttributes;
+        attr.push('ref', 'category');
+        return attr;
+    }
+      
+    attributeChangedCallback(name, oldValue, newValue) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        switch (name) {
+            case 'ref':
+                if (oldValue != newValue) {
+                    this.shadowRoot.getElementById("ref").innerHTML = newValue;
+                }
+                break;
+            case 'category':
+                if (oldValue != newValue) {
+                    if (newValue !== "") {
+                        this.shadowRoot.getElementById('header').innerHTML = `${TPL_CAPTION}(${newValue.toUpperCase()})`;
+                    } else {
+                        this.shadowRoot.getElementById('header').innerHTML = TPL_CAPTION;
+                    }
+                }
+                break;
         }
     }
 

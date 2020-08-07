@@ -13,10 +13,7 @@ const TPL = new Template(`
         }
     </style>
     <div id="header" class="header">${TPL_CAPTION}</div>
-    <div class="body">
-        <select id="input">
-        </select>
-    </div>
+    <div id="ref"  class="body"></div>
     <div class="body">
         <slot id="child">
             <span id="droptarget" class="placeholder">...</span>
@@ -49,6 +46,28 @@ export default class ReferrerAt extends AbstractElement {
         }.bind(this);
     }
 
+    getElement(forceCopy = false) {
+        let el = super.getElement(forceCopy);
+        el.ref = this.ref;
+        return el;
+    }
+
+    get ref() {
+        return this.getAttribute('ref');
+    }
+
+    set ref(val) {
+        this.setAttribute('ref', val);
+    }
+
+    get category() {
+        return this.getAttribute('category');
+    }
+
+    set category(val) {
+        this.setAttribute('category', val);
+    }
+
     calculate(state = {}) {
         let value;
         let ch = this.children;
@@ -61,17 +80,9 @@ export default class ReferrerAt extends AbstractElement {
         return value;
     }
 
-    toJSON() {
-        return {
-            type: "at",
-            node: this.node,
-            el: this.children.slice(0,1).map(e => e.toJSON())[0]
-        };
-    }
-
     loadLogic(logic) {
         if (!!logic && !!logic.el) {
-            this.shadowRoot.getElementById("input").value = parseInt(logic.node) || "";
+            this.ref = logic.node;
             let cl;
             if (!!logic.el.category) {
                 cl = AbstractElement.getReference(logic.el.category, logic.el.type);
@@ -81,6 +92,40 @@ export default class ReferrerAt extends AbstractElement {
             let el = new cl;
             el.loadLogic(logic.el);
             this.append(el);
+        }
+    }
+
+    toJSON() {
+        return {
+            type: "at",
+            node: this.ref,
+            el: this.children.slice(0,1).map(e => e.toJSON())[0]
+        };
+    }
+
+    static get observedAttributes() {
+        let attr = AbstractElement.observedAttributes;
+        attr.push('ref', 'category');
+        return attr;
+    }
+      
+    attributeChangedCallback(name, oldValue, newValue) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        switch (name) {
+            case 'ref':
+                if (oldValue != newValue) {
+                    this.shadowRoot.getElementById("ref").innerHTML = newValue;
+                }
+                break;
+            case 'category':
+                if (oldValue != newValue) {
+                    if (newValue !== "") {
+                        this.shadowRoot.getElementById('header').innerHTML = `${TPL_CAPTION}(${newValue.toUpperCase()})`;
+                    } else {
+                        this.shadowRoot.getElementById('header').innerHTML = TPL_CAPTION;
+                    }
+                }
+                break;
         }
     }
 

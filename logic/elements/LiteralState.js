@@ -66,13 +66,8 @@ export default class LiteralState extends AbstractElement {
 
     loadLogic(logic) {
         this.ref = logic.el;
-        this.shadowRoot.getElementById("ref").innerHTML = this.ref;
         this.value = logic.value;
-        this.shadowRoot.getElementById('value').innerHTML = this.value;
-        this.category = logic.category;
-        if (!!logic.category) {
-            this.shadowRoot.getElementById('header').innerHTML = `${TPL_CAPTION}(${logic.category.toUpperCase()})`;
-        }
+        this.category = logic.category || "";
     }
 
     toJSON() {
@@ -89,6 +84,33 @@ export default class LiteralState extends AbstractElement {
                 el: this.ref,
                 value: this.value
             };
+        }
+    }
+
+    static get observedAttributes() {
+        let attr = AbstractElement.observedAttributes;
+        attr.push('ref', 'value', 'category');
+        return attr;
+    }
+      
+    attributeChangedCallback(name, oldValue, newValue) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        switch (name) {
+            case 'ref':
+                if (oldValue != newValue) {
+                    this.shadowRoot.getElementById("ref").innerHTML = newValue;
+                }
+                break;
+            case 'value':
+                if (oldValue != newValue) {
+                    this.shadowRoot.getElementById("value").innerHTML = newValue;
+                }
+                break;
+            case 'category':
+                if (oldValue != newValue) {
+                    this.shadowRoot.getElementById('header').innerHTML = `${TPL_CAPTION}(${logic.category.toUpperCase()})`;
+                }
+                break;
         }
     }
 

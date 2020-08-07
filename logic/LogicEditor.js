@@ -189,24 +189,31 @@ class LogicEditor extends HTMLElement {
     constructor() {
         super();
         LOGIC.set(this, {});
-        LOGIC_PATCH.set(this, {});
+        LOGIC_PATCH.set(this, {
+            edges: {},
+            logic: {}
+        });
         this.attachShadow({mode: 'open'});
         this.shadowRoot.append(TPL.generate());
         let workingarea = this.shadowRoot.getElementById('workingarea');
         WORKINGAREA.set(this, workingarea);
         workingarea.addEventListener('save', function(event) {
+            let logicPatch = LOGIC_PATCH.get(this);
             let key = workingarea.dataset.logicKey;
             if (!!key) {
                 let target = workingarea.dataset.targetKey;
                 if (!!target) {
-                    LOGIC_PATCH.get(this).edges[ref][target] = workingarea.getLogic();
+                    if (logicPatch.edges[key] == null) {
+                        logicPatch.edges[key] = {};
+                    }
+                    logicPatch.edges[key][target] = workingarea.getLogic();
                 } else {
-                    LOGIC_PATCH.get(this).logic[key] = workingarea.getLogic();
+                    logicPatch.logic[key] = workingarea.getLogic();
                 }
                 let e = new Event('save');
                 e.key = key;
                 if (!!target) {
-                    e.target = target;
+                    e.targetKey = target;
                 }
                 e.logic = workingarea.getLogic();
                 this.dispatchEvent(e);
@@ -224,19 +231,22 @@ class LogicEditor extends HTMLElement {
             return false;
         }.bind(this));
         workingarea.addEventListener('clear', function(event) {
+            let logicPatch = LOGIC_PATCH.get(this);
             let key = workingarea.dataset.logicKey;
             if (!!key) {
                 let target = workingarea.dataset.targetKey;
                 if (!!target) {
-                    LOGIC_PATCH.get(this).edges[ref][target] = undefined;
+                    if (logicPatch.edges[key] != null) {
+                        logicPatch.edges[key][target] = undefined;
+                    }
                 } else {
-                    LOGIC_PATCH.get(this).logic[key] = undefined;
+                    logicPatch.logic[key] = undefined;
                 }
                 workingarea.loadLogic(this.getLogic(key, target));
                 let e = new Event('clear');
                 e.key = key;
                 if (!!target) {
-                    e.target = target;
+                    e.targetKey = target;
                 }
                 this.dispatchEvent(e);
             }
@@ -278,18 +288,20 @@ class LogicEditor extends HTMLElement {
     }
 
     getLogic(ref, target) {
+        let logic = LOGIC.get(this);
+        let logicPatch = LOGIC_PATCH.get(this);
         if (!!target) {
-            if (LOGIC_PATCH.get(this).edges != null && LOGIC_PATCH.get(this).edges[ref] != null && LOGIC_PATCH.get(this).edges[ref][target] != null) {
-                return LOGIC_PATCH.get(this).edges[ref][target];
-            } else if (LOGIC.get(this).edges != null && LOGIC.get(this).edges[ref] != null && LOGIC.get(this).edges[ref][target] != null) {
-                return LOGIC.get(this).edges[ref][target];
+            if (logicPatch.edges != null && logicPatch.edges[ref] != null && logicPatch.edges[ref][target] != null) {
+                return logicPatch.edges[ref][target];
+            } else if (logic.edges != null && logic.edges[ref] != null && logic.edges[ref][target] != null) {
+                return logic.edges[ref][target];
             }
             return {};
         }
-        if (LOGIC_PATCH.get(this).logic != null && LOGIC_PATCH.get(this).logic[ref] != null) {
-            return LOGIC_PATCH.get(this).logic[ref];
-        } else if (LOGIC.get(this).logic != null && LOGIC.get(this).logic[ref] != null) {
-            return LOGIC.get(this).logic[ref];
+        if (logicPatch.logic != null && logicPatch.logic[ref] != null) {
+            return logicPatch.logic[ref];
+        } else if (logic.logic != null && logic.logic[ref] != null) {
+            return logic.logic[ref];
         }
         return {};
     }
