@@ -108,7 +108,11 @@ export default class LiteralState extends AbstractElement {
                 break;
             case 'category':
                 if (oldValue != newValue) {
-                    this.shadowRoot.getElementById('header').innerHTML = `${TPL_CAPTION}(${logic.category.toUpperCase()})`;
+                    if (newValue !== "") {
+                        this.shadowRoot.getElementById('header').innerHTML = `${TPL_CAPTION}(${newValue.toUpperCase()})`;
+                    } else {
+                        this.shadowRoot.getElementById('header').innerHTML = TPL_CAPTION;
+                    }
                 }
                 break;
         }
