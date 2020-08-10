@@ -99,7 +99,7 @@ export default class ReferrerAt extends AbstractElement {
         return {
             type: "at",
             node: this.ref,
-            el: this.children.slice(0,1).map(e => e.toJSON())[0]
+            el: Array.from(this.children).slice(0,1).map(e => e.toJSON())[0]
         };
     }
 
@@ -131,7 +131,7 @@ export default class ReferrerAt extends AbstractElement {
 
     static getSVG(logic) {
         let el = SVG.generate().children[0];
-        // TODO
+        // TODO or not TODO
         return el;
     }
 
