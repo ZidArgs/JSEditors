@@ -1,6 +1,6 @@
-import DragDropMemory from "/emcJS/util/DragDropMemory.js";
-import Template from "/emcJS/util/Template.js";
-import UGen from "/emcJS/util/UniqueGenerator.js";
+import DragDropMemory from "../../util/DragDropMemory.js";
+import Template from "../../util/Template.js";
+import UGen from "../../util/UniqueGenerator.js";
 
 const TPL = new Template(`
     <style>

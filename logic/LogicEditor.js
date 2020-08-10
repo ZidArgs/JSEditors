@@ -1,7 +1,7 @@
-import Template from "/emcJS/util/Template.js";
-import "/emcJS/ui/CaptionPanel.js";
-import "/emcJS/ui/CollapsePanel.js";
-import "/emcJS/ui/FilteredList.js";
+import Template from "../util/Template.js";
+import "../ui/CaptionPanel.js";
+import "../ui/CollapsePanel.js";
+import "../ui/FilteredList.js";
 
 import "./EditorClipboard.js";
 import "./EditorTrashcan.js";
@@ -88,19 +88,19 @@ const TPL = new Template(`
         overflow: hidden;
     }
 </style>
-<emc-captionpanel id="logics-panel" caption="logics">
-    <emc-filteredlist id="logics"></emc-filteredlist></emc-captionpanel>
-<emc-captionpanel caption="logic editor" id="workingarea-panel">
-    <emc-logiceditor-workingarea id="workingarea" visualize="true"></emc-logiceditor-workingarea>
-</emc-captionpanel>
-<emc-captionpanel caption="clipboard" id="clipboard-panel">
-    <emc-logiceditor-clipboard id="clipboard"></emc-logiceditor-clipboard>
-</emc-captionpanel>
-<emc-logiceditor-trashcan id="trashcan">
-</emc-logiceditor-trashcan>
-<emc-captionpanel caption="elements" id="elements-panel">
-    <emc-filteredlist id="elements"></emc-filteredlist>
-</emc-captionpanel>
+<ted-captionpanel id="logics-panel" caption="logics">
+    <ted-filteredlist id="logics"></ted-filteredlist></ted-captionpanel>
+<ted-captionpanel caption="logic editor" id="workingarea-panel">
+    <ted-logiceditor-workingarea id="workingarea" visualize="true"></ted-logiceditor-workingarea>
+</ted-captionpanel>
+<ted-captionpanel caption="clipboard" id="clipboard-panel">
+    <ted-logiceditor-clipboard id="clipboard"></ted-logiceditor-clipboard>
+</ted-captionpanel>
+<ted-logiceditor-trashcan id="trashcan">
+</ted-logiceditor-trashcan>
+<ted-captionpanel caption="elements" id="elements-panel">
+    <ted-filteredlist id="elements"></ted-filteredlist>
+</ted-captionpanel>
 `);
 
 const WORKINGAREA = new WeakMap();
@@ -110,7 +110,7 @@ const LOGIC_PATCH = new WeakMap();
 function loadLogics(config, container, loadLogic) {
     for (let item of config) {
         if (item.type === "group") {
-            let cnt = document.createElement("emc-collapsepanel");
+            let cnt = document.createElement("ted-collapsepanel");
             cnt.caption = item.caption;
             loadLogics(item.children, cnt, loadLogic);
             container.append(cnt);
@@ -145,7 +145,7 @@ function loadLogics(config, container, loadLogic) {
 function loadOperators(config, container) {
     for (let item of config) {
         if (item.type === "group") {
-            let cnt = document.createElement("emc-collapsepanel");
+            let cnt = document.createElement("ted-collapsepanel");
             cnt.caption = item.caption;
             loadOperators(item.children, cnt);
             container.append(cnt);

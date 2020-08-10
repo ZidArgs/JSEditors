@@ -1,8 +1,8 @@
 {
   "name": "jseditors",
   "author": "Denis Peters (ZidArgs)",
-  "version": "0.0.13",
-  "description": "JavaScript based editors - requires emcJS",
+  "version": "0.0.14",
+  "description": "JavaScript based editors",
   "license": "UNLICENSED",
   "repository": {
     "type": "git",

@@ -1,5 +1,5 @@
-import DragDropMemory from "/emcJS/util/DragDropMemory.js";
-import Template from "/emcJS/util/Template.js";
+import DragDropMemory from "../util/DragDropMemory.js";
+import Template from "../util/Template.js";
 import LogicAbstractElement from "./elements/AbstractElement.js";
 
 const TPL = new Template(`
@@ -89,4 +89,4 @@ export default class EditorClipboard extends HTMLElement {
 
 }
 
-customElements.define('emc-logiceditor-clipboard', EditorClipboard);
+customElements.define('ted-logiceditor-clipboard', EditorClipboard);

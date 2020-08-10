@@ -1,5 +1,5 @@
-import DragDropMemory from "/emcJS/util/DragDropMemory.js";
-import Template from "/emcJS/util/Template.js";
+import DragDropMemory from "../util/DragDropMemory.js";
+import Template from "../util/Template.js";
 import LogicAbstractElement from "./elements/AbstractElement.js";
 
 const TPL = new Template(`
@@ -55,4 +55,4 @@ export default class EditorTrashcan extends HTMLElement {
 
 }
 
-customElements.define('emc-logiceditor-trashcan', EditorTrashcan);
+customElements.define('ted-logiceditor-trashcan', EditorTrashcan);
