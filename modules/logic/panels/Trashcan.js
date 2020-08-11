@@ -1,6 +1,6 @@
-import DragDropMemory from "../util/DragDropMemory.js";
-import Template from "../util/Template.js";
-import LogicAbstractElement from "./elements/AbstractElement.js";
+import DragDropMemory from "../../../util/DragDropMemory.js";
+import Template from "../../../util/Template.js";
+import LogicAbstractElement from "../../../ui/logic/AbstractElement.js";
 
 const TPL = new Template(`
     <style>
@@ -43,7 +43,7 @@ function dropOnPlaceholder(event) {
     return false;
 }
 
-export default class EditorTrashcan extends HTMLElement {
+export default class Trashcan extends HTMLElement {
 
     constructor() {
         super();
@@ -55,4 +55,4 @@ export default class EditorTrashcan extends HTMLElement {
 
 }
 
-customElements.define('ted-logiceditor-trashcan', EditorTrashcan);
+customElements.define('ted-logic-trashcan', Trashcan);

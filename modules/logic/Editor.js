@@ -1,26 +1,26 @@
-import Template from "../util/Template.js";
-import "../ui/CaptionPanel.js";
-import "../ui/CollapsePanel.js";
-import "../ui/FilteredList.js";
+import Template from "../../util/Template.js";
+import "../../ui/CaptionPanel.js";
+import "../../ui/CollapsePanel.js";
+import "../../ui/FilteredList.js";
 
-import "./EditorClipboard.js";
-import "./EditorTrashcan.js";
-import "./EditorWorkingarea.js";
+import "./panels/Clipboard.js";
+import "./panels/Trashcan.js";
+import "./panels/Workingarea.js";
 
-import "./elements/LiteralFalse.js";
-import "./elements/LiteralTrue.js";
-import "./elements/LiteralValue.js";
-import "./elements/LiteralState.js";
-import "./elements/OperatorAnd.js";
-import "./elements/OperatorNand.js";
-import "./elements/OperatorOr.js";
-import "./elements/OperatorNor.js";
-import "./elements/OperatorXor.js";
-import "./elements/OperatorXnor.js";
-import "./elements/OperatorNot.js";
-import "./elements/OperatorMin.js";
-import "./elements/OperatorMax.js";
-import "./elements/ReferrerAt.js";
+import "../../ui/logic/LiteralFalse.js";
+import "../../ui/logic/LiteralTrue.js";
+import "../../ui/logic/LiteralValue.js";
+import "../../ui/logic/LiteralState.js";
+import "../../ui/logic/OperatorAnd.js";
+import "../../ui/logic/OperatorNand.js";
+import "../../ui/logic/OperatorOr.js";
+import "../../ui/logic/OperatorNor.js";
+import "../../ui/logic/OperatorXor.js";
+import "../../ui/logic/OperatorXnor.js";
+import "../../ui/logic/OperatorNot.js";
+import "../../ui/logic/OperatorMin.js";
+import "../../ui/logic/OperatorMax.js";
+import "../../ui/logic/ReferrerAt.js";
 
 const TPL = new Template(`
 <style>
@@ -89,39 +89,35 @@ const TPL = new Template(`
     }
 </style>
 <ted-captionpanel id="logics-panel" caption="logics">
-    <ted-filteredlist id="logics"></ted-filteredlist></ted-captionpanel>
+    <ted-filteredlist id="logics"></ted-filteredlist>
+</ted-captionpanel>
 <ted-captionpanel caption="logic editor" id="workingarea-panel">
-    <ted-logiceditor-workingarea id="workingarea" visualize="true"></ted-logiceditor-workingarea>
+    <ted-logic-workingarea id="workingarea" visualize="true"></ted-logic-workingarea>
 </ted-captionpanel>
 <ted-captionpanel caption="clipboard" id="clipboard-panel">
-    <ted-logiceditor-clipboard id="clipboard"></ted-logiceditor-clipboard>
+    <ted-logic-clipboard id="clipboard"></ted-logic-clipboard>
 </ted-captionpanel>
-<ted-logiceditor-trashcan id="trashcan">
-</ted-logiceditor-trashcan>
+<ted-logic-trashcan id="trashcan">
+</ted-logic-trashcan>
 <ted-captionpanel caption="elements" id="elements-panel">
     <ted-filteredlist id="elements"></ted-filteredlist>
 </ted-captionpanel>
 `);
 
 const WORKINGAREA = new WeakMap();
-const LOGIC = new WeakMap();
-const LOGIC_PATCH = new WeakMap();
+const DATA = new WeakMap();
+const PATCH = new WeakMap();
 
-function loadLogics(config, container, loadLogic) {
+function loadList(config, container, loadLogic) {
     for (let item of config) {
         if (item.type === "group") {
             let cnt = document.createElement("ted-collapsepanel");
             cnt.caption = item.caption;
-            loadLogics(item.children, cnt, loadLogic);
+            loadList(item.children, cnt, loadLogic);
             container.append(cnt);
         } else {
             let el = document.createElement("div");
-            if (!!item.access) {
-                el.dataset.ref = item.access;
-            } else if (!!item.edge) {
-                el.dataset.ref = item.edge[0];
-                el.dataset.target = item.edge[1];
-            }
+            el.dataset.ref = item.ref;
             el.dataset.cat = item.category;
             el.dataset.type = item.type;
             el.className = "logic-location";
@@ -165,88 +161,53 @@ function loadOperators(config, container) {
 
 async function loadLogic(event) {
     let workingarea = WORKINGAREA.get(this);
+    let ref = event.target.dataset.ref;
     let cat = event.target.dataset.cat;
-    let caption = `${event.target.innerHTML} [${cat}]`;
-    workingarea.dataset.logicType = cat;
-
-    if (!!event.target.dataset.ref) {
-        let ref = event.target.dataset.ref;
-        workingarea.dataset.logicKey = ref;
-        let target = event.target.dataset.target;
-        workingarea.dataset.targetKey = target || "";
-        workingarea.loadLogic(this.getLogic(ref, target));
-        if (!!target) {
-            caption = `${ref} -> ${target} [${cat}]`;
-        }
-    }
-
+    let caption = `${ref} <${cat||"n/a"}>`;
+    workingarea.dataset.type = cat;
+    workingarea.dataset.key = ref;
+    workingarea.loadData(this.getLogic(ref));
     this.shadowRoot.getElementById("workingarea-panel").caption = caption;
 }
 
-class LogicEditor extends HTMLElement {
+class Editor extends HTMLElement {
 
     constructor() {
         super();
-        LOGIC.set(this, {});
-        LOGIC_PATCH.set(this, {
-            edges: {},
-            logic: {}
-        });
+        DATA.set(this, {});
+        PATCH.set(this, {});
         this.attachShadow({mode: 'open'});
         this.shadowRoot.append(TPL.generate());
         let workingarea = this.shadowRoot.getElementById('workingarea');
         WORKINGAREA.set(this, workingarea);
         workingarea.addEventListener('save', function(event) {
-            let logicPatch = LOGIC_PATCH.get(this);
-            let key = workingarea.dataset.logicKey;
+            let key = workingarea.dataset.key;
             if (!!key) {
-                let target = workingarea.dataset.targetKey;
-                if (!!target) {
-                    if (logicPatch.edges[key] == null) {
-                        logicPatch.edges[key] = {};
-                    }
-                    logicPatch.edges[key][target] = workingarea.getLogic();
-                } else {
-                    logicPatch.logic[key] = workingarea.getLogic();
-                }
+                let data = workingarea.getData();
+                PATCH.get(this)[key] = data;
                 let e = new Event('save');
                 e.key = key;
-                if (!!target) {
-                    e.targetKey = target;
-                }
-                e.logic = workingarea.getLogic();
+                e.logic = data;
                 this.dispatchEvent(e);
             }
             event.preventDefault();
             return false;
         }.bind(this));
         workingarea.addEventListener('load', function (event) {
-            let key = workingarea.dataset.logicKey;
+            let key = workingarea.dataset.key;
             if (!!key) {
-                let target = workingarea.dataset.targetKey;
-                workingarea.loadLogic(this.getLogic(key, target));
+                workingarea.loadData(this.getLogic(key));
             }
             event.preventDefault();
             return false;
         }.bind(this));
         workingarea.addEventListener('clear', function(event) {
-            let logicPatch = LOGIC_PATCH.get(this);
-            let key = workingarea.dataset.logicKey;
+            let key = workingarea.dataset.key;
             if (!!key) {
-                let target = workingarea.dataset.targetKey;
-                if (!!target) {
-                    if (logicPatch.edges[key] != null) {
-                        logicPatch.edges[key][target] = undefined;
-                    }
-                } else {
-                    logicPatch.logic[key] = undefined;
-                }
-                workingarea.loadLogic(this.getLogic(key, target));
+                PATCH.get(this)[key] = undefined;
+                workingarea.loadData(DATA.get(this)[key]);
                 let e = new Event('clear');
                 e.key = key;
-                if (!!target) {
-                    e.targetKey = target;
-                }
                 this.dispatchEvent(e);
             }
             event.preventDefault();
@@ -254,13 +215,13 @@ class LogicEditor extends HTMLElement {
         }.bind(this));
     }
 
-    loadLogicList(config) {
+    loadList(config) {
         let container = this.shadowRoot.getElementById("logics");
         container.innerHTML = "";
-        loadLogics(config, container, loadLogic.bind(this));
+        loadList(config, container, loadLogic.bind(this));
     }
 
-    loadOperatorList(config) {
+    loadOperators(config) {
         let container = this.shadowRoot.getElementById("elements");
         container.innerHTML = "";
         loadOperators(config, container);
@@ -268,51 +229,33 @@ class LogicEditor extends HTMLElement {
 
     setLogic(logic) {
         let workingarea = WORKINGAREA.get(this);
-        LOGIC.set(this, logic);
-        let key = workingarea.dataset.logicKey;
+        DATA.set(this, logic);
+        let key = workingarea.dataset.key;
         if (!!key) {
-            let target = workingarea.dataset.targetKey;
-            workingarea.loadLogic(this.getLogic(key, target));
+            workingarea.loadData(this.getLogic(key));
         }
     }
 
     setPatch(logic) {
         let workingarea = WORKINGAREA.get(this);
-        LOGIC_PATCH.set(this, logic);
-        let key = workingarea.dataset.logicKey;
+        PATCH.set(this, logic);
+        let key = workingarea.dataset.key;
         if (!!key) {
-            let target = workingarea.dataset.targetKey;
-            workingarea.loadLogic(this.getLogic(key, target));
+            workingarea.loadData(this.getLogic(key));
         }
     }
 
-    getLogic(ref, target) {
-        let logic = LOGIC.get(this);
-        let logicPatch = LOGIC_PATCH.get(this);
-        if (!!target) {
-            if (logicPatch.edges != null && logicPatch.edges[ref] != null && logicPatch.edges[ref][target] != null) {
-                return logicPatch.edges[ref][target];
-            } else if (logic.edges != null && logic.edges[ref] != null && logic.edges[ref][target] != null) {
-                return logic.edges[ref][target];
-            }
-            return {};
-        }
-        if (logicPatch.logic != null && logicPatch.logic[ref] != null) {
-            return logicPatch.logic[ref];
-        } else if (logic.logic != null && logic.logic[ref] != null) {
-            return logic.logic[ref];
-        }
-        return {};
+    getLogic(ref) {
+        return PATCH.get(this)[ref] || DATA.get(this)[ref];
     }
 
     resetWorkingarea() {
         let workingarea = WORKINGAREA.get(this);
-        workingarea.dataset.logicType = "";
-        workingarea.dataset.logicKey = "";
-        workingarea.dataset.targetKey = "";
-        workingarea.loadLogic();
+        workingarea.dataset.type = "";
+        workingarea.dataset.key = "";
+        workingarea.loadData();
     }
 
 }
 
-customElements.define('ted-logiceditor', LogicEditor);
+customElements.define('ted-logic-editor', Editor);

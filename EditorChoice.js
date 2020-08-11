@@ -57,7 +57,7 @@ export default class EditorChoice extends HTMLElement {
         this.dispatchEvent(ev);
     }
 
-    register(pnl, name, nav) {
+    register(pnl, name, nav, refreshFn) {
         this.append(pnl);
         let el = document.createElement("DIV");
         el.innerHTML = name;
@@ -67,6 +67,9 @@ export default class EditorChoice extends HTMLElement {
                 current.removeAttribute("slot");
             }
             pnl.setAttribute("slot", "visible");
+            if (typeof refreshFn == "function") {
+                refreshFn();
+            }
             CURRENT.set(this, pnl);
             let ev = new Event('choice');
             ev.app = name;
@@ -78,4 +81,4 @@ export default class EditorChoice extends HTMLElement {
 
 }
 
-customElements.define('ted-editorchoice', EditorChoice);
+customElements.define('ted-choice', EditorChoice);

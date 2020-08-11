@@ -1,7 +1,7 @@
 {
   "name": "jseditors",
   "author": "Denis Peters (ZidArgs)",
-  "version": "0.0.14",
+  "version": "0.1.0",
   "description": "JavaScript based editors",
   "license": "UNLICENSED",
   "repository": {
