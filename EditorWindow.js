@@ -23,9 +23,6 @@ const TPL = new Template(`
 </slot>
 `);
 
-const NAVI = document.createElement('emc-navbar');
-const CHOICE = document.createElement('jse-choice');
-
 const MAIN_NAV = [{
     "content": "EXIT",
     "handler": () => {
@@ -40,26 +37,27 @@ const DEFAULT_NAV = [{
     }
 }];
 
-const PANELS = new Map();
+const NAVI = new WeakMap();
+const CHOICE = new WeakMap();
+const PANELS = new WeakMap();
 
-CHOICE.addEventListener("choice", function(event) {
+function onChoice(event) {
     if (event.app == "") {
         document.title = TITLE_PREFIX;
-        NAVI.loadNavigation(MAIN_NAV);
+        NAVI.get(this).loadNavigation(MAIN_NAV);
     } else {
         document.title = `${TITLE_PREFIX} - ${event.app}`;
-        let data = PANELS.get(event.app);
+        let data = PANELS.get(this).get(event.app);
         if (typeof data.refreshFn == "function") {
             data.refreshFn();
         }
         if (data.navigation != null) {
-            NAVI.loadNavigation(data.navigation);
+            NAVI.get(this).loadNavigation(data.navigation);
         } else {
-            NAVI.loadNavigation(DEFAULT_NAV);
+            NAVI.get(this).loadNavigation(DEFAULT_NAV);
         }
     }
-});
-NAVI.loadNavigation(MAIN_NAV);
+}
 
 export default class EditorWindow extends HTMLElement {
 
@@ -67,27 +65,38 @@ export default class EditorWindow extends HTMLElement {
         super();
         this.attachShadow({mode: 'open'});
         this.shadowRoot.append(TPL.generate());
+
+        let navi = document.createElement('emc-navbar');
+        navi.loadNavigation(MAIN_NAV);
+        NAVI.set(this, navi);
+
+        let choice = document.createElement('jse-choice');
+        choice.addEventListener("choice", onChoice.bind(this));
+        CHOICE.set(this, choice);
+
+        PANELS.set(this, new Map());
     }
 
     connectedCallback() {
         this.innerHTML = "";
-        this.append(NAVI);
-        this.append(CHOICE);
+        this.append(NAVI.get(this));
+        this.append(CHOICE.get(this));
     }
 
     register(name, panel, navigation, refreshFn) {
-        if (PANELS.has(name)) {
+        if (PANELS.get(this).has(name)) {
             throw Error(`Panel with name "${name}" already registered`);
         }
-        PANELS.set(name, {
+        PANELS.get(this).set(name, {
             navigation: navigation,
             refreshFn: refreshFn
         });
-        CHOICE.register(panel, name);
+        panel.addEventListener("close", () => this.closeCurrent());
+        CHOICE.get(this).register(panel, name);
     }
 
     closeCurrent() {
-        CHOICE.closeCurrent();
+        CHOICE.get(this).closeCurrent();
     }
 
 }
