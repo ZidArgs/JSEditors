@@ -1,4 +1,4 @@
-import Template from "../../util/Template.js";
+import Template from "/emcJS/util/Template.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "NAND";
@@ -130,4 +130,4 @@ export default class OperatorNand extends AbstractElement {
 }
 
 AbstractElement.registerReference("nand", OperatorNand);
-customElements.define('ted-logic-nand', OperatorNand);
+customElements.define('jse-logic-nand', OperatorNand);

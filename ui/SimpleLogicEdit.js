@@ -1,7 +1,7 @@
-import Template from "../util/Template.js";
-import DragDropMemory from "../util/DragDropMemory.js";
-import "./CollapsePanel.js";
-import "./FilteredList.js";
+import Template from "/emcJS/util/Template.js";
+import DragDropMemory from "/emcJS/util/DragDropMemory.js";
+import "/emcJS/ui/CollapsePanel.js";
+import "/emcJS/ui/FilteredList.js";
 
 import LogicAbstractElement from "./logic/AbstractElement.js";
 import "./logic/LiteralFalse.js";
@@ -85,7 +85,7 @@ const TPL = new Template(`
     </slot>
 </div>
 <div id="trashcan"></div>
-<ted-filteredlist id="elements"></ted-filteredlist>
+<emc-filteredlist id="elements"></emc-filteredlist>
 `);
 
 function allowDrop(event) {
@@ -126,7 +126,7 @@ function dropOnPlaceholder(event) {
 function setOperators(config, container) {
     for (let item of config) {
         if (item.type === "group") {
-            let cnt = document.createElement("ted-collapsepanel");
+            let cnt = document.createElement("emc-collapsepanel");
             cnt.caption = item.caption;
             setOperators(item.children, cnt);
             container.append(cnt);
@@ -180,4 +180,4 @@ class Editor extends HTMLElement {
 
 }
 
-customElements.define('ted-simplelogiceditor', Editor);
+customElements.define('jse-simplelogiceditor', Editor);

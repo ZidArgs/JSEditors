@@ -1,4 +1,4 @@
-import Template from "../../util/Template.js";
+import Template from "/emcJS/util/Template.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "MAX";
@@ -153,4 +153,4 @@ export default class OperatorMax extends AbstractElement {
 }
 
 AbstractElement.registerReference("max", OperatorMax);
-customElements.define('ted-logic-max', OperatorMax);
+customElements.define('jse-logic-max', OperatorMax);

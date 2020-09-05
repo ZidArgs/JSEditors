@@ -1,7 +1,7 @@
-import Template from "../../../util/Template.js";
+import Template from "/emcJS/util/Template.js";
 
-import "../../../ui/ListSelect.js";
-import "../../../ui/SearchSelect.js";
+import "/emcJS/ui/selection/ListSelect.js";
+import "/emcJS/ui/selection/SearchSelect.js";
 import "../../../ui/SimpleLogicEdit.js";
 
 const TPL = new Template(`
@@ -188,7 +188,7 @@ export default class Workingarea extends HTMLElement {
 
 }
 
-customElements.define('ted-properties-workingarea', Workingarea);
+customElements.define('jse-properties-workingarea', Workingarea);
 
 function createStringInput(label, ref) {
     let el = generateField(label);
@@ -260,13 +260,13 @@ function createChoiceInput(label, ref, values) {
 
 function createListSelectInput(label, ref, values) {
     let el = generateField(label);
-    let input = document.createElement("ted-listselect");
+    let input = document.createElement("emc-listselect");
     input.className = "settings-input";
     input.setAttribute("type", "list");
     input.multimode = true;
     input.dataset.ref = ref;
     for (let value of values) {
-        let opt = document.createElement('ted-option');
+        let opt = document.createElement('emc-option');
         opt.value = value;
         opt.innerHTML = value;
         input.append(opt);
@@ -277,12 +277,12 @@ function createListSelectInput(label, ref, values) {
 
 function createSearchSelectInput(label, ref, values) {
     let el = generateField(label);
-    let input = document.createElement("ted-searchselect");
+    let input = document.createElement("emc-searchselect");
     input.className = "settings-input";
     input.setAttribute("type", "select");
     input.dataset.ref = ref;
     for (let value of values) {
-        let opt = document.createElement('ted-option');
+        let opt = document.createElement('emc-option');
         opt.value = value;
         opt.innerHTML = value;
         input.append(opt);
@@ -293,7 +293,7 @@ function createSearchSelectInput(label, ref, values) {
 
 function createSimpleLogicEditor(label, ref, operators) {
     let el = generateField(label);
-    let input = document.createElement("ted-simplelogiceditor");
+    let input = document.createElement("jse-simplelogiceditor");
     input.className = "settings-input";
     input.setAttribute("type", "logic");
     input.dataset.ref = ref;

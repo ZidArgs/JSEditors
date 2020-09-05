@@ -1,4 +1,4 @@
-import Template from "../../util/Template.js";
+import Template from "/emcJS/util/Template.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "XOR";
@@ -141,4 +141,4 @@ export default class OperatorXor extends AbstractElement {
 }
 
 AbstractElement.registerReference("xor", OperatorXor);
-customElements.define('ted-logic-xor', OperatorXor);
+customElements.define('jse-logic-xor', OperatorXor);

@@ -1,4 +1,4 @@
-import Template from "../../util/Template.js";
+import Template from "/emcJS/util/Template.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "XNOR";
@@ -143,4 +143,4 @@ export default class OperatorXnor extends AbstractElement {
 }
 
 AbstractElement.registerReference("xnor", OperatorXnor);
-customElements.define('ted-logic-xnor', OperatorXnor);
+customElements.define('jse-logic-xnor', OperatorXnor);

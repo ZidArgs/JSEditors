@@ -1,4 +1,4 @@
-import Template from "../../util/Template.js";
+import Template from "/emcJS/util/Template.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "NOR";
@@ -113,4 +113,4 @@ export default class OperatorNor extends AbstractElement {
 }
 
 AbstractElement.registerReference("nor", OperatorNor);
-customElements.define('ted-logic-nor', OperatorNor);
+customElements.define('jse-logic-nor', OperatorNor);

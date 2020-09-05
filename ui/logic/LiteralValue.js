@@ -1,4 +1,4 @@
-import Template from "../../util/Template.js";
+import Template from "/emcJS/util/Template.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "VALUE";
@@ -110,4 +110,4 @@ export default class LiteralValue extends AbstractElement {
 }
 
 AbstractElement.registerReference("value", LiteralValue);
-customElements.define('ted-logic-value', LiteralValue);
+customElements.define('jse-logic-value', LiteralValue);

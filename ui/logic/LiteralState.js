@@ -1,4 +1,4 @@
-import Template from "../../util/Template.js";
+import Template from "/emcJS/util/Template.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "STATE";
@@ -127,4 +127,4 @@ export default class LiteralState extends AbstractElement {
 }
 
 AbstractElement.registerReference("state", LiteralState);
-customElements.define('ted-logic-state', LiteralState);
+customElements.define('jse-logic-state', LiteralState);

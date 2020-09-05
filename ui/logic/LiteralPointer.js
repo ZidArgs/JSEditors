@@ -1,4 +1,4 @@
-import Template from "../../util/Template.js";
+import Template from "/emcJS/util/Template.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "POINTER";
@@ -113,4 +113,4 @@ export default class LiteralPointer extends AbstractElement {
 }
 
 AbstractElement.registerReference("pointer", LiteralPointer);
-customElements.define('ted-logic-pointer', LiteralPointer);
+customElements.define('jse-logic-pointer', LiteralPointer);

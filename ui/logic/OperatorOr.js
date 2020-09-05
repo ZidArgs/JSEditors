@@ -1,4 +1,4 @@
-import Template from "../../util/Template.js";
+import Template from "/emcJS/util/Template.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "OR";
@@ -111,4 +111,4 @@ export default class OperatorOr extends AbstractElement {
 }
 
 AbstractElement.registerReference("or", OperatorOr);
-customElements.define('ted-logic-or', OperatorOr);
+customElements.define('jse-logic-or', OperatorOr);

@@ -1,4 +1,4 @@
-import Template from "../../util/Template.js";
+import Template from "/emcJS/util/Template.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "MIN";
@@ -153,4 +153,4 @@ export default class OperatorMin extends AbstractElement {
 }
 
 AbstractElement.registerReference("min", OperatorMin);
-customElements.define('ted-logic-min', OperatorMin);
+customElements.define('jse-logic-min', OperatorMin);

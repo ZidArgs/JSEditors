@@ -1,5 +1,6 @@
-import DragDropMemory from "../../../util/DragDropMemory.js";
-import Template from "../../../util/Template.js";
+import DragDropMemory from "/emcJS/util/DragDropMemory.js";
+import Template from "/emcJS/util/Template.js";
+
 import LogicAbstractElement from "../../../ui/logic/AbstractElement.js";
 
 const TPL = new Template(`
@@ -89,4 +90,4 @@ export default class Clipboard extends HTMLElement {
 
 }
 
-customElements.define('ted-logic-clipboard', Clipboard);
+customElements.define('jse-logic-clipboard', Clipboard);

@@ -1,4 +1,4 @@
-import Template from "./util/Template.js";
+import Template from "/emcJS/util/Template.js";
 
 const TPL = new Template(`
 <style>
@@ -53,32 +53,27 @@ export default class EditorChoice extends HTMLElement {
         }
         let ev = new Event('choice');
         ev.app = "";
-        ev.nav = [];
         this.dispatchEvent(ev);
     }
 
-    register(pnl, name, nav, refreshFn) {
+    register(pnl, name) {
         this.append(pnl);
         let el = document.createElement("DIV");
         el.innerHTML = name;
         el.addEventListener("click", event => {
+            let ev = new Event('choice');
+            ev.app = name;
+            this.dispatchEvent(ev);
             let current = CURRENT.get(this);
             if (current != null) {
                 current.removeAttribute("slot");
             }
             pnl.setAttribute("slot", "visible");
-            if (typeof refreshFn == "function") {
-                refreshFn();
-            }
             CURRENT.set(this, pnl);
-            let ev = new Event('choice');
-            ev.app = name;
-            ev.nav = nav;
-            this.dispatchEvent(ev);
         });
         this.shadowRoot.getElementById("choice").append(el);
     }
 
 }
 
-customElements.define('ted-choice', EditorChoice);
+customElements.define('jse-choice', EditorChoice);

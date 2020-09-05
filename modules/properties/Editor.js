@@ -1,7 +1,7 @@
-import Template from "../../util/Template.js";
-import "../../ui/CaptionPanel.js";
-import "../../ui/CollapsePanel.js";
-import "../../ui/FilteredList.js";
+import Template from "/emcJS/util/Template.js";
+import "/emcJS/ui/CaptionPanel.js";
+import "/emcJS/ui/CollapsePanel.js";
+import "/emcJS/ui/FilteredList.js";
 
 import "./panels/Workingarea.js";
 
@@ -49,47 +49,89 @@ const TPL = new Template(`
         cursor: pointer;
         overflow: hidden;
     }
+    .listitem .button {
+        color: #fff;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        overflow: hidden;
+    }
 </style>
-<ted-captionpanel id="list-panel" caption="entries">
-    <ted-filteredlist id="data-list"></ted-filteredlist>
-</ted-captionpanel>
-<ted-captionpanel id="workingarea-panel" caption="properties">
-    <ted-properties-workingarea id="workingarea" visualize="true"></ted-properties-workingarea>
-</ted-captionpanel>
+<emc-captionpanel id="list-panel" caption="entries">
+    <emc-filteredlist id="data-list"></emc-filteredlist>
+</emc-captionpanel>
+<emc-captionpanel id="workingarea-panel" caption="properties">
+    <jse-properties-workingarea id="workingarea" visualize="true"></jse-properties-workingarea>
+</emc-captionpanel>
 `);
 
 const WORKINGAREA = new WeakMap();
 const DATA = new WeakMap();
 const PATCH = new WeakMap();
 
-function loadList(config, container, loadData) {
-    for (let item of config) {
-        if (item.type === "group") {
-            let cnt = document.createElement("ted-collapsepanel");
-            cnt.caption = item.caption;
-            loadList(item.children, cnt, loadData);
+function createListitem(data, onClick) {
+    return el;
+}
+
+function loadList(config, container, editable) {
+    for (let data of config) {
+        if (data.type === "group") {
+            let cnt = document.createElement("jse-collapsepanel");
+            cnt.caption = data.caption;
+            loadList.call(this, data.children, cnt, editable);
             container.append(cnt);
         } else {
             let el = document.createElement("div");
-            el.dataset.ref = item.ref;
-            el.dataset.cat = item.category;
-            el.dataset.type = item.type;
+            el.dataset.ref = data.ref;
+            el.dataset.cat = data.category;
+            el.dataset.type = data.type;
             el.className = "listitem";
-            el.onclick = loadData;
-            el.innerHTML = item.content;
+            el.onclick = loadData.bind(this);
+            el.innerHTML = data.content;
             el.dataset.filtervalue = el.innerHTML;
-            if (item.hasOwnProperty("icon")) {
+            if (data.hasOwnProperty("icon")) {
                 let img = document.createElement("img");
-                img.src = item.icon;
+                img.src = data.icon;
                 img.style.height = "16px";
                 img.style.margin = "0 8px";
                 img.style.verticalAlign = "bottom";
                 img.style.pointerEvents = "none";
                 el.append(img);
             }
+            if (!!editable) {
+                let edt = document.createElement("div");
+                edt.onclick = editEntry.bind(this);
+                edt.innerHTML = "✎";
+                edt.className = "button";
+                el.append(edt);
+                let rmv = document.createElement("div");
+                rmv.onclick = removeEntry.bind(this);
+                rmv.innerHTML = "🗑";
+                rmv.className = "button";
+                el.append(rmv);
+            }
             container.append(el);
         }
     }
+    if (!!editable) {
+        let el = document.createElement("div");
+        el.className = "listitem";
+        el.onclick = addEntry.bind(this);
+        el.innerHTML = "+ Add Entry";
+        container.append(el);
+    }
+}
+
+async function addEntry(event) {
+    // TODO
+}
+
+async function removeEntry(event) {
+    // TODO
+}
+
+async function editEntry(event) {
+    // TODO
 }
 
 async function loadData(event) {
@@ -150,10 +192,10 @@ class Editor extends HTMLElement {
         workingarea.setDetailConfig(config);
     }
 
-    loadList(config) {
+    loadList(config, editable = false) {
         let container = this.shadowRoot.getElementById("data-list");
         container.innerHTML = "";
-        loadList(config, container, loadData.bind(this));
+        loadList.call(this, config, container, !!editable);
     }
 
     setData(data) {
@@ -186,4 +228,4 @@ class Editor extends HTMLElement {
 
 }
 
-customElements.define('ted-properties-editor', Editor);
+customElements.define('jse-properties-editor', Editor);

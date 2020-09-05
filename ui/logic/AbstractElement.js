@@ -1,6 +1,6 @@
-import DragDropMemory from "../../util/DragDropMemory.js";
-import Template from "../../util/Template.js";
-import UGen from "../../util/UniqueGenerator.js";
+import DragDropMemory from "/emcJS/util/DragDropMemory.js";
+import Template from "/emcJS/util/Template.js";
+import UGen from "/emcJS/util/UniqueGenerator.js";
 
 const TPL = new Template(`
     <style>
@@ -515,4 +515,4 @@ class LogicError extends AbstractElement {
 
 }
 
-customElements.define('ted-logic-error', LogicError);
+customElements.define('jse-logic-error', LogicError);

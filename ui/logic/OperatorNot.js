@@ -1,4 +1,4 @@
-import Template from "../../util/Template.js";
+import Template from "/emcJS/util/Template.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "NOT";
@@ -98,4 +98,4 @@ export default class OperatorNot extends AbstractElement {
 }
 
 AbstractElement.registerReference("not", OperatorNot);
-customElements.define('ted-logic-not', OperatorNot);
+customElements.define('jse-logic-not', OperatorNot);

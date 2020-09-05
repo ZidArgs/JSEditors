@@ -1,4 +1,4 @@
-import Template from "../../util/Template.js";
+import Template from "/emcJS/util/Template.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "AT";
@@ -138,4 +138,4 @@ export default class ReferrerAt extends AbstractElement {
 }
 
 AbstractElement.registerReference("at", ReferrerAt);
-customElements.define('ted-logic-at', ReferrerAt);
+customElements.define('jse-logic-at', ReferrerAt);

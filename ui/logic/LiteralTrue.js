@@ -1,4 +1,4 @@
-import Template from "../../util/Template.js";
+import Template from "/emcJS/util/Template.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "TRUE";
@@ -47,4 +47,4 @@ export default class LiteralTrue extends AbstractElement {
 }
 
 AbstractElement.registerReference("true", LiteralTrue);
-customElements.define('ted-logic-true', LiteralTrue);
+customElements.define('jse-logic-true', LiteralTrue);
