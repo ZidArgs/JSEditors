@@ -6,6 +6,7 @@ const TPL_BG_0 = "#ffffe0";
 const TPL_BG_1 = "#ffdfe4";
 const TPL_BACKGROUND = `repeating-linear-gradient(145deg, ${TPL_BG_0}, ${TPL_BG_0} 20px, ${TPL_BG_1} 20px, ${TPL_BG_1} 40px)`;
 const TPL_BORDER = "#ffa500";
+const REFERENCE = "nand";
 
 const TPL = new Template(`
     <style>
@@ -20,14 +21,8 @@ const TPL = new Template(`
         <span id="droptarget" class="placeholder">...</span>
     </div>
 `);
-const SVG = new Template(`
-    <div class="logic-element" style="--logic-color-back: ${TPL_BACKGROUND}; --logic-color-border: ${TPL_BORDER};">
-        <div id="header" class="header">${TPL_CAPTION}</div>
-        <div class="body"></div>
-    </div>
-`);
 
-export default class OperatorNand extends AbstractElement {
+export default class LogicElement extends AbstractElement {
 
     constructor() {
         super();
@@ -77,7 +72,7 @@ export default class OperatorNand extends AbstractElement {
 
     toJSON() {
         return {
-            type: "nand",
+            type: REFERENCE,
             el: Array.from(this.children).map(e => e.toJSON())
         };
     }
@@ -100,34 +95,7 @@ export default class OperatorNand extends AbstractElement {
         }
     }
 
-    static getSVG(logic) {
-        let el = SVG.generate().children[0];
-        let cnt = el.querySelector(".body");
-        let hdr = el.querySelector(".header");
-        let newValue;
-        if (!!logic && Array.isArray(logic.el)) {
-            logic.el.forEach(ch => {
-                if (!!ch) {
-                    let el = AbstractElement.getReference(ch.type).getSVG(ch);
-                    if (typeof el.dataset.value != "undefined") {
-                        if (typeof newValue != "undefined") {
-                            newValue = newValue && !!parseInt(el.dataset.value);
-                        } else {
-                            newValue = !!parseInt(el.dataset.value);
-                        }
-                    }
-                    cnt.append(el);
-                }
-            });
-        }
-        if (typeof newValue != "undefined") {
-            el.dataset.value = +!newValue;
-            hdr.dataset.value = +!newValue;
-        }
-        return el;
-    }
-
 }
 
-AbstractElement.registerReference("nand", OperatorNand);
-customElements.define('jse-logic-nand', OperatorNand);
+AbstractElement.registerReference(REFERENCE, LogicElement);
+customElements.define(`jse-logic-${REFERENCE}`, LogicElement);

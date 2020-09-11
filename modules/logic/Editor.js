@@ -21,6 +21,12 @@ import "../../ui/logic/OperatorNot.js";
 import "../../ui/logic/OperatorMin.js";
 import "../../ui/logic/OperatorMax.js";
 import "../../ui/logic/ReferrerAt.js";
+import "../../ui/logic/ComparatorEqual.js";
+import "../../ui/logic/ComparatorGreaterThanEqual.js";
+import "../../ui/logic/ComparatorGreaterThan.js";
+import "../../ui/logic/ComparatorLessThanEqual.js";
+import "../../ui/logic/ComparatorLessThan.js";
+import "../../ui/logic/ComparatorNotEqual.js";
 
 const TPL = new Template(`
 <style>

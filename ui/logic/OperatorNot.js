@@ -4,6 +4,7 @@ import AbstractElement from "./AbstractElement.js";
 const TPL_CAPTION = "NOT";
 const TPL_BACKGROUND = "#ffdfe4";
 const TPL_BORDER = "#ff0000";
+const REFERENCE = "not";
 
 const TPL = new Template(`
     <style>
@@ -19,14 +20,8 @@ const TPL = new Template(`
         </slot>
     </div>
 `);
-const SVG = new Template(`
-    <div class="logic-element" style="--logic-color-back: ${TPL_BACKGROUND}; --logic-color-border: ${TPL_BORDER};">
-        <div id="header" class="header">${TPL_CAPTION}</div>
-        <div class="body"></div>
-    </div>
-`);
 
-export default class OperatorNot extends AbstractElement {
+export default class LogicElement extends AbstractElement {
 
     constructor() {
         super();
@@ -57,7 +52,7 @@ export default class OperatorNot extends AbstractElement {
 
     toJSON() {
         return {
-            type: "not",
+            type: REFERENCE,
             el: Array.from(this.children).slice(0,1).map(e => e.toJSON())[0]
         };
     }
@@ -76,26 +71,7 @@ export default class OperatorNot extends AbstractElement {
         }
     }
 
-    static getSVG(logic) {
-        let el = SVG.generate().children[0];
-        let cnt = el.querySelector(".body");
-        let hdr = el.querySelector(".header");
-        let newValue;
-        if (!!logic && !!logic.el) {
-            let el = AbstractElement.getReference(logic.el.type).getSVG(logic.el);
-            if (typeof el.dataset.value != "undefined") {
-                newValue = !!parseInt(el.dataset.value);
-            }
-            cnt.append(el);
-        }
-        if (typeof newValue != "undefined") {
-            el.dataset.value = +newValue;
-            hdr.dataset.value = +newValue;
-        }
-        return el;
-    }
-
 }
 
-AbstractElement.registerReference("not", OperatorNot);
-customElements.define('jse-logic-not', OperatorNot);
+AbstractElement.registerReference(REFERENCE, LogicElement);
+customElements.define(`jse-logic-${REFERENCE}`, LogicElement);

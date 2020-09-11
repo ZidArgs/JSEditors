@@ -6,6 +6,7 @@ const TPL_BG_0 = "#ffa500";
 const TPL_BG_1 = "#ffdfe4";
 const TPL_BACKGROUND = `repeating-linear-gradient(145deg, ${TPL_BG_0}, ${TPL_BG_0} 20px, ${TPL_BG_1} 20px, ${TPL_BG_1} 40px)`;
 const TPL_BORDER = "#774455";
+const REFERENCE = "xnor";
 
 const TPL = new Template(`
     <style>
@@ -24,14 +25,8 @@ const TPL = new Template(`
         </slot>
     </div>
 `);
-const SVG = new Template(`
-    <div class="logic-element" style="--logic-color-back: ${TPL_BACKGROUND}; --logic-color-border: ${TPL_BORDER};">
-        <div id="header" class="header">${TPL_CAPTION}</div>
-        <div class="body"></div>
-    </div>
-`);
 
-export default class OperatorXnor extends AbstractElement {
+export default class LogicElement extends AbstractElement {
 
     constructor() {
         super();
@@ -84,7 +79,7 @@ export default class OperatorXnor extends AbstractElement {
 
     toJSON() {
         return {
-            type: "xnor",
+            type: REFERENCE,
             el: Array.from(this.children).slice(0,2).map(e => e.toJSON())
         };
     }
@@ -108,39 +103,7 @@ export default class OperatorXnor extends AbstractElement {
         }
     }
 
-    static getSVG(logic) {
-        let el = SVG.generate().children[0];
-        let cnt = el.querySelector(".body");
-        let hdr = el.querySelector(".header");
-        let newValue;
-        if (!!logic) {
-            if (!!logic.el0) {
-                let el0 = AbstractElement.getReference(logic.el0.type).getSVG(logic.el0);
-                if (typeof el0.dataset.value != "undefined") {
-                    newValue = !!parseInt(el.dataset.value);
-                }
-                cnt.append(el0);
-            }
-            if (!!logic.el1) {
-                let el1 = AbstractElement.getReference(logic.el1.type).getSVG(logic.el1);
-                if (typeof el1.dataset.value != "undefined") {
-                    if (typeof newValue != "undefined") {
-                        newValue = newValue ^ !!parseInt(el.dataset.value);
-                    } else {
-                        newValue = !!parseInt(el.dataset.value);
-                    }
-                }
-                cnt.append(el1);
-            }
-        }
-        if (typeof newValue != "undefined") {
-            el.dataset.value = +newValue;
-            hdr.dataset.value = +newValue;
-        }
-        return el;
-    }
-
 }
 
-AbstractElement.registerReference("xnor", OperatorXnor);
-customElements.define('jse-logic-xnor', OperatorXnor);
+AbstractElement.registerReference(REFERENCE, LogicElement);
+customElements.define(`jse-logic-${REFERENCE}`, LogicElement);

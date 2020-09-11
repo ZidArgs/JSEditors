@@ -86,88 +86,6 @@ const TPL = new Template(`
     </style>
 `);
 
-const SVG = new Template(`
-    <svg xmlns="http://www.w3.org/2000/svg">
-        <style>
-            .logic-element {
-                position: relative;
-                box-sizing: border-box;
-                line-height: 1em;
-                display: table;
-                margin: 5px;
-                border-radius: 5px;
-                font-size: 14px;
-                background: var(--logic-color-back, white);
-                border-width: 1px;
-                border-style: solid;
-                color: var(--logic-color-text, black);
-                border-color: var(--logic-color-border, black);
-                -webkit-user-select: none;
-                user-select: none;
-            }
-            .logic-element > .header {
-                position: relative;
-                box-sizing: border-box;
-                line-height: 1em;
-                display: flex;
-                align-items: center;
-                justify-content: flex-start;
-                height: 35px;
-                padding: 5px;
-                user-select: none;
-            }
-            .logic-element > .header:before {
-                position: relative;
-                box-sizing: border-box;
-                line-height: 1em;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 50px;
-                height: 16px;
-                font-size: 12px;
-                line-height: 10px;
-                margin-right: 5px;
-                border-radius: 10px;
-                border: solid 2px black;
-                background-color: #ecff85;
-                content: "n/a";
-            }
-            .logic-element > .header[data-value]:before {
-                background-color: #85ff85;
-                content: attr(data-value);
-            }
-            .logic-element > .header[data-value="0"]:before {
-                background-color: #ff8585;
-            }
-            .logic-element > .body {
-                position: relative;
-                box-sizing: border-box;
-                line-height: 1em;
-                display: block;
-                padding: 5px;
-                border-top-width: 1px;
-                border-top-style: solid;
-                border-color: var(--logic-color-border, black);
-            }
-            .logic-element > .body > .input {
-                position: relative;
-                box-sizing: border-box;
-                line-height: 1em;
-                width: 100px;
-                height: 25px;
-                text-align: right;
-                margin: 0 5px;
-                padding: 5px;
-                color: black;
-                background-color: white;
-            }
-        </style>
-        <foreignobject xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" x="0" y="0">
-        </foreignobject>
-    </svg>
-`);
-
 function dragStart(event) {
     DragDropMemory.clear();
     DragDropMemory.add(event.currentTarget);
@@ -388,26 +306,6 @@ export default class AbstractElement extends HTMLElement {
         return new (AbstractElement.getReference(`${logic}`));
     }
 
-    static buildSVG(logic) {
-        let svg = SVG.generate().children[0];
-        let cnt = svg.querySelector('foreignobject');
-        svg.style.position = "absolute";
-        svg.style.top = "0";
-        svg.style.left = "0";
-        document.body.append(svg);
-        if (!!logic) {
-            let el = buildVisual(logic);
-            cnt.append(el);
-            svg.setAttributeNS('', 'width', `${el.clientWidth + 10}`);
-            svg.setAttributeNS('', 'height', `${el.clientHeight + 10}`);
-        }
-        svg.style.position = "";
-        svg.style.top = "";
-        svg.style.left = "";
-        document.body.removeChild(svg);
-        return svg;
-    }
-
     static allowDrop(event) {
         let el = event.target.getRootNode().host;
         if ((typeof el.readonly != "string" || el.readonly == "false")
@@ -441,19 +339,6 @@ export default class AbstractElement extends HTMLElement {
     }
 
 }
-
-function buildVisual(logic) {
-    if (typeof logic == "object" && !!logic) {
-        if (Array.isArray(logic)) {
-            LogicError.getSVG(logic);
-        } else {
-            return AbstractElement.getReference(logic.type).getSVG(logic);
-        }
-    } else {
-        return AbstractElement.getReference(`${logic}`).getSVG(logic);
-    }
-}
-
 
 /**
  * for undefined references
@@ -494,10 +379,6 @@ class LogicError extends AbstractElement {
     visualizeValue() {}
 
     toJSON() {}
-
-    static getSVG() {
-        return SVG_E.generate();
-    }
 
     loadLogic(logic) {
         let type = logic.type;

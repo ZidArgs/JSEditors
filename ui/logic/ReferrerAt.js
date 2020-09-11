@@ -4,6 +4,7 @@ import AbstractElement from "./AbstractElement.js";
 const TPL_CAPTION = "AT";
 const TPL_BACKGROUND = "#66ffea";
 const TPL_BORDER = "#24766b";
+const REFERENCE = "at";
 
 const TPL = new Template(`
     <style>
@@ -20,17 +21,8 @@ const TPL = new Template(`
         </slot>
     </div>
 `);
-const SVG = new Template(`
-    <div class="logic-element" style="--logic-color-back: ${TPL_BACKGROUND}; --logic-color-border: ${TPL_BORDER};">
-        <div id="header" class="header">${TPL_CAPTION}</div>
-        <div class="body">
-            <div class="input">
-            </div>
-        </div>
-    </div>
-`);
 
-export default class ReferrerAt extends AbstractElement {
+export default class LogicElement extends AbstractElement {
 
     constructor() {
         super();
@@ -97,7 +89,7 @@ export default class ReferrerAt extends AbstractElement {
 
     toJSON() {
         return {
-            type: "at",
+            type: REFERENCE,
             node: this.ref,
             el: Array.from(this.children).slice(0,1).map(e => e.toJSON())[0]
         };
@@ -129,13 +121,7 @@ export default class ReferrerAt extends AbstractElement {
         }
     }
 
-    static getSVG(logic) {
-        let el = SVG.generate().children[0];
-        // TODO or not TODO
-        return el;
-    }
-
 }
 
-AbstractElement.registerReference("at", ReferrerAt);
-customElements.define('jse-logic-at', ReferrerAt);
+AbstractElement.registerReference(REFERENCE, LogicElement);
+customElements.define(`jse-logic-${REFERENCE}`, LogicElement);

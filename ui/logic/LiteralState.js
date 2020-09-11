@@ -4,6 +4,7 @@ import AbstractElement from "./AbstractElement.js";
 const TPL_CAPTION = "STATE";
 const TPL_BACKGROUND = "#ffffff";
 const TPL_BORDER = "#777777";
+const REFERENCE = "state";
 
 const TPL = new Template(`
     <style>
@@ -16,13 +17,8 @@ const TPL = new Template(`
     <div id="ref" class="body"></div>
     <div id="value" class="body"></div>
 `);
-const SVG = new Template(`
-    <div class="logic-element" style="--logic-color-back: ${TPL_BACKGROUND}; --logic-color-border: ${TPL_BORDER};">
-        <div class="header" data-value="0">${TPL_CAPTION}</div>
-    </div>
-`);
 
-export default class LiteralState extends AbstractElement {
+export default class LogicElement extends AbstractElement {
 
     constructor() {
         super();
@@ -73,14 +69,14 @@ export default class LiteralState extends AbstractElement {
     toJSON() {
         if (!!this.category) {
             return {
-                type: "state",
+                type: REFERENCE,
                 el: this.ref,
                 value: this.value,
                 category: this.category
             };
         } else {
             return {
-                type: "state",
+                type: REFERENCE,
                 el: this.ref,
                 value: this.value
             };
@@ -118,13 +114,7 @@ export default class LiteralState extends AbstractElement {
         }
     }
 
-    static getSVG(logic) {
-        let el = SVG.generate().children[0];
-        // TODO
-        return el;
-    }
-
 }
 
-AbstractElement.registerReference("state", LiteralState);
-customElements.define('jse-logic-state', LiteralState);
+AbstractElement.registerReference(REFERENCE, LogicElement);
+customElements.define(`jse-logic-${REFERENCE}`, LogicElement);

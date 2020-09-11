@@ -4,6 +4,7 @@ import AbstractElement from "./AbstractElement.js";
 const TPL_CAPTION = "TRUE";
 const TPL_BACKGROUND = "lightgreen";
 const TPL_BORDER = "green";
+const REFERENCE = "true";
 
 const TPL = new Template(`
     <style>
@@ -14,13 +15,8 @@ const TPL = new Template(`
     </style>
     <div id="header" class="header">${TPL_CAPTION}</div>
 `);
-const SVG = new Template(`
-    <div class="logic-element" style="--logic-color-back: ${TPL_BACKGROUND}; --logic-color-border: ${TPL_BORDER};">
-        <div class="header" data-value="1">${TPL_CAPTION}</div>
-    </div>
-`);
 
-export default class LiteralTrue extends AbstractElement {
+export default class LogicElement extends AbstractElement {
 
     constructor() {
         super();
@@ -36,15 +32,11 @@ export default class LiteralTrue extends AbstractElement {
 
     toJSON() {
         return {
-            type: "true"
+            type: REFERENCE
         };
-    }
-
-    static getSVG(logic) {
-        return SVG.generate().children[0];
     }
 
 }
 
-AbstractElement.registerReference("true", LiteralTrue);
-customElements.define('jse-logic-true', LiteralTrue);
+AbstractElement.registerReference(REFERENCE, LogicElement);
+customElements.define(`jse-logic-${REFERENCE}`, LogicElement);

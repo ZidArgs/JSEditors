@@ -4,6 +4,7 @@ import AbstractElement from "./AbstractElement.js";
 const TPL_CAPTION = "MIN";
 const TPL_BACKGROUND = "#ee82ee";
 const TPL_BORDER = "#8b008b";
+const REFERENCE = "min";
 
 const TPL = new Template(`
     <style>
@@ -22,17 +23,8 @@ const TPL = new Template(`
         </slot>
     </div>
 `);
-const SVG = new Template(`
-    <div class="logic-element" style="--logic-color-back: ${TPL_BACKGROUND}; --logic-color-border: ${TPL_BORDER};">
-        <div id="header" class="header">${TPL_CAPTION}</div>
-        <div class="body">
-            <div class="input">
-            </div>
-        </div>
-    </div>
-`);
 
-export default class OperatorMin extends AbstractElement {
+export default class LogicElement extends AbstractElement {
 
     constructor() {
         super();
@@ -96,7 +88,7 @@ export default class OperatorMin extends AbstractElement {
 
     toJSON() {
         return {
-            type: "min",
+            type: REFERENCE,
             el: Array.from(this.children).slice(0,1).map(e => e.toJSON())[0],
             value: parseInt(this.value) || 0
         };
@@ -129,28 +121,7 @@ export default class OperatorMin extends AbstractElement {
         }
     }
 
-    static getSVG(logic) {
-        let el = SVG.generate().children[0];
-        let cnt = el.querySelector(".body");
-        let hdr = el.querySelector(".header");
-        let inp = el.querySelector(".input");
-        let newValue;
-        if (!!logic && !!logic.el) {
-            let el = AbstractElement.getReference(logic.el.type).getSVG(logic.el);
-            if (typeof el.dataset.value != "undefined") {
-                newValue = parseInt(el.dataset.value) >= logic.value;
-            }
-            cnt.append(el);
-            inp.innerHTML = logic.value;
-        }
-        if (typeof newValue != "undefined") {
-            el.dataset.value = +newValue;
-            hdr.dataset.value = +newValue;
-        }
-        return el;
-    }
-
 }
 
-AbstractElement.registerReference("min", OperatorMin);
-customElements.define('jse-logic-min', OperatorMin);
+AbstractElement.registerReference(REFERENCE, LogicElement);
+customElements.define(`jse-logic-${REFERENCE}`, LogicElement);
