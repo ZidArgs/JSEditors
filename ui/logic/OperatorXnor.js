@@ -96,6 +96,7 @@ export default class LogicElement extends AbstractElement {
                         cl = AbstractElement.getReference(ch.type);
                     }
                     let el = new cl;
+                    el.setAttribute("slot", `slot${i}`);
                     el.loadLogic(ch);
                     this.append(el);
                 }
