@@ -321,8 +321,9 @@ export default class AbstractElement extends HTMLElement {
         if (!!els.length) {
             let el = els[0];
             if (!!el && el instanceof AbstractElement) {
-                let ne = event.target.getRootNode().host.append(el.getElement(event.ctrlKey));
+                let ne = el.getElement(event.ctrlKey);
                 if (!!ne) {
+                    event.target.getRootNode().host.append(ne);
                     let slot = event.target.parentNode;
                     if (slot instanceof HTMLSlotElement && slot.name != null) {
                         ne.setAttribute("slot", slot.name);
