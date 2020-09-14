@@ -1,7 +1,7 @@
 import Template from "/emcJS/util/Template.js";
 
-import "/emcJS/ui/selection/ListSelect.js";
-import "/emcJS/ui/selection/SearchSelect.js";
+import "/emcJS/ui/input/ListSelect.js";
+import "/emcJS/ui/input/SearchSelect.js";
 import "../../../ui/SimpleLogicEdit.js";
 
 const TPL = new Template(`
