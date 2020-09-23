@@ -10,8 +10,7 @@ if (process.argv.indexOf('-debug') >= 1) {
 }
 
 const MODULE_PATHS = {
-    emcJS: "../node_modules/emcjs/",
-    trackerEditor: "../node_modules/jseditors/"
+    emcJS: "../node_modules/emcjs/"
 };
 
 function fileExists(filename) {
