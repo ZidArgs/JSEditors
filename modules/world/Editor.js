@@ -48,14 +48,18 @@ const TPL = new Template(`
         overflow: hidden;
     }
 </style>
-<emc-captionpanel id="list-panel" caption="entries">
-    <emc-filteredlist id="data-list"></emc-filteredlist>
-</emc-captionpanel>
-<emc-captionpanel id="workingarea-panel" caption="properties">
-</emc-captionpanel>
+<div id="categories">
+    <div class="category" target="marker">Marker</div>
+    <div class="category" target="overview">Overview</div>
+    <div class="category" target="detailed">Detailed</div>
+    <div class="category" target="areas">Areas</div>
+    <div class="category" target="subs">Subareas</div>
+</div>
+<div id="content">
+
+</div>
 `);
 
-const WORKINGAREA = new WeakMap();
 const DATA = new WeakMap();
 const PATCH = new WeakMap();
 
