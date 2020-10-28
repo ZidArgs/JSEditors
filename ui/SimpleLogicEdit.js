@@ -24,6 +24,12 @@ import "./logic/ComparatorGreaterThan.js";
 import "./logic/ComparatorLessThanEqual.js";
 import "./logic/ComparatorLessThan.js";
 import "./logic/ComparatorNotEqual.js";
+import "./logic/MathAdd.js";
+import "./logic/MathDiv.js";
+import "./logic/MathMod.js";
+import "./logic/MathMul.js";
+import "./logic/MathPow.js";
+import "./logic/MathSub.js";
 
 const TPL = new Template(`
 <style>
