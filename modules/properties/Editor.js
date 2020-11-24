@@ -1,6 +1,6 @@
 import Template from "/emcJS/util/Template.js";
-import "/emcJS/ui/CaptionPanel.js";
-import "/emcJS/ui/CollapsePanel.js";
+import "/emcJS/ui/container/CaptionPanel.js";
+import "/emcJS/ui/container/CollapsePanel.js";
 import "/emcJS/ui/FilteredList.js";
 
 import "./panels/Workingarea.js";

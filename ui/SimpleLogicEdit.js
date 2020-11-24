@@ -1,6 +1,6 @@
 import Template from "/emcJS/util/Template.js";
 import DragDropMemory from "/emcJS/util/DragDropMemory.js";
-import "/emcJS/ui/CollapsePanel.js";
+import "/emcJS/ui/container/CollapsePanel.js";
 import "/emcJS/ui/FilteredList.js";
 
 import LogicAbstractElement from "./logic/AbstractElement.js";
