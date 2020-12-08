@@ -1,5 +1,5 @@
 import Template from "/emcJS/util/Template.js";
-import "/emcJS/ui/NavBar.js";
+import "/emcJS/ui/navigation/NavBar.js";
 import "./EditorChoice.js";
 
 const TITLE_PREFIX = "Editor";
