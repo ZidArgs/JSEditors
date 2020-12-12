@@ -47,7 +47,7 @@ function onChoice(event) {
         NAVI.get(this).loadNavigation(MAIN_NAV);
     } else {
         document.title = `${TITLE_PREFIX} - ${event.app}`;
-        let data = PANELS.get(this).get(event.app);
+        const data = PANELS.get(this).get(event.app);
         if (typeof data.refreshFn == "function") {
             data.refreshFn();
         }
@@ -66,11 +66,11 @@ export default class EditorWindow extends HTMLElement {
         this.attachShadow({mode: 'open'});
         this.shadowRoot.append(TPL.generate());
 
-        let navi = document.createElement('emc-navbar');
+        const navi = document.createElement('emc-navbar');
         navi.loadNavigation(MAIN_NAV);
         NAVI.set(this, navi);
 
-        let choice = document.createElement('jse-choice');
+        const choice = document.createElement('jse-choice');
         choice.addEventListener("choice", onChoice.bind(this));
         CHOICE.set(this, choice);
 

@@ -47,24 +47,24 @@ export default class EditorChoice extends HTMLElement {
     }
 
     closeCurrent() {
-        let current = CURRENT.get(this);
+        const current = CURRENT.get(this);
         if (current != null) {
             current.removeAttribute("slot");
         }
-        let ev = new Event('choice');
+        const ev = new Event('choice');
         ev.app = "";
         this.dispatchEvent(ev);
     }
 
     register(pnl, name) {
         this.append(pnl);
-        let el = document.createElement("DIV");
+        const el = document.createElement("DIV");
         el.innerHTML = name;
         el.addEventListener("click", event => {
-            let ev = new Event('choice');
+            const ev = new Event('choice');
             ev.app = name;
             this.dispatchEvent(ev);
-            let current = CURRENT.get(this);
+            const current = CURRENT.get(this);
             if (current != null) {
                 current.removeAttribute("slot");
             }

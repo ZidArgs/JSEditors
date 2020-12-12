@@ -41,8 +41,8 @@ export default class LogicElement extends AbstractElement {
     }
 
     calculate(state = {}) {
-        if (state.hasOwnProperty(this.ref)) {
-            let val = +!!state[this.ref];
+        if (state[this.ref] != null) {
+            const val = +!!state[this.ref];
             this.shadowRoot.getElementById('header').setAttribute('value', val);
             return val;
         }
@@ -56,7 +56,7 @@ export default class LogicElement extends AbstractElement {
     }
 
     toJSON() {
-        if (!!this.category) {
+        if (this.category) {
             return {
                 type: REFERENCE,
                 el: this.ref,
@@ -71,7 +71,7 @@ export default class LogicElement extends AbstractElement {
     }
 
     static get observedAttributes() {
-        let attr = AbstractElement.observedAttributes;
+        const attr = AbstractElement.observedAttributes;
         attr.push('ref', 'category');
         return attr;
     }

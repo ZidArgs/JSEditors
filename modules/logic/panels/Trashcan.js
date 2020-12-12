@@ -32,9 +32,9 @@ function allowDrop(event) {
 }
 
 function dropOnPlaceholder(event) {
-    let els = DragDropMemory.get();
-    if (!!els.length) {
-        let el = els[0];
+    const els = DragDropMemory.get();
+    if (els.length) {
+        const el = els[0];
         if (!!el && el instanceof LogicAbstractElement && (typeof el.template != "string" || el.template == "false")) {
             el.parentElement.removeChild(el);
         }

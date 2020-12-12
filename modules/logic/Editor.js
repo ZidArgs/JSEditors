@@ -121,14 +121,14 @@ const DATA = new WeakMap();
 const PATCH = new WeakMap();
 
 function loadList(config, container, loadLogic) {
-    for (let item of config) {
+    for (const item of config) {
         if (item.type === "group") {
-            let cnt = document.createElement("emc-collapsepanel");
+            const cnt = document.createElement("emc-collapsepanel");
             cnt.caption = item.caption;
             loadList(item.children, cnt, loadLogic);
             container.append(cnt);
         } else {
-            let el = document.createElement("div");
+            const el = document.createElement("div");
             el.dataset.ref = item.ref;
             el.dataset.cat = item.category;
             el.dataset.type = item.type;
@@ -136,8 +136,8 @@ function loadList(config, container, loadLogic) {
             el.onclick = loadLogic;
             el.innerHTML = item.content;
             el.dataset.filtervalue = el.innerHTML;
-            if (item.hasOwnProperty("icon")) {
-                let img = document.createElement("img");
+            if (item["icon"] != null) {
+                const img = document.createElement("img");
                 img.src = item.icon;
                 img.style.height = "16px";
                 img.style.margin = "0 8px";
@@ -151,16 +151,16 @@ function loadList(config, container, loadLogic) {
 }
 
 function loadOperators(config, container) {
-    for (let item of config) {
+    for (const item of config) {
         if (item.type === "group") {
-            let cnt = document.createElement("emc-collapsepanel");
+            const cnt = document.createElement("emc-collapsepanel");
             cnt.caption = item.caption;
             loadOperators(item.children, cnt);
             container.append(cnt);
         } else {
-            let el = document.createElement(item.type);
+            const el = document.createElement(item.type);
             el.ref = item.ref;
-            if (item.hasOwnProperty("value")) {
+            if (item["value"] != null) {
                 el.value = item.value;
             }
             el.category = item.category;
@@ -172,10 +172,10 @@ function loadOperators(config, container) {
 }
 
 async function loadLogic(event) {
-    let workingarea = WORKINGAREA.get(this);
-    let ref = event.target.dataset.ref;
-    let cat = event.target.dataset.cat;
-    let caption = `${ref} <${cat||"n/a"}>`;
+    const workingarea = WORKINGAREA.get(this);
+    const ref = event.target.dataset.ref;
+    const cat = event.target.dataset.cat;
+    const caption = `${ref} <${cat || "n/a"}>`;
     workingarea.dataset.type = cat;
     workingarea.dataset.key = ref;
     workingarea.loadData(this.getLogic(ref));
@@ -190,14 +190,14 @@ class Editor extends HTMLElement {
         PATCH.set(this, {});
         this.attachShadow({mode: 'open'});
         this.shadowRoot.append(TPL.generate());
-        let workingarea = this.shadowRoot.getElementById('workingarea');
+        const workingarea = this.shadowRoot.getElementById('workingarea');
         WORKINGAREA.set(this, workingarea);
         workingarea.addEventListener('save', function(event) {
-            let key = workingarea.dataset.key;
-            if (!!key) {
-                let data = workingarea.getData();
+            const key = workingarea.dataset.key;
+            if (key) {
+                const data = workingarea.getData();
                 PATCH.get(this)[key] = data;
-                let e = new Event('save');
+                const e = new Event('save');
                 e.key = key;
                 e.logic = data;
                 this.dispatchEvent(e);
@@ -205,20 +205,20 @@ class Editor extends HTMLElement {
             event.preventDefault();
             return false;
         }.bind(this));
-        workingarea.addEventListener('load', function (event) {
-            let key = workingarea.dataset.key;
-            if (!!key) {
+        workingarea.addEventListener('load', function(event) {
+            const key = workingarea.dataset.key;
+            if (key) {
                 workingarea.loadData(this.getLogic(key));
             }
             event.preventDefault();
             return false;
         }.bind(this));
         workingarea.addEventListener('clear', function(event) {
-            let key = workingarea.dataset.key;
-            if (!!key) {
+            const key = workingarea.dataset.key;
+            if (key) {
                 PATCH.get(this)[key] = undefined;
                 workingarea.loadData(DATA.get(this)[key]);
-                let e = new Event('clear');
+                const e = new Event('clear');
                 e.key = key;
                 this.dispatchEvent(e);
             }
@@ -228,31 +228,31 @@ class Editor extends HTMLElement {
     }
 
     loadList(config) {
-        let container = this.shadowRoot.getElementById("logics");
+        const container = this.shadowRoot.getElementById("logics");
         container.innerHTML = "";
         loadList(config, container, loadLogic.bind(this));
     }
 
     loadOperators(config) {
-        let container = this.shadowRoot.getElementById("elements");
+        const container = this.shadowRoot.getElementById("elements");
         container.innerHTML = "";
         loadOperators(config, container);
     }
 
     setLogic(logic) {
-        let workingarea = WORKINGAREA.get(this);
+        const workingarea = WORKINGAREA.get(this);
         DATA.set(this, logic);
-        let key = workingarea.dataset.key;
-        if (!!key) {
+        const key = workingarea.dataset.key;
+        if (key) {
             workingarea.loadData(this.getLogic(key));
         }
     }
 
     setPatch(logic) {
-        let workingarea = WORKINGAREA.get(this);
+        const workingarea = WORKINGAREA.get(this);
         PATCH.set(this, logic);
-        let key = workingarea.dataset.key;
-        if (!!key) {
+        const key = workingarea.dataset.key;
+        if (key) {
             workingarea.loadData(this.getLogic(key));
         }
     }
@@ -262,7 +262,7 @@ class Editor extends HTMLElement {
     }
 
     resetWorkingarea() {
-        let workingarea = WORKINGAREA.get(this);
+        const workingarea = WORKINGAREA.get(this);
         workingarea.dataset.type = "";
         workingarea.dataset.key = "";
         workingarea.loadData();

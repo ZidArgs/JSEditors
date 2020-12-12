@@ -124,7 +124,7 @@ export default class AbstractElement extends HTMLElement {
 
     getElement(forceCopy = false) {
         if (!!forceCopy || (typeof this.template == "string" && this.template != "false")) {
-            let el = this.cloneNode(true);
+            const el = this.cloneNode(true);
             el.removeAttribute('template');
             return el;
         } else {
@@ -162,7 +162,7 @@ export default class AbstractElement extends HTMLElement {
     
     appendChild(el) {
         if (el instanceof AbstractElement && (typeof this.template != "string" || this.template == "false")) {
-            let r = super.appendChild(el);
+            const r = super.appendChild(el);
 
             if (this.hasAttribute("visualize")) {
                 r.setAttribute("visualize", this.getAttribute("visualize"));
@@ -181,7 +181,7 @@ export default class AbstractElement extends HTMLElement {
 
     insertBefore(el, ref) {
         if (el instanceof AbstractElement && (typeof this.template != "string" || this.template == "false")) {
-            let r = super.insertBefore(el, ref);
+            const r = super.insertBefore(el, ref);
 
             if (this.hasAttribute("visualize")) {
                 r.setAttribute("visualize", this.getAttribute("visualize"));
@@ -207,7 +207,7 @@ export default class AbstractElement extends HTMLElement {
     }
 
     get value() {
-        let val = this.getAttribute('value');
+        const val = this.getAttribute('value');
         if (val == null) {
             return undefined;
         }
@@ -215,16 +215,16 @@ export default class AbstractElement extends HTMLElement {
     }
 
     set value(val) {
-        let hdr = this.shadowRoot.querySelector(".header");
+        const hdr = this.shadowRoot.querySelector(".header");
         if (typeof val == "undefined") {
             this.removeAttribute('value');
-            if (!!hdr) delete hdr.dataset.value;
+            if (hdr) delete hdr.dataset.value;
         } else if (typeof val == "boolean") {
             this.setAttribute('value', +val);
-            if (!!hdr) hdr.dataset.value = +val;
+            if (hdr) hdr.dataset.value = +val;
         } else {
             this.setAttribute('value', parseInt(val) || 0);
-            if (!!hdr) hdr.dataset.value = parseInt(val) || 0;
+            if (hdr) hdr.dataset.value = parseInt(val) || 0;
         }
     }
 
@@ -249,21 +249,21 @@ export default class AbstractElement extends HTMLElement {
                     } else {
                         this.removeAttribute("draggable");
                     }
-                    for (let ch of this.children) {
+                    for (const ch of this.children) {
                         ch.readonly = newValue;
                     }
                 }
                 break;
             case 'value':
                 if (oldValue != newValue) {
-                    let event = new Event('update');
+                    const event = new Event('update');
                     event.value = this.value;
                     this.dispatchEvent(event);
                 }
                 break;
             case 'visualize':
                 if (oldValue != newValue) {
-                    for (let ch of this.children) {
+                    for (const ch of this.children) {
                         ch.visualize = newValue;
                     }
                 }
@@ -279,7 +279,7 @@ export default class AbstractElement extends HTMLElement {
     }
 
     static getReference(...refs) {
-        for (let ref of refs) {
+        for (const ref of refs) {
             if (REG.has(ref)) {
                 return REG.get(ref);
             }
@@ -293,12 +293,12 @@ export default class AbstractElement extends HTMLElement {
                 return new LogicError();
             } else {
                 let cl;
-                if (!!logic.category) {
+                if (logic.category) {
                     cl = AbstractElement.getReference(logic.category, logic.type);
                 } else {
                     cl = AbstractElement.getReference(logic.type);
                 }
-                let el = new cl;
+                const el = new cl;
                 el.loadLogic(logic);
                 return el;
             }
@@ -307,7 +307,7 @@ export default class AbstractElement extends HTMLElement {
     }
 
     static allowDrop(event) {
-        let el = event.target.getRootNode().host;
+        const el = event.target.getRootNode().host;
         if ((typeof el.readonly != "string" || el.readonly == "false")
         &&  (typeof el.template != "string" || el.template == "false")) {
             event.preventDefault();
@@ -317,14 +317,14 @@ export default class AbstractElement extends HTMLElement {
     }
 
     static dropOnPlaceholder(event) {
-        let els = DragDropMemory.get();
-        if (!!els.length) {
-            let el = els[0];
+        const els = DragDropMemory.get();
+        if (els.length) {
+            const el = els[0];
             if (!!el && el instanceof AbstractElement) {
-                let ne = el.getElement(event.ctrlKey);
-                if (!!ne) {
+                const ne = el.getElement(event.ctrlKey);
+                if (ne) {
                     event.target.getRootNode().host.append(ne);
-                    let slot = event.target.parentNode;
+                    const slot = event.target.parentNode;
                     if (slot instanceof HTMLSlotElement && slot.name != null) {
                         ne.setAttribute("slot", slot.name);
                     } else {
@@ -355,12 +355,6 @@ const TPL_E = new Template(`
     <div class="header">ERROR: REFERENCE NOT FOUND</div>
     <div id="ref" class="body"></div>
 `);
-const SVG_E = new Template(`
-    <div class="logic-element" style="--logic-color-back: #ff0000; --logic-color-border: #770000; --logic-color-text: #ffffff;">
-        <div class="header">ERROR: REFERENCE NOT FOUND</div>
-        <div id="ref" class="body"></div>
-    </div>
-`);
 
 class LogicError extends AbstractElement {
 
@@ -373,7 +367,9 @@ class LogicError extends AbstractElement {
         return this;
     }
 
-    get value() {}
+    get value() {
+        return undefined;
+    }
 
     update() {}
 
@@ -383,12 +379,12 @@ class LogicError extends AbstractElement {
 
     loadLogic(logic) {
         let type = logic.type;
-        if (!!type) {
+        if (type) {
             type = type.toUpperCase();
         } else {
             type = "UNKNOWN TYPE";
         }
-        if (!!logic.category) {
+        if (logic.category) {
             this.shadowRoot.getElementById('ref').innerHTML = `${type}(${logic.category.toUpperCase()})`;
         } else {
             this.shadowRoot.getElementById("ref").innerHTML = type;

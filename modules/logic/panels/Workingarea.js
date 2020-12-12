@@ -69,12 +69,12 @@ function allowDrop(event) {
 }
 
 function dropOnPlaceholder(event) {
-    let els = DragDropMemory.get();
-    if (!!els.length) {
-        let el = els[0];
-        if (!!el) {
-            let ne = event.target.getRootNode().host.append(el.getElement(event.ctrlKey));
-            if (!!ne) {
+    const els = DragDropMemory.get();
+    if (els.length) {
+        const el = els[0];
+        if (el) {
+            const ne = event.target.getRootNode().host.append(el.getElement(event.ctrlKey));
+            if (ne) {
                 ne.removeAttribute("slot");
             }
         }
@@ -90,7 +90,7 @@ export default class Workingarea extends HTMLElement {
         super();
         this.attachShadow({mode: 'open'});
         this.shadowRoot.append(TPL.generate());
-        let target = this.shadowRoot.getElementById('droptarget');
+        const target = this.shadowRoot.getElementById('droptarget');
         target.ondragover = allowDrop;
         target.ondrop = dropOnPlaceholder.bind(this);
         this.shadowRoot.getElementById('save').addEventListener('click', function(event) {
@@ -105,15 +105,15 @@ export default class Workingarea extends HTMLElement {
     }
 
     getData() {
-        let el = this.children[0];
-        if (!!el) {
+        const el = this.children[0];
+        if (el) {
             return el.toJSON();
         }
     }
 
     loadData(data) {
-        if (!!this.children.length) this.removeChild(this.children[0]);
-        if (!!data) {
+        if (this.children.length) this.removeChild(this.children[0]);
+        if (data) {
             this.append(LogicAbstractElement.buildLogic(data));
         }
     }

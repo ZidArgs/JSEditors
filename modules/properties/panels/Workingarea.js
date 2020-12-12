@@ -89,9 +89,9 @@ const TPL = new Template(`
 `);
 
 function generateField(label) {
-    let el = document.createElement("label");
+    const el = document.createElement("label");
     el.className = "settings-option";
-    let text = document.createElement("span");
+    const text = document.createElement("span");
     text.innerHTML = label;
     text.className = "option-text";
     el.append(text);
@@ -116,48 +116,48 @@ export default class Workingarea extends HTMLElement {
     }
 
     setDetailConfig(config) {
-        let cnt = this.shadowRoot.getElementById("details");
+        const cnt = this.shadowRoot.getElementById("details");
         cnt.innerHTML = "";
-        for (let i in config) {
-            let val = config[i];
-            let label = val.title || i;
-            let min = parseFloat(val.min);
-            let max = parseFloat(val.max);
+        for (const i in config) {
+            const val = config[i];
+            const label = val.title || i;
+            const min = parseFloat(val.min);
+            const max = parseFloat(val.max);
             switch (val.type) {
                 case "string":
                     cnt.append(createStringInput(label, i));
-                break;
+                    break;
                 case "number":
                     cnt.append(createNumberInput(label, i, min, max));
-                break;
+                    break;
                 case "range":
                     cnt.append(createRangeInput(label, i, min, max));
-                break;
+                    break;
                 case "check":
                     cnt.append(createCheckInput(label, i));
-                break;
+                    break;
                 case "choice":
                     cnt.append(createChoiceInput(label, i, val.values));
-                break;
+                    break;
                 case "list":
                     cnt.append(createListSelectInput(label, i, val.values));
-                break;
+                    break;
                 case "select":
                     cnt.append(createSearchSelectInput(label, i, val.values));
-                break;
+                    break;
                 case "logic":
                     cnt.append(createSimpleLogicEditor(label, i, val.operators));
-                break;
+                    break;
             }
         }
     }
 
     getData() {
-        let cnt = this.shadowRoot.getElementById("details");
-        let els = Array.from(cnt.querySelectorAll("[data-ref]"));
-        let res = {};
-        for (let el of els) {
-            let ref = el.dataset.ref;
+        const cnt = this.shadowRoot.getElementById("details");
+        const els = Array.from(cnt.querySelectorAll("[data-ref]"));
+        const res = {};
+        for (const el of els) {
+            const ref = el.dataset.ref;
             if (el.getAttribute("type") === "checkbox") {
                 res[ref] = !!el.checked;
             } else if (el.getAttribute("type") === "logic") {
@@ -170,11 +170,11 @@ export default class Workingarea extends HTMLElement {
     }
 
     loadData(data) {
-        if (!!data) {
-            let cnt = this.shadowRoot.getElementById("details");
-            let els = Array.from(cnt.querySelectorAll("[data-ref]"));
-            for (let el of els) {
-                let ref = el.dataset.ref;
+        if (data) {
+            const cnt = this.shadowRoot.getElementById("details");
+            const els = Array.from(cnt.querySelectorAll("[data-ref]"));
+            for (const el of els) {
+                const ref = el.dataset.ref;
                 if (el.getAttribute("type") === "checkbox") {
                     el.checked = !!data[ref];
                 } else if (el.getAttribute("type") === "logic") {
@@ -191,8 +191,8 @@ export default class Workingarea extends HTMLElement {
 customElements.define('jse-properties-workingarea', Workingarea);
 
 function createStringInput(label, ref) {
-    let el = generateField(label);
-    let input = document.createElement("input");
+    const el = generateField(label);
+    const input = document.createElement("input");
     input.className = "settings-input";
     input.setAttribute("type", "text");
     input.dataset.ref = ref;
@@ -201,8 +201,8 @@ function createStringInput(label, ref) {
 }
 
 function createNumberInput(label, ref, min, max) {
-    let el = generateField(label);
-    let input = document.createElement("input");
+    const el = generateField(label);
+    const input = document.createElement("input");
     input.className = "settings-input";
     input.setAttribute("type", "number");
     if (!isNaN(min)) {
@@ -217,8 +217,8 @@ function createNumberInput(label, ref, min, max) {
 }
 
 function createRangeInput(label, ref, min, max) {
-    let el = generateField(label);
-    let input = document.createElement("input");
+    const el = generateField(label);
+    const input = document.createElement("input");
     input.className = "settings-input";
     input.setAttribute("type", "range");
     if (!isNaN(min)) {
@@ -233,8 +233,8 @@ function createRangeInput(label, ref, min, max) {
 }
 
 function createCheckInput(label, ref) {
-    let el = generateField(label);
-    let input = document.createElement("input");
+    const el = generateField(label);
+    const input = document.createElement("input");
     input.className = "settings-input";
     input.setAttribute("type", "checkbox");
     input.dataset.ref = ref;
@@ -243,12 +243,12 @@ function createCheckInput(label, ref) {
 }
 
 function createChoiceInput(label, ref, values) {
-    let el = generateField(label);
-    let input = document.createElement("select");
+    const el = generateField(label);
+    const input = document.createElement("select");
     input.className = "settings-input";
     input.setAttribute("type", "input");
-    for (let value of values) {
-        let opt = document.createElement('option');
+    for (const value of values) {
+        const opt = document.createElement('option');
         opt.value = value;
         opt.innerHTML = value;
         input.append(opt);
@@ -259,14 +259,14 @@ function createChoiceInput(label, ref, values) {
 }
 
 function createListSelectInput(label, ref, values) {
-    let el = generateField(label);
-    let input = document.createElement("emc-listselect");
+    const el = generateField(label);
+    const input = document.createElement("emc-listselect");
     input.className = "settings-input";
     input.setAttribute("type", "list");
     input.multimode = true;
     input.dataset.ref = ref;
-    for (let value of values) {
-        let opt = document.createElement('emc-option');
+    for (const value of values) {
+        const opt = document.createElement('emc-option');
         opt.value = value;
         opt.innerHTML = value;
         input.append(opt);
@@ -276,13 +276,13 @@ function createListSelectInput(label, ref, values) {
 }
 
 function createSearchSelectInput(label, ref, values) {
-    let el = generateField(label);
-    let input = document.createElement("emc-searchselect");
+    const el = generateField(label);
+    const input = document.createElement("emc-searchselect");
     input.className = "settings-input";
     input.setAttribute("type", "select");
     input.dataset.ref = ref;
-    for (let value of values) {
-        let opt = document.createElement('emc-option');
+    for (const value of values) {
+        const opt = document.createElement('emc-option');
         opt.value = value;
         opt.innerHTML = value;
         input.append(opt);
@@ -292,8 +292,8 @@ function createSearchSelectInput(label, ref, values) {
 }
 
 function createSimpleLogicEditor(label, ref, operators) {
-    let el = generateField(label);
-    let input = document.createElement("jse-simplelogiceditor");
+    const el = generateField(label);
+    const input = document.createElement("jse-simplelogiceditor");
     input.className = "settings-input";
     input.setAttribute("type", "logic");
     input.dataset.ref = ref;

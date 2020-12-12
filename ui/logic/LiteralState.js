@@ -50,8 +50,8 @@ export default class LogicElement extends AbstractElement {
     }
 
     calculate(state = {}) {
-        if (state.hasOwnProperty(this.ref)) {
-            let val = !!this.value ? +(state[this.ref] == this.value) : +!!state[this.ref];
+        if (state[this.ref] != null) {
+            const val = this.value ? +(state[this.ref] == this.value) : +!!state[this.ref];
             this.shadowRoot.getElementById('header').setAttribute('value', val);
             return val;
         } else {
@@ -67,7 +67,7 @@ export default class LogicElement extends AbstractElement {
     }
 
     toJSON() {
-        if (!!this.category) {
+        if (this.category) {
             return {
                 type: REFERENCE,
                 el: this.ref,
@@ -84,7 +84,7 @@ export default class LogicElement extends AbstractElement {
     }
 
     static get observedAttributes() {
-        let attr = AbstractElement.observedAttributes;
+        const attr = AbstractElement.observedAttributes;
         attr.push('ref', 'value', 'category');
         return attr;
     }

@@ -107,9 +107,9 @@ function allowDrop(event) {
 }
 
 function dropOnTrash(event) {
-    let els = DragDropMemory.get();
-    if (!!els.length) {
-        let el = els[0];
+    const els = DragDropMemory.get();
+    if (els.length) {
+        const el = els[0];
         if (!!el && el instanceof LogicAbstractElement && (typeof el.template != "string" || el.template == "false")) {
             el.parentElement.removeChild(el);
         }
@@ -120,12 +120,12 @@ function dropOnTrash(event) {
 }
 
 function dropOnPlaceholder(event) {
-    let els = DragDropMemory.get();
-    if (!!els.length) {
-        let el = els[0];
-        if (!!el) {
-            let ne = event.target.getRootNode().host.append(el.getElement(event.ctrlKey));
-            if (!!ne) {
+    const els = DragDropMemory.get();
+    if (els.length) {
+        const el = els[0];
+        if (el) {
+            const ne = event.target.getRootNode().host.append(el.getElement(event.ctrlKey));
+            if (ne) {
                 ne.removeAttribute("slot");
             }
         }
@@ -136,16 +136,16 @@ function dropOnPlaceholder(event) {
 }
 
 function setOperators(config, container) {
-    for (let item of config) {
+    for (const item of config) {
         if (item.type === "group") {
-            let cnt = document.createElement("emc-collapsepanel");
+            const cnt = document.createElement("emc-collapsepanel");
             cnt.caption = item.caption;
             setOperators(item.children, cnt);
             container.append(cnt);
         } else {
-            let el = document.createElement(item.type);
+            const el = document.createElement(item.type);
             el.ref = item.ref;
-            if (item.hasOwnProperty("value")) {
+            if (item["value"] != null) {
                 el.value = item.value;
             }
             el.category = item.category;
@@ -162,30 +162,30 @@ class Editor extends HTMLElement {
         super();
         this.attachShadow({mode: 'open'});
         this.shadowRoot.append(TPL.generate());
-        let trashcan = this.shadowRoot.getElementById("trashcan");
+        const trashcan = this.shadowRoot.getElementById("trashcan");
         trashcan.ondragover = allowDrop;
         trashcan.ondrop = dropOnTrash.bind(this);
-        let target = this.shadowRoot.getElementById('droptarget');
+        const target = this.shadowRoot.getElementById('droptarget');
         target.ondragover = allowDrop;
         target.ondrop = dropOnPlaceholder.bind(this);
     }
 
     setOperators(config) {
-        let container = this.shadowRoot.getElementById("elements");
+        const container = this.shadowRoot.getElementById("elements");
         container.innerHTML = "";
         setOperators(config, container);
     }
 
     setLogic(logic) {
-        if (!!this.children.length) this.removeChild(this.children[0]);
+        if (this.children.length) this.removeChild(this.children[0]);
         if (logic != null) {
             this.append(LogicAbstractElement.buildLogic(logic));
         }
     }
 
     getLogic() {
-        let el = this.children[0];
-        if (!!el) {
+        const el = this.children[0];
+        if (el) {
             return el.toJSON();
         }
     }

@@ -100,6 +100,40 @@ const TPL = new Template(`
 </emc-captionpanel>
 `);
 
+const WORKINGAREA = new WeakMap();
+const DATA = new WeakMap();
+const PATCH = new WeakMap();
+
+function loadList(config, container, loadData) {
+    for (const item of config) {
+        if (item.type === "group") {
+            const cnt = document.createElement("jse-collapsepanel");
+            cnt.caption = item.caption;
+            loadList(item.children, cnt, loadData);
+            container.append(cnt);
+        } else {
+            const el = document.createElement("div");
+            el.dataset.ref = item.ref;
+            el.dataset.cat = item.category;
+            el.dataset.type = item.type;
+            el.className = "listitem";
+            el.onclick = loadData;
+            el.innerHTML = item.content;
+            el.dataset.filtervalue = el.innerHTML;
+            if (item["icon"] != null) {
+                const img = document.createElement("img");
+                img.src = item.icon;
+                img.style.height = "16px";
+                img.style.margin = "0 8px";
+                img.style.verticalAlign = "bottom";
+                img.style.pointerEvents = "none";
+                el.append(img);
+            }
+            container.append(el);
+        }
+    }
+}
+
 export default class MarkerEdit extends HTMLElement {
 
     constructor() {
@@ -108,14 +142,14 @@ export default class MarkerEdit extends HTMLElement {
         PATCH.set(this, {});
         this.attachShadow({mode: 'open'});
         this.shadowRoot.append(TPL.generate());
-        let workingarea = this.shadowRoot.getElementById('workingarea');
+        const workingarea = this.shadowRoot.getElementById('workingarea');
         WORKINGAREA.set(this, workingarea);
         workingarea.addEventListener('save', function(event) {
-            let key = workingarea.dataset.key;
-            if (!!key) {
-                let data = workingarea.getData();
+            const key = workingarea.dataset.key;
+            if (key) {
+                const data = workingarea.getData();
                 PATCH.get(this)[key] = data;
-                let e = new Event('save');
+                const e = new Event('save');
                 e.key = key;
                 e.data = data;
                 this.dispatchEvent(e);
@@ -123,20 +157,20 @@ export default class MarkerEdit extends HTMLElement {
             event.preventDefault();
             return false;
         }.bind(this));
-        workingarea.addEventListener('load', function (event) {
-            let key = workingarea.dataset.key;
-            if (!!key) {
+        workingarea.addEventListener('load', function(event) {
+            const key = workingarea.dataset.key;
+            if (key) {
                 workingarea.loadData(this.getData(key));
             }
             event.preventDefault();
             return false;
         }.bind(this));
         workingarea.addEventListener('clear', function(event) {
-            let key = workingarea.dataset.key;
-            if (!!key) {
+            const key = workingarea.dataset.key;
+            if (key) {
                 PATCH.get(this)[key] = undefined;
                 workingarea.loadData(DATA.get(this)[key]);
-                let e = new Event('clear');
+                const e = new Event('clear');
                 e.key = key;
                 this.dispatchEvent(e);
             }
@@ -146,30 +180,30 @@ export default class MarkerEdit extends HTMLElement {
     }
 
     setDetailConfig(config) {
-        let workingarea = WORKINGAREA.get(this);
+        const workingarea = WORKINGAREA.get(this);
         workingarea.setDetailConfig(config);
     }
 
     loadList(config, editable = false) {
-        let container = this.shadowRoot.getElementById("data-list");
+        const container = this.shadowRoot.getElementById("data-list");
         container.innerHTML = "";
         loadList.call(this, config, container, !!editable);
     }
 
     setData(data) {
-        let workingarea = WORKINGAREA.get(this);
+        const workingarea = WORKINGAREA.get(this);
         DATA.set(this, data);
-        let key = workingarea.dataset.logicKey;
-        if (!!key) {
+        const key = workingarea.dataset.logicKey;
+        if (key) {
             workingarea.loadData(this.getData(key));
         }
     }
 
     setPatch(patch) {
-        let workingarea = WORKINGAREA.get(this);
+        const workingarea = WORKINGAREA.get(this);
         PATCH.set(this, patch);
-        let key = workingarea.dataset.key;
-        if (!!key) {
+        const key = workingarea.dataset.key;
+        if (key) {
             workingarea.loadData(this.getData(key));
         }
     }
@@ -179,7 +213,7 @@ export default class MarkerEdit extends HTMLElement {
     }
 
     resetWorkingarea() {
-        let workingarea = WORKINGAREA.get(this);
+        const workingarea = WORKINGAREA.get(this);
         workingarea.dataset.key = "";
         workingarea.loadData();
     }

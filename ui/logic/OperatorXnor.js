@@ -31,14 +31,14 @@ export default class LogicElement extends AbstractElement {
     constructor() {
         super();
         this.shadowRoot.append(TPL.generate());
-        let target0 = this.shadowRoot.getElementById("droptarget0");
-        let target1 = this.shadowRoot.getElementById("droptarget1");
+        const target0 = this.shadowRoot.getElementById("droptarget0");
+        const target1 = this.shadowRoot.getElementById("droptarget1");
         target0.ondragover = AbstractElement.allowDrop;
         target1.ondragover = AbstractElement.allowDrop;
         target0.ondrop = AbstractElement.dropOnPlaceholder.bind(this);
         target1.ondrop = AbstractElement.dropOnPlaceholder.bind(this);
         target1.onclick = target0.onclick = function(event) {
-            let e = new Event('placeholderclicked');
+            const e = new Event('placeholderclicked');
             e.name = event.target.name;
             this.dispatchEvent(e);
             event.stopPropagation();
@@ -47,15 +47,15 @@ export default class LogicElement extends AbstractElement {
 
     calculate(state = {}) {
         let value;
-        let ch = this.children;
-        if (!!ch[0]) {
-            let val = ch[0].calculate(state);
+        const ch = this.children;
+        if (ch[0]) {
+            const val = ch[0].calculate(state);
             if (typeof val != "undefined") {
                 value = +val;
             }
         }
-        if (!!ch[1]) {
-            let val = ch[1].calculate(state);
+        if (ch[1]) {
+            const val = ch[1].calculate(state);
             if (typeof val != "undefined") {
                 value = +(value != +val);
             }
@@ -66,7 +66,7 @@ export default class LogicElement extends AbstractElement {
 
     update() {
         let newValue;
-        let ch = this.children;
+        const ch = this.children;
         if (!!ch[0] && typeof ch[0].value != "undefined") {
             if (!!ch[1] && typeof ch[1].value != "undefined") {
                 newValue = +(!!ch[0].value != !!ch[1].value);
@@ -80,22 +80,22 @@ export default class LogicElement extends AbstractElement {
     toJSON() {
         return {
             type: REFERENCE,
-            el: Array.from(this.children).slice(0,2).map(e => e.toJSON())
+            el: Array.from(this.children).slice(0, 2).map(e => e.toJSON())
         };
     }
 
     loadLogic(logic) {
         if (!!logic && Array.isArray(logic.el)) {
             for (let i = 0; i < logic.el.length && i < 2; ++i) {
-                let ch = logic.el[i];
-                if (!!ch) {
+                const ch = logic.el[i];
+                if (ch) {
                     let cl;
-                    if (!!ch.category) {
+                    if (ch.category) {
                         cl = AbstractElement.getReference(ch.category, ch.type);
                     } else {
                         cl = AbstractElement.getReference(ch.type);
                     }
-                    let el = new cl;
+                    const el = new cl;
                     el.setAttribute("slot", `slot${i}`);
                     el.loadLogic(ch);
                     this.append(el);

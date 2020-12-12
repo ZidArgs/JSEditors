@@ -94,7 +94,7 @@ export default class AbstractElement extends HTMLElement {
 
     getElement(forceCopy = false) {
         if (!!forceCopy || (typeof this.template == "string" && this.template != "false")) {
-            let el = this.cloneNode(true);
+            const el = this.cloneNode(true);
             el.removeAttribute('template');
             return el;
         } else {
@@ -124,14 +124,14 @@ export default class AbstractElement extends HTMLElement {
     
     appendChild(el) {
         if (el instanceof AbstractElement && (typeof this.template != "string" || this.template == "false")) {
-            let r = super.appendChild(el);
+            const r = super.appendChild(el);
             return r;
         }
     }
 
     insertBefore(el, ref) {
         if (el instanceof AbstractElement && (typeof this.template != "string" || this.template == "false")) {
-            let r = super.insertBefore(el, ref);
+            const r = super.insertBefore(el, ref);
             return r;
         }
     }
@@ -163,7 +163,7 @@ export default class AbstractElement extends HTMLElement {
             if (Array.isArray(layout)) {
                 return new LayoutError();
             } else {
-                let el = new (AbstractElement.getReference(layout.type));
+                const el = new (AbstractElement.getReference(layout.type));
                 el.loadLogic(layout);
                 return el;
             }
@@ -172,7 +172,7 @@ export default class AbstractElement extends HTMLElement {
     }
 
     static allowDrop(event) {
-        let el = event.target.getRootNode().host;
+        const el = event.target.getRootNode().host;
         if ((typeof el.readonly != "string" || el.readonly == "false")
         &&  (typeof el.template != "string" || el.template == "false")) {
             event.preventDefault();
@@ -182,13 +182,13 @@ export default class AbstractElement extends HTMLElement {
     }
 
     static dropOnPlaceholder(event) {
-        if (!!event.dataTransfer) {
-            let id = event.dataTransfer.getData("logic-transfer-id");
-            let el = document.getElementById(id);
+        if (event.dataTransfer) {
+            const id = event.dataTransfer.getData("logic-transfer-id");
+            const el = document.getElementById(id);
             if (!!el && el instanceof AbstractElement) {
-                let ne = event.target.getRootNode().host.append(el.getElement(event.ctrlKey));
-                if (!!ne) {
-                    let slot = event.target.parentNode;
+                const ne = event.target.getRootNode().host.append(el.getElement(event.ctrlKey));
+                if (ne) {
+                    const slot = event.target.parentNode;
                     if (slot instanceof HTMLSlotElement && slot.name != null) {
                         ne.setAttribute("slot", slot.name);
                     } else {

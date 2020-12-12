@@ -3,22 +3,22 @@ import "./EditorWindow.js";
 import "./modules/logic/Editor.js";
 import "./modules/properties/Editor.js";
 
-let windowElement = document.getElementById("window");
+const windowElement = document.getElementById("window");
 
 // add logic editor
 !function() {
-    let editor = document.createElement("jse-logic-editor");
+    const editor = document.createElement("jse-logic-editor");
     windowElement.register("Logic", editor);
 }();
 
 // add properties editor
 !function() {
-    let editor = document.createElement("jse-properties-editor");
+    const editor = document.createElement("jse-properties-editor");
     editor.setDetailConfig({
         "type": {
             "title": "Type",
             "type": "choice",
-            "values": ["","area","chest","skulltula","scrub","gossipstone","cow","bean"]
+            "values": ["", "area", "chest", "skulltula", "scrub", "gossipstone", "cow", "bean"]
         },
         "access": {
             "title": "Logic reference",
@@ -33,7 +33,7 @@ let windowElement = document.getElementById("window");
                 "caption": "default",
                 "children": [{
                     "type": "jse-logic-true"
-                },{
+                }, {
                     "type": "jse-logic-false"
                 }]
             }]
