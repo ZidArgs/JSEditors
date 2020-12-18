@@ -30,13 +30,6 @@ const MAIN_NAV = [{
     }
 }];
 
-const DEFAULT_NAV = [{
-    "content": "EXIT",
-    "handler": () => {
-        CHOICE.closeCurrent();
-    }
-}];
-
 const NAVI = new WeakMap();
 const CHOICE = new WeakMap();
 const PANELS = new WeakMap();
@@ -54,7 +47,12 @@ function onChoice(event) {
         if (data.navigation != null) {
             NAVI.get(this).loadNavigation(data.navigation);
         } else {
-            NAVI.get(this).loadNavigation(DEFAULT_NAV);
+            NAVI.get(this).loadNavigation([{
+                "content": "EXIT",
+                "handler": () => {
+                    CHOICE.get(this).closeCurrent();
+                }
+            }]);
         }
     }
 }
