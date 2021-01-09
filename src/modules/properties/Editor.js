@@ -1,102 +1,69 @@
 import Template from "/emcJS/util/Template.js";
-
 import "/emcJS/ui/container/CaptionPanel.js";
 import "/emcJS/ui/container/CollapsePanel.js";
 import "/emcJS/ui/FilteredList.js";
-import "../properties/panels/Workingarea.js";
+
+import "./panels/Workingarea.js";
 
 const TPL = new Template(`
 <style>
-    * {
-        position: relative;
-        box-sizing: border-box;
-    }
     :host {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        flex: 1;
+        max-width: 100%;
+        max-height: 100%;
+        padding: 5px;
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
+        background-color: #111;
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: 
+        "list workingarea";
+        grid-column-gap: 5px;
+        grid-row-gap: 5px;
+    }
+    #list-panel {
+        grid-area: list;
+    }
+    #list-panel #data-list {
+        border: none;
+        height: 100%;
+        --list-color-back: #000;
+        --list-color-border: #777;
+        --list-color-hover: #000;
+        --list-color-front: #fff;
+    }
+    #workingarea-panel {
+        grid-area: workingarea;
+    }
+    #workingarea {
+        height: 100%;
+    }
+    .listitem {
+        border: solid 1px #fff;
+        background-color: #000;
+        color: #fff;
+        padding: 10px;
+        margin: 5px;
+        border-radius: 10px;
+        cursor: pointer;
         overflow: hidden;
     }
-    .placeholder {
-        display: table;
-        margin: 5px;
-        padding: 5px 20px;
-        color: black;
-        background-color: lightgray;
-        border: 1px solid gray;
-        font-weight: bold;
-    }
-    #button-container {
-        display: flex;
-        align-items: center;
-        top: 0;
-        padding: 6px 0;
-        background-color: #777;
+    .listitem .button {
         color: #fff;
-    }
-    .button {
-        padding: 2px;
-        margin: 0 4px;
-        background: white;
-        color: black;
+        width: 16px;
+        height: 16px;
         cursor: pointer;
-    }
-    .button:hover {
-        background: black;
-        color: white;
-    }
-    #details {
-        display: block;
-        flex: 1;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-    label {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        margin: 10px 5px;
-        padding: 5px;
-    }
-    label:hover {
-        background-color: rgba(255,255,255,0.1);
-    }
-    label span {
-        display: inline-block;
-        flex: 1;
-        min-width: 300px;
-        max-width: 500px;
-        height: 18px;
-        margin-bottom: 5px;
-    }
-    input[type="text"],
-    input[type="number"],
-    select {
-        flex-grow: 0;
-        flex-shrink: 0;
-        height: 30px;
-        padding: 0px 5px;
-        font-size: inherit;
+        overflow: hidden;
     }
 </style>
 <emc-captionpanel id="list-panel" caption="entries">
-    <emc-filteredlist>
-        <emc-collapsepanel caption="areas"></emc-collapsepanel>
-        <emc-collapsepanel caption="exits"></emc-collapsepanel>
-        <emc-collapsepanel caption="locations"></emc-collapsepanel>
-    </emc-filteredlist>
+    <emc-filteredlist id="data-list"></emc-filteredlist>
 </emc-captionpanel>
 <emc-captionpanel id="workingarea-panel" caption="properties">
-    <div id="button-container" class="hidden">
-        <span id="save" class="button">save</span>
-        <span id="load" class="button">load</span>
-        <span id="clear" class="button">reset</span>
-    </div>
-    <jse-properties-workingarea id="area-details" class="hidden" visualize="true"></jse-properties-workingarea>
-    <jse-properties-workingarea id="exit-details" class="hidden" visualize="true"></jse-properties-workingarea>
-    <jse-properties-workingarea id="location-details" class="hidden" visualize="true"></jse-properties-workingarea>
+    <jse-properties-workingarea id="workingarea" visualize="true"></jse-properties-workingarea>
 </emc-captionpanel>
 `);
 
@@ -104,37 +71,76 @@ const WORKINGAREA = new WeakMap();
 const DATA = new WeakMap();
 const PATCH = new WeakMap();
 
-function loadList(config, container, loadData) {
-    for (const item of config) {
-        if (item.type === "group") {
+function loadList(config, container, editable) {
+    for (const data of config) {
+        if (data.type === "group") {
             const cnt = document.createElement("jse-collapsepanel");
-            cnt.caption = item.caption;
-            loadList(item.children, cnt, loadData);
+            cnt.caption = data.caption;
+            loadList.call(this, data.children, cnt, editable);
             container.append(cnt);
         } else {
             const el = document.createElement("div");
-            el.dataset.ref = item.ref;
-            el.dataset.cat = item.category;
-            el.dataset.type = item.type;
+            el.dataset.ref = data.ref;
+            el.dataset.cat = data.category;
+            el.dataset.type = data.type;
             el.className = "listitem";
-            el.onclick = loadData;
-            el.innerHTML = item.content;
+            el.onclick = loadData.bind(this);
+            el.innerHTML = data.content;
             el.dataset.filtervalue = el.innerHTML;
-            if (item["icon"] != null) {
+            if (data["icon"] != null) {
                 const img = document.createElement("img");
-                img.src = item.icon;
+                img.src = data.icon;
                 img.style.height = "16px";
                 img.style.margin = "0 8px";
                 img.style.verticalAlign = "bottom";
                 img.style.pointerEvents = "none";
                 el.append(img);
             }
+            if (editable) {
+                const edt = document.createElement("div");
+                edt.onclick = editEntry.bind(this);
+                edt.innerHTML = "✎";
+                edt.className = "button";
+                el.append(edt);
+                const rmv = document.createElement("div");
+                rmv.onclick = removeEntry.bind(this);
+                rmv.innerHTML = "🗑";
+                rmv.className = "button";
+                el.append(rmv);
+            }
             container.append(el);
         }
     }
+    if (editable) {
+        const el = document.createElement("div");
+        el.className = "listitem";
+        el.onclick = addEntry.bind(this);
+        el.innerHTML = "+ Add Entry";
+        container.append(el);
+    }
 }
 
-export default class MarkerEdit extends HTMLElement {
+async function addEntry(event) {
+    // TODO
+}
+
+async function removeEntry(event) {
+    // TODO
+}
+
+async function editEntry(event) {
+    // TODO
+}
+
+async function loadData(event) {
+    const workingarea = WORKINGAREA.get(this);
+    const ref = event.target.dataset.ref;
+    workingarea.dataset.key = ref;
+    workingarea.loadData(this.getData(ref));
+    this.shadowRoot.getElementById("workingarea-panel").caption = ref;
+}
+
+class Editor extends HTMLElement {
 
     constructor() {
         super();
@@ -212,7 +218,7 @@ export default class MarkerEdit extends HTMLElement {
         return PATCH.get(this)[ref] || DATA.get(this)[ref];
     }
 
-    resetWorkingarea() {
+    reset() {
         const workingarea = WORKINGAREA.get(this);
         workingarea.dataset.key = "";
         workingarea.loadData();
@@ -220,4 +226,4 @@ export default class MarkerEdit extends HTMLElement {
 
 }
 
-customElements.define('jse-world-markeredit', MarkerEdit);
+customElements.define('jse-properties-editor', Editor);

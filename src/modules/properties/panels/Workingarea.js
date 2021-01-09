@@ -162,6 +162,8 @@ export default class Workingarea extends HTMLElement {
                 res[ref] = !!el.checked;
             } else if (el.getAttribute("type") === "logic") {
                 res[ref] = el.getLogic();
+            } else if (el.getAttribute("type") === "list") {
+                res[ref] = el.serialize();
             } else {
                 res[ref] = el.value;
             }
@@ -179,6 +181,8 @@ export default class Workingarea extends HTMLElement {
                     el.checked = !!data[ref];
                 } else if (el.getAttribute("type") === "logic") {
                     el.setLogic(data[ref]);
+                } else if (el.getAttribute("type") === "list") {
+                    el.deserialize(data[ref]);
                 } else {
                     el.value = data[ref];
                 }

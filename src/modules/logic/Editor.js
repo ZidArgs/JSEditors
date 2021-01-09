@@ -39,6 +39,8 @@ const TPL = new Template(`
     :host {
         display: grid;
         flex: 1;
+        max-width: 100%;
+        max-height: 100%;
         padding: 5px;
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -261,7 +263,7 @@ class Editor extends HTMLElement {
         return PATCH.get(this)[ref] || DATA.get(this)[ref];
     }
 
-    resetWorkingarea() {
+    reset() {
         const workingarea = WORKINGAREA.get(this);
         workingarea.dataset.type = "";
         workingarea.dataset.key = "";

@@ -175,7 +175,7 @@ class Editor extends HTMLElement {
         return PATCH.get(this)[ref] || DATA.get(this)[ref];
     }
 
-    resetWorkingarea() {
+    reset() {
         const workingarea = WORKINGAREA.get(this);
         workingarea.dataset.key = "";
         workingarea.loadData();

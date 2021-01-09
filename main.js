@@ -10,7 +10,7 @@ if (process.argv.indexOf('-debug') >= 1) {
 }
 
 const MODULE_PATHS = {
-    emcJS: "../node_modules/emcjs/"
+    emcJS: "../node_modules/emcjs/src/"
 };
 
 function fileExists(filename) {
@@ -24,9 +24,9 @@ function fileExists(filename) {
 }
 
 if (process.argv.indexOf('-nolocal') < 0) {
-    const emcJS = path.resolve(__dirname, '../emcJS');
+    const emcJS = path.resolve(__dirname, '../emcJS/src');
     if (fileExists(emcJS)) {
-        MODULE_PATHS.emcJS = '../emcJS/';
+        MODULE_PATHS.emcJS = '../emcJS/src/';
     }
 }
 

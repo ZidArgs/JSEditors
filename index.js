@@ -1,7 +1,7 @@
-import "./EditorWindow.js";
+import "./src/EditorWindow.js";
 
-import "./modules/logic/Editor.js";
-import "./modules/properties/Editor.js";
+import "./src/modules/logic/Editor.js";
+import "./src/modules/properties/Editor.js";
 
 const windowElement = document.getElementById("window");
 
