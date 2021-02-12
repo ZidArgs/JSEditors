@@ -1,7 +1,7 @@
 {
   "name": "jseditors",
   "author": "Denis Peters (ZidArgs)",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "JavaScript based editors",
   "license": "UNLICENSED",
   "main": "main.js",
@@ -14,7 +14,7 @@
     "test": "electron  --inspect=7777 . --no-sandbox"
   },
   "dependencies": {
-    "emcjs": "git+https://bitbucket.org/zidargs/emcjs.git#0.3.5"
+    "emcjs": "git+https://bitbucket.org/zidargs/emcjs.git#0.3.18"
   },
   "devDependencies": {
     "electron": "^10.1.1"

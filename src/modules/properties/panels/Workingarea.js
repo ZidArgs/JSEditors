@@ -267,7 +267,7 @@ function createListSelectInput(label, ref, values) {
     const input = document.createElement("emc-listselect");
     input.className = "settings-input";
     input.setAttribute("type", "list");
-    input.multimode = true;
+    input.multiple = true;
     input.dataset.ref = ref;
     for (const value of values) {
         const opt = document.createElement('emc-option');
