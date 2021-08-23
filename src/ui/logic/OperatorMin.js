@@ -1,4 +1,4 @@
-import Template from "/emcJS/util/Template.js";
+import Template from "/emcJS/util/html/Template.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "MIN";

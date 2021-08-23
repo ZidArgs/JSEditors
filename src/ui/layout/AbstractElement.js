@@ -1,4 +1,4 @@
-import Template from "../../../util/Template.js";
+import Template from "../../../util/html/Template.js";
 import UGen from "../../../util/UniqueGenerator.js";
 
 const TPL = new Template(`

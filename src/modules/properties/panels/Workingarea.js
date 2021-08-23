@@ -1,4 +1,4 @@
-import Template from "/emcJS/util/Template.js";
+import Template from "/emcJS/util/html/Template.js";
 
 import "/emcJS/ui/input/ListSelect.js";
 import "/emcJS/ui/input/SearchSelect.js";

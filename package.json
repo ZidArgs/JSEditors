@@ -14,7 +14,7 @@
     "test": "electron  --inspect=7777 . --no-sandbox"
   },
   "dependencies": {
-    "emcjs": "git+https://bitbucket.org/zidargs/emcjs.git#0.3.18"
+    "emcjs": "git+https://bitbucket.org/zidargs/emcjs.git#0.4.4"
   },
   "devDependencies": {
     "electron": "^10.1.1"

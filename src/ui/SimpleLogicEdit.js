@@ -1,4 +1,4 @@
-import Template from "/emcJS/util/Template.js";
+import Template from "/emcJS/util/html/Template.js";
 import DragDropMemory from "/emcJS/util/DragDropMemory.js";
 import "/emcJS/ui/container/CollapsePanel.js";
 import "/emcJS/ui/FilteredList.js";
