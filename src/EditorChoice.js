@@ -42,7 +42,7 @@ export default class EditorChoice extends HTMLElement {
     constructor() {
         super();
         CURRENT.set(this, null);
-        this.attachShadow({mode: 'open'});
+        this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
     }
 
@@ -51,7 +51,7 @@ export default class EditorChoice extends HTMLElement {
         if (current != null) {
             current.removeAttribute("slot");
         }
-        const ev = new Event('choice');
+        const ev = new Event("choice");
         ev.app = "";
         this.dispatchEvent(ev);
     }
@@ -61,7 +61,7 @@ export default class EditorChoice extends HTMLElement {
         const el = document.createElement("DIV");
         el.innerHTML = name;
         el.addEventListener("click", event => {
-            const ev = new Event('choice');
+            const ev = new Event("choice");
             ev.app = name;
             this.dispatchEvent(ev);
             const current = CURRENT.get(this);
@@ -76,4 +76,4 @@ export default class EditorChoice extends HTMLElement {
 
 }
 
-customElements.define('jse-choice', EditorChoice);
+customElements.define("jse-choice", EditorChoice);

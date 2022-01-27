@@ -10,13 +10,19 @@
     "url": "git+ssh://git@bitbucket.org/zidargs/jseditors.git"
   },
   "homepage": "https://bitbucket.org/zidargs/jseditors/src",
-  "scripts": {
-    "test": "electron  --inspect=7777 . --no-sandbox"
-  },
   "dependencies": {
-    "emcjs": "git+https://bitbucket.org/zidargs/emcjs.git#0.4.4"
+    "emcjs": "git+https://bitbucket.org/zidargs/emcjs.git#0.4.4",
+    "electron": "^10.1.1"
   },
   "devDependencies": {
-    "electron": "^10.1.1"
+    "@babel/core": "^7.16.10",
+    "@babel/eslint-parser": "^7.16.5",
+    "@babel/plugin-syntax-top-level-await": "^7.14.5",
+		"eslint": "^8.0.0"
+  },
+  "scripts": {
+    "test": "electron  --inspect=7777 . --no-sandbox",
+    "lint": "yarn eslint ./",
+    "lintfix": "yarn eslint --fix ./"
   }
 }

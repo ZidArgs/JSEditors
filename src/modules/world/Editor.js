@@ -81,13 +81,13 @@ class Editor extends HTMLElement {
 
     constructor() {
         super();
-        this.attachShadow({mode: 'open'});
+        this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
         STYLE.apply(this.shadowRoot);
         /* --- */
-        const ctgrs = this.shadowRoot.getElementById('categories');
+        const ctgrs = this.shadowRoot.getElementById("categories");
         ctgrs.onclick = (event) => {
-            const targetEl = event.target.getAttribute('target');
+            const targetEl = event.target.getAttribute("target");
             if (targetEl) {
                 this.active = targetEl;
                 event.preventDefault();
@@ -108,15 +108,15 @@ class Editor extends HTMLElement {
     }
 
     get active() {
-        return this.getAttribute('active');
+        return this.getAttribute("active");
     }
 
     set active(val) {
-        this.setAttribute('active', val);
+        this.setAttribute("active", val);
     }
 
     static get observedAttributes() {
-        return ['active'];
+        return ["active"];
     }
     
     attributeChangedCallback(name, oldValue, newValue) {
@@ -223,4 +223,4 @@ class Editor extends HTMLElement {
 
 }
 
-customElements.define('jse-world-editor', Editor);
+customElements.define("jse-world-editor", Editor);

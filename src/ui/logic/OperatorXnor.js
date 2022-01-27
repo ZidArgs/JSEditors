@@ -38,7 +38,7 @@ export default class LogicElement extends AbstractElement {
         target0.ondrop = AbstractElement.dropOnPlaceholder.bind(this);
         target1.ondrop = AbstractElement.dropOnPlaceholder.bind(this);
         target1.onclick = target0.onclick = function(event) {
-            const e = new Event('placeholderclicked');
+            const e = new Event("placeholderclicked");
             e.name = event.target.name;
             this.dispatchEvent(e);
             event.stopPropagation();
@@ -60,7 +60,7 @@ export default class LogicElement extends AbstractElement {
                 value = +(value != +val);
             }
         }
-        this.shadowRoot.getElementById('header').setAttribute('value', value);
+        this.shadowRoot.getElementById("header").setAttribute("value", value);
         return value;
     }
 

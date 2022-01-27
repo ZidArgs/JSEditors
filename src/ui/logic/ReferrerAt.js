@@ -31,7 +31,7 @@ export default class LogicElement extends AbstractElement {
         target.ondragover = AbstractElement.allowDrop;
         target.ondrop = AbstractElement.dropOnPlaceholder.bind(this);
         target.onclick = function(event) {
-            const e = new Event('placeholderclicked');
+            const e = new Event("placeholderclicked");
             e.name = event.target.name;
             this.dispatchEvent(e);
             event.stopPropagation();
@@ -45,19 +45,19 @@ export default class LogicElement extends AbstractElement {
     }
 
     get ref() {
-        return this.getAttribute('ref');
+        return this.getAttribute("ref");
     }
 
     set ref(val) {
-        this.setAttribute('ref', val);
+        this.setAttribute("ref", val);
     }
 
     get category() {
-        return this.getAttribute('category');
+        return this.getAttribute("category");
     }
 
     set category(val) {
-        this.setAttribute('category', val);
+        this.setAttribute("category", val);
     }
 
     calculate(state = {}) {
@@ -68,7 +68,7 @@ export default class LogicElement extends AbstractElement {
         } else {
             value = +!!state[this.ref];
         }
-        this.shadowRoot.getElementById('header').setAttribute('value', value);
+        this.shadowRoot.getElementById("header").setAttribute("value", value);
         return value;
     }
 
@@ -97,24 +97,24 @@ export default class LogicElement extends AbstractElement {
 
     static get observedAttributes() {
         const attr = AbstractElement.observedAttributes;
-        attr.push('ref', 'category');
+        attr.push("ref", "category");
         return attr;
     }
       
     attributeChangedCallback(name, oldValue, newValue) {
         super.attributeChangedCallback(name, oldValue, newValue);
         switch (name) {
-            case 'ref':
+            case "ref":
                 if (oldValue != newValue) {
                     this.shadowRoot.getElementById("ref").innerHTML = newValue;
                 }
                 break;
-            case 'category':
+            case "category":
                 if (oldValue != newValue) {
                     if (newValue !== "") {
-                        this.shadowRoot.getElementById('header').innerHTML = `${TPL_CAPTION}(${newValue.toUpperCase()})`;
+                        this.shadowRoot.getElementById("header").innerHTML = `${TPL_CAPTION}(${newValue.toUpperCase()})`;
                     } else {
-                        this.shadowRoot.getElementById('header').innerHTML = TPL_CAPTION;
+                        this.shadowRoot.getElementById("header").innerHTML = TPL_CAPTION;
                     }
                 }
                 break;

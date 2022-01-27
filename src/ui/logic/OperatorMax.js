@@ -33,7 +33,7 @@ export default class LogicElement extends AbstractElement {
         target.ondragover = AbstractElement.allowDrop;
         target.ondrop = AbstractElement.dropOnPlaceholder.bind(this);
         target.onclick = function(event) {
-            const e = new Event('placeholderclicked');
+            const e = new Event("placeholderclicked");
             e.name = event.target.name;
             this.dispatchEvent(e);
             event.stopPropagation();
@@ -45,11 +45,11 @@ export default class LogicElement extends AbstractElement {
     }
 
     get value() {
-        return this.getAttribute('value');
+        return this.getAttribute("value");
     }
 
     set value(val) {
-        this.setAttribute('value', val);
+        this.setAttribute("value", val);
     }
 
     getElement(forceCopy = false) {
@@ -67,7 +67,7 @@ export default class LogicElement extends AbstractElement {
                 value = +(val <= this.shadowRoot.getElementById("input").value);
             }
         }
-        this.shadowRoot.getElementById('header').setAttribute('value', value);
+        this.shadowRoot.getElementById("header").setAttribute("value", value);
         return value;
     }
 
@@ -96,16 +96,16 @@ export default class LogicElement extends AbstractElement {
 
     static get observedAttributes() {
         const attr = AbstractElement.observedAttributes;
-        attr.push('value');
+        attr.push("value");
         return attr;
     }
       
     attributeChangedCallback(name, oldValue, newValue) {
         super.attributeChangedCallback(name, oldValue, newValue);
         switch (name) {
-            case 'readonly':
+            case "readonly":
                 if (oldValue != newValue) {
-                    const input = this.shadowRoot.getElementById('input');
+                    const input = this.shadowRoot.getElementById("input");
                     if (newValue != null) {
                         input.setAttribute("disabled", newValue);
                     } else {
@@ -113,7 +113,7 @@ export default class LogicElement extends AbstractElement {
                     }
                 }
                 break;
-            case 'value':
+            case "value":
                 if (oldValue != newValue) {
                     this.shadowRoot.getElementById("input").value = parseInt(newValue) || 0;
                 }

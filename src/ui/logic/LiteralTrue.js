@@ -24,16 +24,14 @@ export default class LogicElement extends AbstractElement {
     }
 
     calculate(state = {}) {
-        this.shadowRoot.getElementById('header').setAttribute('value', "1");
+        this.shadowRoot.getElementById("header").setAttribute("value", "1");
         return 1;
     }
 
     loadLogic(logic) {}
 
     toJSON() {
-        return {
-            type: REFERENCE
-        };
+        return {type: REFERENCE};
     }
 
 }

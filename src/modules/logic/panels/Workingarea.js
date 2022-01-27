@@ -88,19 +88,19 @@ export default class Workingarea extends HTMLElement {
 
     constructor() {
         super();
-        this.attachShadow({mode: 'open'});
+        this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
-        const target = this.shadowRoot.getElementById('droptarget');
+        const target = this.shadowRoot.getElementById("droptarget");
         target.ondragover = allowDrop;
         target.ondrop = dropOnPlaceholder.bind(this);
-        this.shadowRoot.getElementById('save').addEventListener('click', function(event) {
-            this.dispatchEvent(new Event('save'));
+        this.shadowRoot.getElementById("save").addEventListener("click", function(event) {
+            this.dispatchEvent(new Event("save"));
         }.bind(this));
-        this.shadowRoot.getElementById('load').addEventListener('click', function(event) {
-            this.dispatchEvent(new Event('load'));
+        this.shadowRoot.getElementById("load").addEventListener("click", function(event) {
+            this.dispatchEvent(new Event("load"));
         }.bind(this));
-        this.shadowRoot.getElementById('clear').addEventListener('click', function(event) {
-            this.dispatchEvent(new Event('clear'));
+        this.shadowRoot.getElementById("clear").addEventListener("click", function(event) {
+            this.dispatchEvent(new Event("clear"));
         }.bind(this));
     }
 
@@ -112,7 +112,9 @@ export default class Workingarea extends HTMLElement {
     }
 
     loadData(data) {
-        if (this.children.length) this.removeChild(this.children[0]);
+        if (this.children.length) {
+            this.removeChild(this.children[0]);
+        }
         if (data) {
             this.append(LogicAbstractElement.buildLogic(data));
         }
@@ -126,4 +128,4 @@ export default class Workingarea extends HTMLElement {
 
 }
 
-customElements.define('jse-logic-workingarea', Workingarea);
+customElements.define("jse-logic-workingarea", Workingarea);

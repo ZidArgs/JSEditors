@@ -103,7 +103,7 @@ export default class AbstractElement extends HTMLElement {
         if (new.target === AbstractElement) {
             throw new TypeError("can not construct abstract class");
         }
-        this.attachShadow({mode: 'open'});
+        this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
         ID.set(this, UGen.appUID("logic-element"));
     }
@@ -125,7 +125,7 @@ export default class AbstractElement extends HTMLElement {
     getElement(forceCopy = false) {
         if (!!forceCopy || (typeof this.template == "string" && this.template != "false")) {
             const el = this.cloneNode(true);
-            el.removeAttribute('template');
+            el.removeAttribute("template");
             return el;
         } else {
             return this;
@@ -199,15 +199,15 @@ export default class AbstractElement extends HTMLElement {
     }
 
     get template() {
-        return this.getAttribute('template');
+        return this.getAttribute("template");
     }
 
     set template(val) {
-        this.setAttribute('template', val);
+        this.setAttribute("template", val);
     }
 
     get value() {
-        const val = this.getAttribute('value');
+        const val = this.getAttribute("value");
         if (val == null) {
             return undefined;
         }
@@ -217,32 +217,38 @@ export default class AbstractElement extends HTMLElement {
     set value(val) {
         const hdr = this.shadowRoot.querySelector(".header");
         if (typeof val == "undefined") {
-            this.removeAttribute('value');
-            if (hdr) delete hdr.dataset.value;
+            this.removeAttribute("value");
+            if (hdr) {
+                delete hdr.dataset.value;
+            }
         } else if (typeof val == "boolean") {
-            this.setAttribute('value', +val);
-            if (hdr) hdr.dataset.value = +val;
+            this.setAttribute("value", +val);
+            if (hdr) {
+                hdr.dataset.value = +val;
+            }
         } else {
-            this.setAttribute('value', parseInt(val) || 0);
-            if (hdr) hdr.dataset.value = parseInt(val) || 0;
+            this.setAttribute("value", parseInt(val) || 0);
+            if (hdr) {
+                hdr.dataset.value = parseInt(val) || 0;
+            }
         }
     }
 
     get readonly() {
-        return this.getAttribute('readonly');
+        return this.getAttribute("readonly");
     }
 
     set readonly(val) {
-        this.setAttribute('readonly', val);
+        this.setAttribute("readonly", val);
     }
 
     static get observedAttributes() {
-        return ['readonly', 'value', 'visualize'];
+        return ["readonly", "value", "visualize"];
     }
       
     attributeChangedCallback(name, oldValue, newValue) {
         switch (name) {
-            case 'readonly':
+            case "readonly":
                 if (oldValue != newValue) {
                     if (newValue === null || newValue == "false") {
                         this.setAttribute("draggable", "true");
@@ -254,14 +260,14 @@ export default class AbstractElement extends HTMLElement {
                     }
                 }
                 break;
-            case 'value':
+            case "value":
                 if (oldValue != newValue) {
-                    const event = new Event('update');
+                    const event = new Event("update");
                     event.value = this.value;
                     this.dispatchEvent(event);
                 }
                 break;
-            case 'visualize':
+            case "visualize":
                 if (oldValue != newValue) {
                     for (const ch of this.children) {
                         ch.visualize = newValue;
@@ -385,7 +391,7 @@ class LogicError extends AbstractElement {
             type = "UNKNOWN TYPE";
         }
         if (logic.category) {
-            this.shadowRoot.getElementById('ref').innerHTML = `${type}(${logic.category.toUpperCase()})`;
+            this.shadowRoot.getElementById("ref").innerHTML = `${type}(${logic.category.toUpperCase()})`;
         } else {
             this.shadowRoot.getElementById("ref").innerHTML = type;
         }
@@ -393,4 +399,4 @@ class LogicError extends AbstractElement {
 
 }
 
-customElements.define('jse-logic-error', LogicError);
+customElements.define("jse-logic-error", LogicError);

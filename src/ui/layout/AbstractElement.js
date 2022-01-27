@@ -75,7 +75,7 @@ export default class AbstractElement extends HTMLElement {
         if (new.target === AbstractElement) {
             throw new TypeError("can not construct abstract class");
         }
-        this.attachShadow({mode: 'open'});
+        this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
         ID.set(this, UGen.appUID("layout-element"));
     }
@@ -95,7 +95,7 @@ export default class AbstractElement extends HTMLElement {
     getElement(forceCopy = false) {
         if (!!forceCopy || (typeof this.template == "string" && this.template != "false")) {
             const el = this.cloneNode(true);
-            el.removeAttribute('template');
+            el.removeAttribute("template");
             return el;
         } else {
             return this;
@@ -137,11 +137,11 @@ export default class AbstractElement extends HTMLElement {
     }
 
     get template() {
-        return this.getAttribute('template');
+        return this.getAttribute("template");
     }
 
     set template(val) {
-        this.setAttribute('template', val);
+        this.setAttribute("template", val);
     }
 
     static registerReference(ref, clazz) {
@@ -235,4 +235,4 @@ class LayoutError extends AbstractElement {
 
 }
 
-customElements.define('emc-layout-error', LayoutError);
+customElements.define("emc-layout-error", LayoutError);

@@ -26,36 +26,36 @@ export default class LogicElement extends AbstractElement {
     }
 
     get ref() {
-        return this.getAttribute('ref');
+        return this.getAttribute("ref");
     }
 
     set ref(val) {
-        this.setAttribute('ref', val);
+        this.setAttribute("ref", val);
     }
 
     get value() {
-        return this.getAttribute('value');
+        return this.getAttribute("value");
     }
 
     set value(val) {
-        this.setAttribute('value', val);
+        this.setAttribute("value", val);
     }
 
     get category() {
-        return this.getAttribute('category');
+        return this.getAttribute("category");
     }
 
     set category(val) {
-        this.setAttribute('category', val);
+        this.setAttribute("category", val);
     }
 
     calculate(state = {}) {
         if (state[this.ref] != null) {
             const val = this.value ? +(state[this.ref] == this.value) : +!!state[this.ref];
-            this.shadowRoot.getElementById('header').setAttribute('value', val);
+            this.shadowRoot.getElementById("header").setAttribute("value", val);
             return val;
         } else {
-            this.shadowRoot.getElementById('header').setAttribute('value', "0");
+            this.shadowRoot.getElementById("header").setAttribute("value", "0");
             return 0;
         }
     }
@@ -85,29 +85,29 @@ export default class LogicElement extends AbstractElement {
 
     static get observedAttributes() {
         const attr = AbstractElement.observedAttributes;
-        attr.push('ref', 'value', 'category');
+        attr.push("ref", "value", "category");
         return attr;
     }
       
     attributeChangedCallback(name, oldValue, newValue) {
         super.attributeChangedCallback(name, oldValue, newValue);
         switch (name) {
-            case 'ref':
+            case "ref":
                 if (oldValue != newValue) {
                     this.shadowRoot.getElementById("ref").innerHTML = newValue;
                 }
                 break;
-            case 'value':
+            case "value":
                 if (oldValue != newValue) {
                     this.shadowRoot.getElementById("value").innerHTML = newValue;
                 }
                 break;
-            case 'category':
+            case "category":
                 if (oldValue != newValue) {
                     if (newValue !== "") {
-                        this.shadowRoot.getElementById('header').innerHTML = `${TPL_CAPTION}(${newValue.toUpperCase()})`;
+                        this.shadowRoot.getElementById("header").innerHTML = `${TPL_CAPTION}(${newValue.toUpperCase()})`;
                     } else {
-                        this.shadowRoot.getElementById('header').innerHTML = TPL_CAPTION;
+                        this.shadowRoot.getElementById("header").innerHTML = TPL_CAPTION;
                     }
                 }
                 break;

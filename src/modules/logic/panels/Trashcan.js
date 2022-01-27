@@ -48,7 +48,7 @@ export default class Trashcan extends HTMLElement {
 
     constructor() {
         super();
-        this.attachShadow({mode: 'open'});
+        this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
         this.ondragover = allowDrop;
         this.ondrop = dropOnPlaceholder.bind(this);
@@ -56,4 +56,4 @@ export default class Trashcan extends HTMLElement {
 
 }
 
-customElements.define('jse-logic-trashcan', Trashcan);
+customElements.define("jse-logic-trashcan", Trashcan);

@@ -25,28 +25,28 @@ export default class LogicElement extends AbstractElement {
     }
 
     get ref() {
-        return this.getAttribute('ref');
+        return this.getAttribute("ref");
     }
 
     set ref(val) {
-        this.setAttribute('ref', val);
+        this.setAttribute("ref", val);
     }
 
     get category() {
-        return this.getAttribute('category');
+        return this.getAttribute("category");
     }
 
     set category(val) {
-        this.setAttribute('category', val);
+        this.setAttribute("category", val);
     }
 
     calculate(state = {}) {
         if (state[this.ref] != null) {
             const val = +!!state[this.ref];
-            this.shadowRoot.getElementById('header').setAttribute('value', val);
+            this.shadowRoot.getElementById("header").setAttribute("value", val);
             return val;
         }
-        this.shadowRoot.getElementById('header').setAttribute('value', "0");
+        this.shadowRoot.getElementById("header").setAttribute("value", "0");
         return 0;
     }
 
@@ -72,24 +72,24 @@ export default class LogicElement extends AbstractElement {
 
     static get observedAttributes() {
         const attr = AbstractElement.observedAttributes;
-        attr.push('ref', 'category');
+        attr.push("ref", "category");
         return attr;
     }
       
     attributeChangedCallback(name, oldValue, newValue) {
         super.attributeChangedCallback(name, oldValue, newValue);
         switch (name) {
-            case 'ref':
+            case "ref":
                 if (oldValue != newValue) {
                     this.shadowRoot.getElementById("ref").innerHTML = newValue;
                 }
                 break;
-            case 'category':
+            case "category":
                 if (oldValue != newValue) {
                     if (newValue !== "") {
-                        this.shadowRoot.getElementById('header').innerHTML = `${TPL_CAPTION}(${newValue.toUpperCase()})`;
+                        this.shadowRoot.getElementById("header").innerHTML = `${TPL_CAPTION}(${newValue.toUpperCase()})`;
                     } else {
-                        this.shadowRoot.getElementById('header').innerHTML = TPL_CAPTION;
+                        this.shadowRoot.getElementById("header").innerHTML = TPL_CAPTION;
                     }
                 }
                 break;

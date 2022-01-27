@@ -68,9 +68,9 @@ export default class Clipboard extends HTMLElement {
 
     constructor() {
         super();
-        this.attachShadow({mode: 'open'});
+        this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
-        const target = this.shadowRoot.getElementById('droptarget');
+        const target = this.shadowRoot.getElementById("droptarget");
         target.ondragover = allowDrop;
         target.ondrop = dropOnPlaceholder.bind(this);
     }
@@ -90,4 +90,4 @@ export default class Clipboard extends HTMLElement {
 
 }
 
-customElements.define('jse-logic-clipboard', Clipboard);
+customElements.define("jse-logic-clipboard", Clipboard);

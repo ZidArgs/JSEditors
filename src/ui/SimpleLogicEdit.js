@@ -160,12 +160,12 @@ class Editor extends HTMLElement {
 
     constructor() {
         super();
-        this.attachShadow({mode: 'open'});
+        this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
         const trashcan = this.shadowRoot.getElementById("trashcan");
         trashcan.ondragover = allowDrop;
         trashcan.ondrop = dropOnTrash.bind(this);
-        const target = this.shadowRoot.getElementById('droptarget');
+        const target = this.shadowRoot.getElementById("droptarget");
         target.ondragover = allowDrop;
         target.ondrop = dropOnPlaceholder.bind(this);
     }
@@ -177,7 +177,9 @@ class Editor extends HTMLElement {
     }
 
     setLogic(logic) {
-        if (this.children.length) this.removeChild(this.children[0]);
+        if (this.children.length) {
+            this.removeChild(this.children[0]);
+        }
         if (logic != null) {
             this.append(LogicAbstractElement.buildLogic(logic));
         }
@@ -192,4 +194,4 @@ class Editor extends HTMLElement {
 
 }
 
-customElements.define('jse-simplelogiceditor', Editor);
+customElements.define("jse-simplelogiceditor", Editor);

@@ -102,16 +102,16 @@ export default class Workingarea extends HTMLElement {
 
     constructor() {
         super();
-        this.attachShadow({mode: 'open'});
+        this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
-        this.shadowRoot.getElementById('save').addEventListener('click', function(event) {
-            this.dispatchEvent(new Event('save'));
+        this.shadowRoot.getElementById("save").addEventListener("click", function(event) {
+            this.dispatchEvent(new Event("save"));
         }.bind(this));
-        this.shadowRoot.getElementById('load').addEventListener('click', function(event) {
-            this.dispatchEvent(new Event('load'));
+        this.shadowRoot.getElementById("load").addEventListener("click", function(event) {
+            this.dispatchEvent(new Event("load"));
         }.bind(this));
-        this.shadowRoot.getElementById('clear').addEventListener('click', function(event) {
-            this.dispatchEvent(new Event('clear'));
+        this.shadowRoot.getElementById("clear").addEventListener("click", function(event) {
+            this.dispatchEvent(new Event("clear"));
         }.bind(this));
     }
 
@@ -192,7 +192,7 @@ export default class Workingarea extends HTMLElement {
 
 }
 
-customElements.define('jse-properties-workingarea', Workingarea);
+customElements.define("jse-properties-workingarea", Workingarea);
 
 function createStringInput(label, ref) {
     const el = generateField(label);
@@ -252,7 +252,7 @@ function createChoiceInput(label, ref, values) {
     input.className = "settings-input";
     input.setAttribute("type", "input");
     for (const value of values) {
-        const opt = document.createElement('option');
+        const opt = document.createElement("option");
         opt.value = value;
         opt.innerHTML = value;
         input.append(opt);
@@ -270,7 +270,7 @@ function createListSelectInput(label, ref, values) {
     input.multiple = true;
     input.dataset.ref = ref;
     for (const value of values) {
-        const opt = document.createElement('emc-option');
+        const opt = document.createElement("emc-option");
         opt.value = value;
         opt.innerHTML = value;
         input.append(opt);
@@ -286,7 +286,7 @@ function createSearchSelectInput(label, ref, values) {
     input.setAttribute("type", "select");
     input.dataset.ref = ref;
     for (const value of values) {
-        const opt = document.createElement('emc-option');
+        const opt = document.createElement("emc-option");
         opt.value = value;
         opt.innerHTML = value;
         input.append(opt);

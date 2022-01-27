@@ -103,16 +103,16 @@ class Editor extends HTMLElement {
         super();
         DATA.set(this, {});
         PATCH.set(this, {});
-        this.attachShadow({mode: 'open'});
+        this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
-        const workingarea = this.shadowRoot.getElementById('workingarea');
+        const workingarea = this.shadowRoot.getElementById("workingarea");
         WORKINGAREA.set(this, workingarea);
-        workingarea.addEventListener('save', function(event) {
+        workingarea.addEventListener("save", function(event) {
             const key = workingarea.dataset.key;
             if (key) {
                 const data = workingarea.getData();
                 PATCH.get(this)[key] = data;
-                const e = new Event('save');
+                const e = new Event("save");
                 e.key = key;
                 e.data = data;
                 this.dispatchEvent(e);
@@ -120,7 +120,7 @@ class Editor extends HTMLElement {
             event.preventDefault();
             return false;
         }.bind(this));
-        workingarea.addEventListener('load', function(event) {
+        workingarea.addEventListener("load", function(event) {
             const key = workingarea.dataset.key;
             if (key) {
                 workingarea.loadData(this.getData(key));
@@ -128,12 +128,12 @@ class Editor extends HTMLElement {
             event.preventDefault();
             return false;
         }.bind(this));
-        workingarea.addEventListener('clear', function(event) {
+        workingarea.addEventListener("clear", function(event) {
             const key = workingarea.dataset.key;
             if (key) {
                 PATCH.get(this)[key] = undefined;
                 workingarea.loadData(DATA.get(this)[key]);
-                const e = new Event('clear');
+                const e = new Event("clear");
                 e.key = key;
                 this.dispatchEvent(e);
             }
@@ -183,4 +183,4 @@ class Editor extends HTMLElement {
 
 }
 
-customElements.define('jse-map-editor', Editor);
+customElements.define("jse-map-editor", Editor);

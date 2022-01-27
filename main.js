@@ -1,32 +1,28 @@
-const { app, protocol, BrowserWindow } = require('electron');
-const fs = require('fs');
+const {app, protocol, BrowserWindow} = require("electron");
+const fs = require("fs");
 const path = require("path");
 
-const OPTIONS = {
-    debug: false
-};
-if (process.argv.indexOf('-debug') >= 1) {
+const OPTIONS = {debug: false};
+if (process.argv.indexOf("-debug") >= 1) {
     OPTIONS.debug = true;
 }
 
-const MODULE_PATHS = {
-    emcJS: "../node_modules/emcjs/src/"
-};
+const MODULE_PATHS = {emcJS: "../node_modules/emcjs/src/"};
 
 function fileExists(filename) {
     try {
         fs.accessSync(filename);
         return true;
-    } catch(err) {
+    } catch (err) {
         console.error(err);
         return false;
     }
 }
 
-if (process.argv.indexOf('-nolocal') < 0) {
-    const emcJS = path.resolve(__dirname, '../emcJS/src');
+if (process.argv.indexOf("-nolocal") < 0) {
+    const emcJS = path.resolve(__dirname, "../emcJS/src");
     if (fileExists(emcJS)) {
-        MODULE_PATHS.emcJS = '../emcJS/src/';
+        MODULE_PATHS.emcJS = "../emcJS/src/";
     }
 }
 
@@ -58,18 +54,18 @@ function createWindow() {
     if (OPTIONS.debug) {
         win.toggleDevTools();
     }
-    win.once('ready-to-show', () => {
+    win.once("ready-to-show", () => {
         win.show();
     });
-    win.on('closed', () => {
+    win.on("closed", () => {
         app.quit();
     });
 }
 
-app.on('ready', createWindow);
+app.on("ready", createWindow);
 
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
+app.on("window-all-closed", () => {
+    if (process.platform !== "darwin") {
         app.quit();
     }
 });

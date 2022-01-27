@@ -6,13 +6,13 @@ import "./src/modules/properties/Editor.js";
 const windowElement = document.getElementById("window");
 
 // add logic editor
-!function() {
+(function() {
     const editor = document.createElement("jse-logic-editor");
     windowElement.register("Logic", editor);
-}();
+})();
 
 // add properties editor
-!function() {
+(function() {
     const editor = document.createElement("jse-properties-editor");
     editor.setDetailConfig({
         "type": {
@@ -31,13 +31,9 @@ const windowElement = document.getElementById("window");
             "operators": [{
                 "type": "group",
                 "caption": "default",
-                "children": [{
-                    "type": "jse-logic-true"
-                }, {
-                    "type": "jse-logic-false"
-                }]
+                "children": [{"type": "jse-logic-true"}, {"type": "jse-logic-false"}]
             }]
         }
     });
     windowElement.register("Properties", editor);
-}();
+})();

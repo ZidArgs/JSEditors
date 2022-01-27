@@ -61,14 +61,14 @@ export default class EditorWindow extends HTMLElement {
 
     constructor() {
         super();
-        this.attachShadow({mode: 'open'});
+        this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
 
-        const navi = document.createElement('emc-navbar');
+        const navi = document.createElement("emc-navbar");
         navi.loadNavigation(MAIN_NAV);
         NAVI.set(this, navi);
 
-        const choice = document.createElement('jse-choice');
+        const choice = document.createElement("jse-choice");
         choice.addEventListener("choice", onChoice.bind(this));
         CHOICE.set(this, choice);
 
@@ -99,4 +99,4 @@ export default class EditorWindow extends HTMLElement {
 
 }
 
-customElements.define('jse-window', EditorWindow);
+customElements.define("jse-window", EditorWindow);
