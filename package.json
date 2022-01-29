@@ -21,8 +21,8 @@
     "electron": "^10.1.1"
   },
   "scripts": {
-    "lint": "yarn eslint ./",
-    "lintfix": "yarn eslint --fix ./",
+    "lint": "yarn eslint .",
+    "lintfix": "yarn eslint --fix .",
     "test": "electron  --inspect=7777 . --no-sandbox"
   }
 }
