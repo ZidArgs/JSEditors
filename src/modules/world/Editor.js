@@ -118,7 +118,7 @@ class Editor extends HTMLElement {
     static get observedAttributes() {
         return ["active"];
     }
-    
+
     attributeChangedCallback(name, oldValue, newValue) {
         if (oldValue != newValue) {
             if (oldValue) {

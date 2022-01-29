@@ -159,7 +159,7 @@ export default class AbstractElement extends HTMLElement {
             this.insertBefore(el, this.firstChild);
         }
     }
-    
+
     appendChild(el) {
         if (el instanceof AbstractElement && (typeof this.template != "string" || this.template == "false")) {
             const r = super.appendChild(el);
@@ -245,7 +245,7 @@ export default class AbstractElement extends HTMLElement {
     static get observedAttributes() {
         return ["readonly", "value", "visualize"];
     }
-      
+
     attributeChangedCallback(name, oldValue, newValue) {
         switch (name) {
             case "readonly":

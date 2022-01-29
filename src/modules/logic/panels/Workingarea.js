@@ -119,7 +119,7 @@ export default class Workingarea extends HTMLElement {
             this.append(LogicAbstractElement.buildLogic(data));
         }
     }
-    
+
     append(el) {
         if (el instanceof LogicAbstractElement && (typeof this.template != "string" || this.template == "false")) {
             return super.append(el);

@@ -81,7 +81,7 @@ export default class Clipboard extends HTMLElement {
             return el.toJSON();
         }
     }
-    
+
     append(el) {
         if (el instanceof LogicAbstractElement && (typeof this.template != "string" || this.template == "false")) {
             return super.append(el);

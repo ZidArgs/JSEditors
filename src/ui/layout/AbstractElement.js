@@ -121,7 +121,7 @@ export default class AbstractElement extends HTMLElement {
             this.insertBefore(el, this.firstChild);
         }
     }
-    
+
     appendChild(el) {
         if (el instanceof AbstractElement && (typeof this.template != "string" || this.template == "false")) {
             const r = super.appendChild(el);

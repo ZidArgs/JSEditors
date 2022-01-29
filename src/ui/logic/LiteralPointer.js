@@ -78,7 +78,7 @@ export default class LogicElement extends AbstractElement {
         attr.push("ref", "category");
         return attr;
     }
-      
+
     attributeChangedCallback(name, oldValue, newValue) {
         super.attributeChangedCallback(name, oldValue, newValue);
         switch (name) {
