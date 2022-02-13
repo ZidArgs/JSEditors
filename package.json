@@ -20,6 +20,9 @@
     "eslint": "^8.0.0",
     "electron": "^10.1.1"
   },
+  "exports": {
+    "./*": "./src/*"
+  },
   "scripts": {
     "lint": "yarn eslint .",
     "lintfix": "yarn eslint --fix .",
