@@ -73,7 +73,7 @@ export default class AbstractElement extends HTMLElement {
     constructor() {
         super();
         if (new.target === AbstractElement) {
-            throw new TypeError("can not construct abstract class");
+            throw new Error("can not construct abstract class");
         }
         this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
@@ -103,7 +103,7 @@ export default class AbstractElement extends HTMLElement {
     }
 
     toJSON() {
-        throw new TypeError("can not call abstract method");
+        throw new Error("can not call abstract method");
     }
 
     append(el) {
