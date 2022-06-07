@@ -23,12 +23,12 @@ export default class LogicElement extends AbstractElement {
         this.shadowRoot.append(TPL.generate());
     }
 
-    calculate(state = {}) {
+    calculate(/* state = {} */) {
         this.shadowRoot.getElementById("header").setAttribute("value", "1");
         return 1;
     }
 
-    loadLogic(logic) {}
+    loadLogic(/* logic */) {}
 
     toJSON() {
         return {type: REFERENCE};

@@ -31,17 +31,17 @@ export default class LogicElement extends AbstractElement {
         this.shadowRoot.append(TPL.generate());
         const target = this.shadowRoot.getElementById("droptarget");
         target.ondragover = AbstractElement.allowDrop;
-        target.ondrop = AbstractElement.dropOnPlaceholder.bind(this);
-        target.onclick = function(event) {
+        target.ondrop = AbstractElement.dropOnPlaceholder;
+        target.onclick = (event) => {
             const e = new Event("placeholderclicked");
             e.name = event.target.name;
             this.dispatchEvent(e);
             event.stopPropagation();
-        }.bind(this);
+        };
         const input = this.shadowRoot.getElementById("input");
-        input.onchange = function() {
+        input.onchange = () => {
             this.value = parseInt(input.value) || 0;
-        }.bind(this);
+        };
     }
 
     get value() {
@@ -89,7 +89,7 @@ export default class LogicElement extends AbstractElement {
     toJSON() {
         return {
             type: REFERENCE,
-            el: Array.from(this.children).slice(0, 1).map(e => e.toJSON())[0],
+            el: Array.from(this.children).slice(0, 1).map((e) => e.toJSON())[0],
             value: parseInt(this.value) || 0
         };
     }

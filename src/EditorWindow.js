@@ -34,29 +34,6 @@ const NAVI = new WeakMap();
 const CHOICE = new WeakMap();
 const PANELS = new WeakMap();
 
-function onChoice(event) {
-    if (event.app == "") {
-        document.title = TITLE_PREFIX;
-        NAVI.get(this).loadNavigation(MAIN_NAV);
-    } else {
-        document.title = `${TITLE_PREFIX} - ${event.app}`;
-        const data = PANELS.get(this).get(event.app);
-        if (typeof data.refreshFn == "function") {
-            data.refreshFn();
-        }
-        if (data.navigation != null) {
-            NAVI.get(this).loadNavigation(data.navigation);
-        } else {
-            NAVI.get(this).loadNavigation([{
-                "content": "EXIT",
-                "handler": () => {
-                    CHOICE.get(this).closeCurrent();
-                }
-            }]);
-        }
-    }
-}
-
 export default class EditorWindow extends HTMLElement {
 
     constructor() {
@@ -69,7 +46,9 @@ export default class EditorWindow extends HTMLElement {
         NAVI.set(this, navi);
 
         const choice = document.createElement("jse-choice");
-        choice.addEventListener("choice", onChoice.bind(this));
+        choice.addEventListener("choice", (event) => {
+            this.#onChoice(event);
+        });
         CHOICE.set(this, choice);
 
         PANELS.set(this, new Map());
@@ -95,6 +74,29 @@ export default class EditorWindow extends HTMLElement {
 
     closeCurrent() {
         CHOICE.get(this).closeCurrent();
+    }
+
+    #onChoice(event) {
+        if (event.app == "") {
+            document.title = TITLE_PREFIX;
+            NAVI.get(this).loadNavigation(MAIN_NAV);
+        } else {
+            document.title = `${TITLE_PREFIX} - ${event.app}`;
+            const data = PANELS.get(this).get(event.app);
+            if (typeof data.refreshFn == "function") {
+                data.refreshFn();
+            }
+            if (data.navigation != null) {
+                NAVI.get(this).loadNavigation(data.navigation);
+            } else {
+                NAVI.get(this).loadNavigation([{
+                    "content": "EXIT",
+                    "handler": () => {
+                        CHOICE.get(this).closeCurrent();
+                    }
+                }]);
+            }
+        }
     }
 
 }

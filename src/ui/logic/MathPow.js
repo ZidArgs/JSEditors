@@ -33,14 +33,14 @@ export default class LogicElement extends AbstractElement {
         const target1 = this.shadowRoot.getElementById("droptarget1");
         target0.ondragover = AbstractElement.allowDrop;
         target1.ondragover = AbstractElement.allowDrop;
-        target0.ondrop = AbstractElement.dropOnPlaceholder.bind(this);
-        target1.ondrop = AbstractElement.dropOnPlaceholder.bind(this);
-        target1.onclick = target0.onclick = function(event) {
+        target0.ondrop = AbstractElement.dropOnPlaceholder;
+        target1.ondrop = AbstractElement.dropOnPlaceholder;
+        target1.onclick = target0.onclick = (event) => {
             const e = new Event("placeholderclicked");
             e.name = event.target.name;
             this.dispatchEvent(e);
             event.stopPropagation();
-        }.bind(this);
+        };
     }
 
     calculate(state = {}) {
@@ -78,7 +78,7 @@ export default class LogicElement extends AbstractElement {
     toJSON() {
         return {
             type: REFERENCE,
-            el: Array.from(this.children).slice(0, 2).map(e => e.toJSON())
+            el: Array.from(this.children).slice(0, 2).map((e) => e.toJSON())
         };
     }
 

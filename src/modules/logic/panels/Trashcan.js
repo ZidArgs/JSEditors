@@ -25,33 +25,29 @@ const TPL = new Template(`
     </style>
 `);
 
-function allowDrop(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    return false;
-}
-
-function dropOnPlaceholder(event) {
-    const els = DragDropMemory.get();
-    if (els.length) {
-        const el = els[0];
-        if (!!el && el instanceof LogicAbstractElement && (typeof el.template != "string" || el.template == "false")) {
-            el.parentElement.removeChild(el);
-        }
-    }
-    event.preventDefault();
-    event.stopPropagation();
-    return false;
-}
-
 export default class Trashcan extends HTMLElement {
 
     constructor() {
         super();
         this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
-        this.ondragover = allowDrop;
-        this.ondrop = dropOnPlaceholder.bind(this);
+        this.ondragover = (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+        };
+        this.ondrop = (event) => {
+            const els = DragDropMemory.get();
+            if (els.length) {
+                const el = els[0];
+                if (!!el && el instanceof LogicAbstractElement && (typeof el.template != "string" || el.template == "false")) {
+                    el.parentElement.removeChild(el);
+                }
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+        };
     }
 
 }

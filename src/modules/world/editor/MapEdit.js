@@ -89,14 +89,6 @@ function loadList(config, container, loadData) {
     }
 }
 
-async function loadData(event) {
-    const workingarea = WORKINGAREA.get(this);
-    const ref = event.target.dataset.ref;
-    workingarea.dataset.key = ref;
-    workingarea.loadData(this.getData(ref));
-    this.shadowRoot.getElementById("workingarea-panel").caption = ref;
-}
-
 class Editor extends HTMLElement {
 
     constructor() {
@@ -107,7 +99,7 @@ class Editor extends HTMLElement {
         this.shadowRoot.append(TPL.generate());
         const workingarea = this.shadowRoot.getElementById("workingarea");
         WORKINGAREA.set(this, workingarea);
-        workingarea.addEventListener("save", function(event) {
+        workingarea.addEventListener("save", (event) => {
             const key = workingarea.dataset.key;
             if (key) {
                 const data = workingarea.getData();
@@ -119,16 +111,16 @@ class Editor extends HTMLElement {
             }
             event.preventDefault();
             return false;
-        }.bind(this));
-        workingarea.addEventListener("load", function(event) {
+        });
+        workingarea.addEventListener("load", (event) => {
             const key = workingarea.dataset.key;
             if (key) {
                 workingarea.loadData(this.getData(key));
             }
             event.preventDefault();
             return false;
-        }.bind(this));
-        workingarea.addEventListener("clear", function(event) {
+        });
+        workingarea.addEventListener("clear", (event) => {
             const key = workingarea.dataset.key;
             if (key) {
                 PATCH.get(this)[key] = undefined;
@@ -139,7 +131,7 @@ class Editor extends HTMLElement {
             }
             event.preventDefault();
             return false;
-        }.bind(this));
+        });
     }
 
     setDetailConfig(config) {
@@ -150,7 +142,9 @@ class Editor extends HTMLElement {
     loadList(config) {
         const container = this.shadowRoot.getElementById("data-list");
         container.innerHTML = "";
-        loadList(config, container, loadData.bind(this));
+        loadList(config, container, (event) => {
+            this.#loadData(event)
+        });
     }
 
     setData(data) {
@@ -179,6 +173,14 @@ class Editor extends HTMLElement {
         const workingarea = WORKINGAREA.get(this);
         workingarea.dataset.key = "";
         workingarea.loadData();
+    }
+
+    async #loadData(event) {
+        const workingarea = WORKINGAREA.get(this);
+        const ref = event.target.dataset.ref;
+        workingarea.dataset.key = ref;
+        workingarea.loadData(this.getData(ref));
+        this.shadowRoot.getElementById("workingarea-panel").caption = ref;
     }
 
 }

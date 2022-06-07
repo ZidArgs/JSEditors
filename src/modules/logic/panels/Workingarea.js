@@ -62,28 +62,6 @@ const TPL = new Template(`
     </slot>
 `);
 
-function allowDrop(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    return false;
-}
-
-function dropOnPlaceholder(event) {
-    const els = DragDropMemory.get();
-    if (els.length) {
-        const el = els[0];
-        if (el) {
-            const ne = event.target.getRootNode().host.append(el.getElement(event.ctrlKey));
-            if (ne) {
-                ne.removeAttribute("slot");
-            }
-        }
-    }
-    event.preventDefault();
-    event.stopPropagation();
-    return false;
-}
-
 export default class Workingarea extends HTMLElement {
 
     constructor() {
@@ -91,17 +69,35 @@ export default class Workingarea extends HTMLElement {
         this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
         const target = this.shadowRoot.getElementById("droptarget");
-        target.ondragover = allowDrop;
-        target.ondrop = dropOnPlaceholder.bind(this);
-        this.shadowRoot.getElementById("save").addEventListener("click", function(event) {
+        target.ondragover = (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+        };
+        target.ondrop = (event) => {
+            const els = DragDropMemory.get();
+            if (els.length) {
+                const el = els[0];
+                if (el) {
+                    const ne = event.target.getRootNode().host.append(el.getElement(event.ctrlKey));
+                    if (ne) {
+                        ne.removeAttribute("slot");
+                    }
+                }
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+        };
+        this.shadowRoot.getElementById("save").addEventListener("click", () => {
             this.dispatchEvent(new Event("save"));
-        }.bind(this));
-        this.shadowRoot.getElementById("load").addEventListener("click", function(event) {
+        });
+        this.shadowRoot.getElementById("load").addEventListener("click", () => {
             this.dispatchEvent(new Event("load"));
-        }.bind(this));
-        this.shadowRoot.getElementById("clear").addEventListener("click", function(event) {
+        });
+        this.shadowRoot.getElementById("clear").addEventListener("click", () => {
             this.dispatchEvent(new Event("clear"));
-        }.bind(this));
+        });
     }
 
     getData() {

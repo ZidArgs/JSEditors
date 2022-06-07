@@ -161,14 +161,14 @@ class Editor extends HTMLElement {
         const editorEl = document.createElement("jse-properties-editor");
         editorEl.setDetailConfig(config);
         // events
-        editorEl.addEventListener("save", async event => {
+        editorEl.addEventListener("save", async (event) => {
             const e = new Event("savemarker");
             e.category = name;
             e.key = event.key;
             e.data = event.data;
             this.dispatchEvent(e);
         });
-        editorEl.addEventListener("clear", async event => {
+        editorEl.addEventListener("clear", async (event) => {
             const e = new Event("clearmarker");
             e.category = name;
             e.key = event.key;

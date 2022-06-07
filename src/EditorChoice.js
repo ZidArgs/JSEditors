@@ -60,7 +60,7 @@ export default class EditorChoice extends HTMLElement {
         this.append(pnl);
         const el = document.createElement("DIV");
         el.innerHTML = name;
-        el.addEventListener("click", event => {
+        el.addEventListener("click", () => {
             const ev = new Event("choice");
             ev.app = name;
             this.dispatchEvent(ev);

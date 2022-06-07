@@ -29,25 +29,25 @@ export default class LogicElement extends AbstractElement {
         this.shadowRoot.append(TPL.generate());
         const target = this.shadowRoot.getElementById("droptarget");
         target.ondragover = AbstractElement.allowDrop;
-        target.ondrop = AbstractElement.dropOnPlaceholder.bind(this);
-        target.onclick = function(event) {
+        target.ondrop = AbstractElement.dropOnPlaceholder;
+        target.onclick = (event) => {
             const e = new Event("placeholderclicked");
             e.name = event.target.name;
             this.dispatchEvent(e);
             event.stopPropagation();
-        }.bind(this);
+        };
     }
 
     visualizeValue() {
         if (this.children.length > 0) {
-            const values = Array.from(this.children).map(el => {
+            const values = Array.from(this.children).map((el) => {
                 return el.visualizeValue();
             });
-            if (values.some(v => v === false)) {
+            if (values.some((v) => v === false)) {
                 this.shadowRoot.querySelector(".header").dataset.value = "true";
                 return true;
             }
-            if (values.some(v => v === true)) {
+            if (values.some((v) => v === true)) {
                 this.shadowRoot.querySelector(".header").dataset.value = "false";
                 return false;
             }
@@ -57,7 +57,7 @@ export default class LogicElement extends AbstractElement {
 
     calculate(state = {}) {
         let value;
-        const ch = Array.from(this.children).map(el => el.calculate(state));
+        const ch = Array.from(this.children).map((el) => el.calculate(state));
         for (const val of ch) {
             if (typeof val != "undefined") {
                 value = +!val;
@@ -73,13 +73,13 @@ export default class LogicElement extends AbstractElement {
     toJSON() {
         return {
             type: REFERENCE,
-            el: Array.from(this.children).map(e => e.toJSON())
+            el: Array.from(this.children).map((e) => e.toJSON())
         };
     }
 
     loadLogic(logic) {
         if (!!logic && Array.isArray(logic.el)) {
-            logic.el.forEach(ch => {
+            logic.el.forEach((ch) => {
                 if (ch) {
                     let cl;
                     if (ch.category) {

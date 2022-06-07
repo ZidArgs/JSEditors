@@ -173,17 +173,6 @@ function loadOperators(config, container) {
     }
 }
 
-async function loadLogic(event) {
-    const workingarea = WORKINGAREA.get(this);
-    const ref = event.target.dataset.ref;
-    const cat = event.target.dataset.cat;
-    const caption = `${ref} <${cat || "n/a"}>`;
-    workingarea.dataset.type = cat;
-    workingarea.dataset.key = ref;
-    workingarea.loadData(this.getLogic(ref));
-    this.shadowRoot.getElementById("workingarea-panel").caption = caption;
-}
-
 class Editor extends HTMLElement {
 
     constructor() {
@@ -194,7 +183,7 @@ class Editor extends HTMLElement {
         this.shadowRoot.append(TPL.generate());
         const workingarea = this.shadowRoot.getElementById("workingarea");
         WORKINGAREA.set(this, workingarea);
-        workingarea.addEventListener("save", function(event) {
+        workingarea.addEventListener("save", (event) => {
             const key = workingarea.dataset.key;
             if (key) {
                 const data = workingarea.getData();
@@ -206,16 +195,16 @@ class Editor extends HTMLElement {
             }
             event.preventDefault();
             return false;
-        }.bind(this));
-        workingarea.addEventListener("load", function(event) {
+        });
+        workingarea.addEventListener("load", (event) => {
             const key = workingarea.dataset.key;
             if (key) {
                 workingarea.loadData(this.getLogic(key));
             }
             event.preventDefault();
             return false;
-        }.bind(this));
-        workingarea.addEventListener("clear", function(event) {
+        });
+        workingarea.addEventListener("clear", (event) => {
             const key = workingarea.dataset.key;
             if (key) {
                 PATCH.get(this)[key] = undefined;
@@ -226,13 +215,15 @@ class Editor extends HTMLElement {
             }
             event.preventDefault();
             return false;
-        }.bind(this));
+        });
     }
 
     loadList(config) {
         const container = this.shadowRoot.getElementById("logics");
         container.innerHTML = "";
-        loadList(config, container, loadLogic.bind(this));
+        loadList(config, container, (event) => {
+            this.#loadLogic(event);
+        });
     }
 
     loadOperators(config) {
@@ -268,6 +259,17 @@ class Editor extends HTMLElement {
         workingarea.dataset.type = "";
         workingarea.dataset.key = "";
         workingarea.loadData();
+    }
+
+    #loadLogic(event) {
+        const workingarea = WORKINGAREA.get(this);
+        const ref = event.target.dataset.ref;
+        const cat = event.target.dataset.cat;
+        const caption = `${ref} <${cat || "n/a"}>`;
+        workingarea.dataset.type = cat;
+        workingarea.dataset.key = ref;
+        workingarea.loadData(this.getLogic(ref));
+        this.shadowRoot.getElementById("workingarea-panel").caption = caption;
     }
 
 }

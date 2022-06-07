@@ -42,28 +42,6 @@ const TPL = new Template(`
     </div>
 `);
 
-function allowDrop(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    return false;
-}
-
-function dropOnPlaceholder(event) {
-    const els = DragDropMemory.get();
-    if (els.length) {
-        const el = els[0];
-        if (el) {
-            const ne = event.target.getRootNode().host.append(el.getElement(event.ctrlKey));
-            if (ne) {
-                ne.removeAttribute("slot");
-            }
-        }
-    }
-    event.preventDefault();
-    event.stopPropagation();
-    return false;
-}
-
 export default class Clipboard extends HTMLElement {
 
     constructor() {
@@ -71,8 +49,26 @@ export default class Clipboard extends HTMLElement {
         this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
         const target = this.shadowRoot.getElementById("droptarget");
-        target.ondragover = allowDrop;
-        target.ondrop = dropOnPlaceholder.bind(this);
+        target.ondragover = (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+        };
+        target.ondrop = (event) => {
+            const els = DragDropMemory.get();
+            if (els.length) {
+                const el = els[0];
+                if (el) {
+                    const ne = event.target.getRootNode().host.append(el.getElement(event.ctrlKey));
+                    if (ne) {
+                        ne.removeAttribute("slot");
+                    }
+                }
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+        };
     }
 
     getLogic() {

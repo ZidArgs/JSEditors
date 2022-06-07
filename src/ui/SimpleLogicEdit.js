@@ -106,35 +106,6 @@ function allowDrop(event) {
     return false;
 }
 
-function dropOnTrash(event) {
-    const els = DragDropMemory.get();
-    if (els.length) {
-        const el = els[0];
-        if (!!el && el instanceof LogicAbstractElement && (typeof el.template != "string" || el.template == "false")) {
-            el.parentElement.removeChild(el);
-        }
-    }
-    event.preventDefault();
-    event.stopPropagation();
-    return false;
-}
-
-function dropOnPlaceholder(event) {
-    const els = DragDropMemory.get();
-    if (els.length) {
-        const el = els[0];
-        if (el) {
-            const ne = event.target.getRootNode().host.append(el.getElement(event.ctrlKey));
-            if (ne) {
-                ne.removeAttribute("slot");
-            }
-        }
-    }
-    event.preventDefault();
-    event.stopPropagation();
-    return false;
-}
-
 function setOperators(config, container) {
     for (const item of config) {
         if (item.type === "group") {
@@ -164,10 +135,14 @@ class Editor extends HTMLElement {
         this.shadowRoot.append(TPL.generate());
         const trashcan = this.shadowRoot.getElementById("trashcan");
         trashcan.ondragover = allowDrop;
-        trashcan.ondrop = dropOnTrash.bind(this);
+        trashcan.ondrop = (event) => {
+            this.#dropOnTrash(event);
+        };
         const target = this.shadowRoot.getElementById("droptarget");
         target.ondragover = allowDrop;
-        target.ondrop = dropOnPlaceholder.bind(this);
+        target.ondrop = (event) => {
+            this.#dropOnPlaceholder(event);
+        };
     }
 
     setOperators(config) {
@@ -190,6 +165,35 @@ class Editor extends HTMLElement {
         if (el) {
             return el.toJSON();
         }
+    }
+
+    #dropOnTrash(event) {
+        const els = DragDropMemory.get();
+        if (els.length) {
+            const el = els[0];
+            if (!!el && el instanceof LogicAbstractElement && (typeof el.template != "string" || el.template == "false")) {
+                el.parentElement.removeChild(el);
+            }
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    }
+
+    #dropOnPlaceholder(event) {
+        const els = DragDropMemory.get();
+        if (els.length) {
+            const el = els[0];
+            if (el) {
+                const ne = event.target.getRootNode().host.append(el.getElement(event.ctrlKey));
+                if (ne) {
+                    ne.removeAttribute("slot");
+                }
+            }
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
     }
 
 }

@@ -132,7 +132,7 @@ export default class AbstractElement extends HTMLElement {
         }
     }
 
-    calculate(state = {}) {
+    calculate(/* state = {} */) {
         throw new Error("can not call abstract method");
     }
 
@@ -146,7 +146,7 @@ export default class AbstractElement extends HTMLElement {
 
     append(el) {
         if (Array.isArray(el)) {
-            el.forEach(e => this.appendChild(e));
+            el.forEach((e) => this.appendChild(e));
         } else {
             this.appendChild(el);
         }
@@ -154,7 +154,7 @@ export default class AbstractElement extends HTMLElement {
 
     prepend(el) {
         if (Array.isArray(el)) {
-            el.forEach(e => this.insertBefore(e, this.firstChild));
+            el.forEach((e) => this.insertBefore(e, this.firstChild));
         } else {
             this.insertBefore(el, this.firstChild);
         }
