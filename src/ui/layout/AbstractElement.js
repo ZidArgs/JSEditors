@@ -1,5 +1,5 @@
-import Template from "../../../util/html/Template.js";
-import UGen from "../../../util/UniqueGenerator.js";
+import Template from "/emcJS/util/html/Template.js";
+import UGen from "/emcJS/util/UniqueGenerator.js";
 
 const TPL = new Template(`
     <style>
