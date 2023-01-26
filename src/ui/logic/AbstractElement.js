@@ -32,7 +32,7 @@ const TPL = new Template(`
             padding: 5px;
             user-select: none;
         }
-        .header[value]:before {
+        .header[value]::before {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -46,7 +46,7 @@ const TPL = new Template(`
             background-color: #85ff85;
             content: attr(value);
         }
-        .header[value="0"]:before {
+        .header[value="0"]::before {
             background-color: #ff8585;
         }
         .body {
