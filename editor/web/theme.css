@@ -1,0 +1,13 @@
+:root {
+
+    /* === form === */
+    --form-text-color: #ffffff;
+    --form-back-color: #000000;
+    --form-hover-text-color: #ffffff;
+    --form-hover-back-color: #4e4e4e;
+    --form-border-color: #000000; /* all; top_bottom right_left; top right bottom left*/
+
+    /* === fieldset === */
+    --fieldset-back-color: #e1f3e9;
+
+}

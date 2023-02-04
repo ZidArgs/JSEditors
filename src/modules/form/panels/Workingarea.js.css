@@ -1,0 +1,16 @@
+* {
+    position: relative;
+    box-sizing: border-box;
+}
+:host {
+    display: flex;
+    flex-direction: column;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    overflow: hidden;
+}
+form {
+    color: var(--form-text-color, #000000);
+    background-color: var(--form-back-color, #cccccc);
+}

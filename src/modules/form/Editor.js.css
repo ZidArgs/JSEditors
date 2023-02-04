@@ -1,0 +1,51 @@
+:host {
+    display: grid;
+    flex: 1;
+    max-width: 100%;
+    max-height: 100%;
+    padding: 5px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: #111;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: 
+    "list workingarea";
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+}
+#list-panel {
+    grid-area: list;
+}
+#list-panel #data-list {
+    border: none;
+    height: 100%;
+    --list-color-back: #000;
+    --list-color-border: #777;
+    --list-color-hover: #000;
+    --list-color-front: #fff;
+}
+#workingarea-panel {
+    grid-area: workingarea;
+}
+#workingarea {
+    height: 100%;
+}
+.listitem {
+    border: solid 1px #fff;
+    background-color: #000;
+    color: #fff;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    overflow: hidden;
+}
+.listitem .button {
+    color: #fff;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    overflow: hidden;
+}
