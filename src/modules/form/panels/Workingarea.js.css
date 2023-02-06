@@ -8,7 +8,8 @@
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 form {
     color: var(--form-text-color, #000000);
