@@ -21,8 +21,8 @@ function createWindow() {
         url = url.replace(__dirnameUnix, "");
         console.log(url);
         /* redirects */
-        url = url.replace(/^\/?JSEditors\//i, "./build/JSEditors/");
-        url = url.replace(/^\/?emcJS\//i, "./build/emcJS/");
+        url = url.replace(/^\/?JSEditors\//i, "./web/JSEditors/");
+        url = url.replace(/^\/?emcJS\//i, "./web/emcJS/");
         url = path.join(__dirnameUnix, ".", url);
         url = path.normalize(url);
         console.log(url);

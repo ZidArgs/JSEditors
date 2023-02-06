@@ -30,6 +30,8 @@
   "scripts": {
     "lint": "yarn eslint .",
     "lintfix": "yarn eslint --fix .",
-    "edit": "gulp build -rebuild && electron ./editor --no-sandbox > ./editor/info.log 2>&1"
+    "build": "gulp build",
+    "edit": "gulp build -rebuild && electron ./editor --no-sandbox > ./editor/info.log 2>&1",
+    "serve": "serve ./editor/web -p 15000"
   }
 }

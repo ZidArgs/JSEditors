@@ -2,8 +2,8 @@ import Template from "/emcJS/util/html/Template.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "MIN";
-const TPL_BACKGROUND = "#ee82ee";
-const TPL_BORDER = "#8b008b";
+const TPL_BACKGROUND = "#9affec";
+const TPL_BORDER = "#51978a";
 const REFERENCE = "min";
 
 const TPL = new Template(`

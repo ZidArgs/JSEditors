@@ -30,6 +30,7 @@ const TPL = new Template(`
             justify-content: flex-start;
             height: 35px;
             padding: 5px;
+            font-weight: bold;
             user-select: none;
         }
         .header[value]::before {

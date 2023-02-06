@@ -13,3 +13,5 @@ package-lock.json
 backup.json
 editor/build
 editor/info.log
+editor/web/emcJS
+editor/web/JSEditors

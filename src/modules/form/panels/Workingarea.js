@@ -72,7 +72,8 @@ export default class Workingarea extends CustomElement {
         /* --- */
         this.#typeSelectEl = this.shadowRoot.getElementById("type-select");
         this.#typeSelectEl.addEventListener("change", () => {
-            const config = getDetailConfig(this.#typeSelectEl.value);
+            const value = this.#typeSelectEl.value;
+            const config = getDetailConfig(value);
             const defaults = extractDefaultValuesFromConfig(config);
             this.setDetailConfig(config);
             this.#formContext.loadData(defaults);

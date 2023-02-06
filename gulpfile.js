@@ -5,7 +5,7 @@ import sourceImport from "emcjs/build_tools/sourceImport.js";
 
 const __dirname = path.resolve();
 const NODE_FOLDER = path.resolve(__dirname, "node_modules");
-const OUT_PATH = path.resolve(__dirname, "editor/build/");
+const OUT_PATH = path.resolve(__dirname, "editor/web/");
 const SCRIPT_PATH = path.resolve(__dirname, "src");
 const EMCJS_PATH = path.resolve(NODE_FOLDER, "emcjs/src");
 
@@ -41,20 +41,20 @@ function copyEmcJS() {
     return copyJS(FILES, DST);
 }
 
-function copyCSS() {
+function copyEmcJSCSS() {
     const FILES = [
         `${EMCJS_PATH}/_style/**/*.css`
     ];
     let res = gulp.src(FILES);
     if (!REBUILD) {
-        res = res.pipe(newer(`${OUT_PATH}/_style`))
+        res = res.pipe(newer(`${OUT_PATH}/emcJS/_style`))
     }
-    res = res.pipe(gulp.dest(`${OUT_PATH}/_style`));
+    res = res.pipe(gulp.dest(`${OUT_PATH}/emcJS/_style`));
     return res;
 }
 
 export const build = gulp.parallel(
     copyJSEditors,
     copyEmcJS,
-    copyCSS
+    copyEmcJSCSS
 );
