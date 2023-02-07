@@ -5,13 +5,15 @@
 :host {
     display: flex;
     flex-direction: column;
-    -webkit-user-select: none;
-    -moz-user-select: none;
     user-select: none;
-    overflow-x: hidden;
-    overflow-y: auto;
 }
 form {
     color: var(--form-text-color, #000000);
     background-color: var(--form-back-color, #cccccc);
+    border: solid var(--form-border-width, 2px) var(--form-border-color, #000000);
+    border-radius: var(--form-border-radius, 0.25em) var(--form-border-radius, 0.25em) 0px 0px;
+}
+#details form {
+    margin-top: calc(-1 * var(--form-border-width, 2px));
+    border-radius: 0px 0px var(--form-border-radius, 0.25em) var(--form-border-radius, 0.25em);
 }
