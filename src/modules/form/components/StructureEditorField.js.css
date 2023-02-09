@@ -1,0 +1,56 @@
+:host {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+.container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 0px 10px;
+    margin: 5px;
+    color: var(--button-text-color, #000000);
+    background-color: var(--page-back-color, #ffffff);
+    border: solid var(--form-border-width, 2px) var(--form-border-color, #000000);
+    border-radius: var(--form-border-radius, 0.25em);
+    font-size: 1em;
+}
+#field-controls {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    width: 100%;
+}
+#remove,
+#edit,
+#add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2em;
+    padding: 0px 10px;
+    margin: 5px;
+    appearance: none;
+    color: var(--button-text-color, #000000);
+    background-color: var(--button-back-color, #cccccc);
+    border: solid var(--form-border-width, 2px) var(--form-border-color, #000000);
+    border-radius: var(--form-border-radius, 0.25em);
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 1em;
+    cursor: pointer;
+}
+#remove:hover,
+#edit:hover,
+#add:hover {
+    color: var(--button-hover-text-color, #ffffff);
+    background-color: var(--button-hover-back-color, #000000);
+}
+#remove:focus,
+#edit:focus,
+#add:focus {
+    box-shadow: none;
+    outline: none;
+}

@@ -8,7 +8,7 @@
     -moz-user-select: none;
     user-select: none;
     background-color: #111;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
     grid-template-areas: 
     "list workingarea";

@@ -1,4 +1,5 @@
 import Template from "/emcJS/util/html/Template.js";
+import "/emcJS/ui/Page.js";
 import "/emcJS/ui/navigation/NavBar.js";
 import "./EditorChoice.js";
 
