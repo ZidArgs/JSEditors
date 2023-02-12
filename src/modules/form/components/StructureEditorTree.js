@@ -61,9 +61,9 @@ export default class StructureEditorTree extends CustomElement {
 
     #extractLabel(params) {
         const {type, label, name, id} = params;
-        let res = type || "{new}";
+        let res = type ? `(${type})` : "(-- new --)";
         if (label) {
-            res += ` - ${label}`;
+            res = `${label} ${res}`;
         }
         if (name) {
             res += ` [${name}]`;
