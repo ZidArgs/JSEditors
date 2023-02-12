@@ -70,7 +70,7 @@ export default class StructureEditor extends CustomElement {
         for (const key in config) {
             const value = config[key];
             data.push({
-                key: value._elID,
+                key: value.data.id,
                 config: value
             });
         }

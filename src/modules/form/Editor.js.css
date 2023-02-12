@@ -8,17 +8,17 @@
     -moz-user-select: none;
     user-select: none;
     background-color: #111;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr;
     grid-template-areas: 
-    "list workingarea";
+    "structure preview detail";
     grid-column-gap: 5px;
     grid-row-gap: 5px;
 }
-#list-panel {
-    grid-area: list;
+#structure-panel {
+    grid-area: structure;
 }
-#list-panel #data-list {
+#structure-panel #data-list {
     border: none;
     height: 100%;
     --list-color-back: #000;
@@ -26,8 +26,11 @@
     --list-color-hover: #000;
     --list-color-front: #fff;
 }
-#workingarea-panel {
-    grid-area: workingarea;
+#preview-panel {
+    grid-area: preview;
+}
+#detail-panel {
+    grid-area: detail;
 }
 .listitem {
     border: solid 1px #fff;

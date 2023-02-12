@@ -117,7 +117,7 @@ export default class DetailEditor extends CustomElement {
             cnt.innerHTML = "";
         }
         /* --- */
-        const formEl = FormBuilder.build(config);
+        const formEl = FormBuilder.buildForm(config);
         formEl.id = "form";
         cnt.append(formEl);
         this.#formContext.registerForm(formEl);
