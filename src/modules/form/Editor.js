@@ -46,6 +46,7 @@ class Editor extends CustomElement {
         STYLE.apply(this.shadowRoot);
         /* --- */
         this.#previewEl = this.shadowRoot.getElementById("preview-panel");
+        this.#previewFormContext.ghostInvisible = true;
         /* --- */
         this.#detailEditorFormEl = this.shadowRoot.getElementById("detail-editor-form");
         this.#detailEditorFormEl.addEventListener("save", (event) => {
@@ -179,7 +180,9 @@ class Editor extends CustomElement {
         this.#previewClickHandler.set("click", (event) => {
             const targetEl = event.target;
             const dataId = targetEl.dataset["id"];
-            console.log("dataId", dataId);
+            if (dataId != null) {
+                this.#structureEditorTreeEl.selectItemByKey(dataId);
+            }
         });
     }
 
@@ -225,10 +228,12 @@ class Editor extends CustomElement {
             if (newMarkedEl != null) {
                 newMarkedEl.classList.add("marked");
                 newMarkedEl.style.outline = "solid 4px red";
-                if (this.#editPath.length > 1) {
-                    newMarkedEl.style.outlineOffset = "-5px";
-                }
-                newMarkedEl.scrollIntoViewIfNeeded();
+                newMarkedEl.style.zIndex = "1";
+                newMarkedEl.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                    inline: "start"
+                });
             }
         }
     }

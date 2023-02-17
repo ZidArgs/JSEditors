@@ -172,6 +172,11 @@ export default class StructureEditorTree extends BaseClass {
         this.#treeEl.selectItemByPath(path);
     }
 
+    selectItemByKey(key) {
+        const treeNodeEl = this.#treeEl.querySelector(`[ref="${key}"]`);
+        treeNodeEl.click();
+    }
+
     forcePathExpanded(path) {
         this.#treeEl.forcePathExpanded(path);
     }
