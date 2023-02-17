@@ -11,7 +11,8 @@ import "/emcJS/ui/container/CollapsePanel.js";
 import "/emcJS/ui/form/FormContainer.js";
 import "./components/StructureEditor.js";
 import "./components/StructureEditorTree.js";
-import "./components/DetailEditor.js";
+import "./components/FormDetailEditor.js";
+import "./components/FormElementDetailEditor.js";
 import TPL from "./Editor.js.html" assert {type: "html"};
 import STYLE from "./Editor.js.css" assert {type: "css"};
 
@@ -27,7 +28,9 @@ class Editor extends CustomElement {
 
     #editPath = [];
 
-    #detailEditorEl;
+    #detailEditorFormEl;
+
+    #detailEditorFormElementEl;
 
     #previewEl;
 
@@ -44,8 +47,33 @@ class Editor extends CustomElement {
         /* --- */
         this.#previewEl = this.shadowRoot.getElementById("preview-panel");
         /* --- */
-        this.#detailEditorEl = this.shadowRoot.getElementById("detail-editor");
-        this.#detailEditorEl.addEventListener("save", (event) => {
+        this.#detailEditorFormEl = this.shadowRoot.getElementById("detail-editor-form");
+        this.#detailEditorFormEl.addEventListener("save", (event) => {
+            if (this.#editPath.length) {
+                const {data} = event;
+                const formConfig = this.#getCurrentElementConfig();
+                formConfig.allowsInvalid = data.allowsInvalid;
+                if (data.submitButtonEnabled) {
+                    if (data.submitButtonText) {
+                        formConfig.submitButton = data.submitButtonText;
+                    } else {
+                        formConfig.submitButton = true;
+                    }
+                }
+                if (data.resetButtonEnabled) {
+                    if (data.resetButtonText) {
+                        formConfig.resetButton = data.resetButtonText;
+                    } else {
+                        formConfig.resetButton = true;
+                    }
+                }
+                formConfig.values = {...data.values};
+                this.#buildPreview();
+            }
+        });
+        /* --- */
+        this.#detailEditorFormElementEl = this.shadowRoot.getElementById("detail-editor-form-element");
+        this.#detailEditorFormElementEl.addEventListener("save", (event) => {
             if (this.#editPath.length) {
                 const path = [...this.#editPath];
                 const index = path.pop();
@@ -77,25 +105,27 @@ class Editor extends CustomElement {
             const calculatedIndex = this.#normalizeIndex(path, this.#config);
             const newElement = {
                 elements: [],
-                data: {
-                    id: UGen.appUID("form")
+                config: {
+                    data: {
+                        id: UGen.appUID("form")
+                    }
                 }
             };
             this.#config.forms.splice(calculatedIndex, 0, newElement);
             this.#editPath = [calculatedIndex];
             this.#structureEditorTreeEl.loadConfig(this.#config);
-            // TODO switch to form-config form (in place of detail editor)
-            // this.#detailEditorEl.loadFormElement(newElement, true);
             this.#buildPreview();
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
         });
         this.#structureEditorTreeEl.addEventListener("removeForm", (event) => {
+            this.#detailEditorFormEl.classList.remove("active");
+            this.#detailEditorFormElementEl.classList.remove("active");
             const {path} = event;
             const calculatedIndex = this.#normalizeIndex(path, this.#config);
             this.#config.forms.splice(calculatedIndex, 1);
             this.#editPath = [];
             this.#structureEditorTreeEl.loadConfig(this.#config);
-            this.#detailEditorEl.loadFormElement({type: ""});
+            this.#detailEditorFormElementEl.loadFormElement({type: ""});
             this.#buildPreview();
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
         });
@@ -117,6 +147,8 @@ class Editor extends CustomElement {
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
         });
         this.#structureEditorTreeEl.addEventListener("removeElement", (event) => {
+            this.#detailEditorFormEl.classList.remove("active");
+            this.#detailEditorFormElementEl.classList.remove("active");
             const path = [...event.path];
             const index = path.pop();
             const context = this.#getElementList(path);
@@ -124,13 +156,23 @@ class Editor extends CustomElement {
             context.splice(calculatedIndex, 1);
             this.#structureEditorTreeEl.loadConfig(this.#config);
             this.#editPath = [];
-            this.#detailEditorEl.loadFormElement({type: ""});
+            this.#detailEditorFormElementEl.loadFormElement({type: ""});
             this.#buildPreview();
         });
-        this.#structureEditorTreeEl.addEventListener("editElement", (event) => {
+        this.#structureEditorTreeEl.addEventListener("editForm", (event) => {
+            this.#detailEditorFormEl.classList.add("active");
+            this.#detailEditorFormElementEl.classList.remove("active");
             this.#editPath = [...event.path];
             const config = this.#getCurrentElementConfig();
-            this.#detailEditorEl.loadFormElement(config);
+            this.#detailEditorFormEl.setData(config);
+            this.#markElement();
+        });
+        this.#structureEditorTreeEl.addEventListener("editElement", (event) => {
+            this.#detailEditorFormEl.classList.remove("active");
+            this.#detailEditorFormElementEl.classList.add("active");
+            this.#editPath = [...event.path];
+            const config = this.#getCurrentElementConfig();
+            this.#detailEditorFormElementEl.loadFormElement(config);
             this.#markElement();
         });
         /* --- */
@@ -182,21 +224,36 @@ class Editor extends CustomElement {
             const newMarkedEl = this.#previewEl.querySelector(`[data-id="${config.data.id}"]`);
             if (newMarkedEl != null) {
                 newMarkedEl.classList.add("marked");
-                newMarkedEl.style.outline = "solid 2px red";
+                newMarkedEl.style.outline = "solid 4px red";
+                if (this.#editPath.length > 1) {
+                    newMarkedEl.style.outlineOffset = "-5px";
+                }
                 newMarkedEl.scrollIntoViewIfNeeded();
             }
         }
     }
 
     #getCurrentElementConfig() {
-        const path = [...this.#editPath];
-        const index = path.pop();
-        const context = this.#getElementList(path);
-        return context[index];
+        if (this.#editPath.length > 1) {
+            const path = [...this.#editPath];
+            const index = path.pop();
+            const context = this.#getElementList(path);
+            return context[index];
+        }
+        if (this.#editPath.length) {
+            const index = this.#editPath[0];
+            return this.#config.forms[index]?.config;
+        }
     }
 
     #normalizeIndex(index, context) {
-        return index < 0 ? context.length + 1 + index : index;
+        if (index == null) {
+            return 0;
+        }
+        if (index < 0) {
+            return context.length + 1 + index;
+        }
+        return index;
     }
 
     setConfig(config) {
@@ -205,8 +262,10 @@ class Editor extends CustomElement {
             config = {
                 forms: [{
                     elements: this.#convertElements(config),
-                    data: {
-                        id: UGen.appUID("form")
+                    config: {
+                        data: {
+                            id: UGen.appUID("form")
+                        }
                     }
                 }],
                 contentMask: "0px",
@@ -223,7 +282,7 @@ class Editor extends CustomElement {
         this.#config = config;
         this.#structureEditorTreeEl.loadConfig(this.#config);
         this.#editPath = [];
-        this.#detailEditorEl.loadFormElement({type: ""});
+        this.#detailEditorFormElementEl.loadFormElement({type: ""});
         this.#buildPreview();
     }
 
@@ -271,6 +330,20 @@ class Editor extends CustomElement {
 
     getConfig() {
         return deepClone(this.#config);
+    }
+
+    reset() {
+        this.#config = {
+            forms: [],
+            contentMask: "0px",
+            hasHeader: false,
+            hasFooter: false,
+            defaultValues: {}
+        }
+        this.#structureEditorTreeEl.loadConfig(this.#config);
+        this.#editPath = [];
+        this.#detailEditorFormElementEl.loadFormElement({type: ""});
+        this.#buildPreview();
     }
 
 }

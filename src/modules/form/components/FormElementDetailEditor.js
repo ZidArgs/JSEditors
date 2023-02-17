@@ -1,5 +1,5 @@
 import CustomElement from "/emcJS/ui/element/CustomElement.js";
-import FormElementRegistry from "/emcJS/data/registry/FormElementRegistry.js"
+import FormElementRegistry from "/emcJS/data/registry/FormElementRegistry.js";
 import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
 import EventTargetManager from "/emcJS/util/event/EventTargetManager.js";
@@ -13,9 +13,8 @@ import {
     extractDefaultValuesFromConfig
 } from "/emcJS/util/helper/ui/Form.js";
 import "/emcJS/ui/form/field/DefaultFormFieldsLoader.js";
-// import "../../../ui/SimpleLogicEdit.js";
-import TPL from "./DetailEditor.js.html" assert {type: "html"};
-import STYLE from "./DetailEditor.js.css" assert {type: "css"};
+import TPL from "./FormElementDetailEditor.js.html" assert {type: "html"};
+import STYLE from "./FormElementDetailEditor.js.css" assert {type: "css"};
 
 const SPECIAL_FORM_ELEMENTS = {
     "Fieldset": FormFieldset,
@@ -65,7 +64,7 @@ function getDetailCanHaveChildren(ref) {
     return [];
 }
 
-export default class DetailEditor extends CustomElement {
+export default class FormElementDetailEditor extends CustomElement {
 
     #formContext = new FormContext();
 
@@ -139,4 +138,4 @@ export default class DetailEditor extends CustomElement {
 
 }
 
-customElements.define("jse-form-editor-detail", DetailEditor);
+customElements.define("jse-form-editor-detail-form-element", FormElementDetailEditor);

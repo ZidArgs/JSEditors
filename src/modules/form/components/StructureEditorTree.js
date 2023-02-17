@@ -124,15 +124,18 @@ export default class StructureEditorTree extends BaseClass {
         /* --- */
         this.#treeEl = this.shadowRoot.getElementById("tree");
         this.#treeEl.addEventListener("select", (event) => {
-            const {path} = event;
-            if (path.length === 1) {
-                const ev = new Event("editForm", {bubbles: true, cancelable: true});
-                ev.path = path;
-                this.dispatchEvent(ev);
-            } else if (path.length > 1) {
-                const ev = new Event("editElement", {bubbles: true, cancelable: true});
-                ev.path = path;
-                this.dispatchEvent(ev);
+            if (!event.isSelected) {
+                event.preventDefault();
+                const {path} = event;
+                if (path.length === 1) {
+                    const ev = new Event("editForm", {bubbles: true, cancelable: true});
+                    ev.path = path;
+                    this.dispatchEvent(ev);
+                } else if (path.length > 1) {
+                    const ev = new Event("editElement", {bubbles: true, cancelable: true});
+                    ev.path = path;
+                    this.dispatchEvent(ev);
+                }
             }
         });
         this.#treeEl.addEventListener("menu", (event) => {
@@ -165,7 +168,12 @@ export default class StructureEditorTree extends BaseClass {
     }
 
     selectItemByPath(path) {
+        this.#treeEl.forcePathExpanded(path.slice(0, -1));
         this.#treeEl.selectItemByPath(path);
+    }
+
+    forcePathExpanded(path) {
+        this.#treeEl.forcePathExpanded(path);
     }
 
     loadConfig(config) {
@@ -173,7 +181,7 @@ export default class StructureEditorTree extends BaseClass {
         if (config.forms.length) {
             let cnt = 1;
             for (const form of config.forms) {
-                tree[form.data.id] = {
+                tree[form.config.data.id] = {
                     label: `Form ${cnt++}`,
                     children: this.#translateFormConfig(form.elements)
                 };
