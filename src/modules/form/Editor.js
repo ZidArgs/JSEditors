@@ -298,7 +298,7 @@ class Editor extends CustomElement {
         } else {
             const res = [];
             for (const name in elements) {
-                res.push({
+                const data = {
                     name,
                     label: name,
                     ...elements[name],
@@ -306,7 +306,21 @@ class Editor extends CustomElement {
                     data: {
                         id: UGen.appUID("form-element")
                     }
-                });
+                };
+                if (elements[name].values != null && typeof elements[name].values === "object") {
+                    const values = elements[name].values;
+                    data.options = {};
+                    if (Array.isArray(values)) {
+                        for (const value of values) {
+                            data.options[value] = value;
+                        }
+                    } else {
+                        for (const key in values) {
+                            data.options[key] = values[key];
+                        }
+                    }
+                }
+                res.push(data);
             }
             return res;
         }
