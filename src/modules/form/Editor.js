@@ -275,7 +275,12 @@ class Editor extends CustomElement {
             }
         } else {
             for (const form of config.forms) {
-                form.data["id"] = UGen.appUID("form");
+                if (form.config == null) {
+                    form.config = {data: {}};
+                } else if (form.config.data == null) {
+                    form.config.data = {};
+                }
+                form.config.data["id"] = UGen.appUID("form");
                 form.elements = this.#convertElements(form.elements)
             }
         }
@@ -289,6 +294,9 @@ class Editor extends CustomElement {
     #convertElements(elements) {
         if (Array.isArray(elements)) {
             for (const element of elements) {
+                if (element.data == null) {
+                    element.data = {};
+                }
                 element.data["id"] = UGen.appUID("form-element");
                 if (element.children != null) {
                     element.children = this.#convertElements(element.children)

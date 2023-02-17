@@ -6,7 +6,7 @@
     width: max-content;
     min-width: 100%;
 }
-#addform {
+.button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -23,11 +23,11 @@
     line-height: 1em;
     cursor: pointer;
 }
-#addform:hover {
+.button:hover {
     color: var(--button-hover-text-color, #ffffff);
     background-color: var(--button-hover-back-color, #000000);
 }
-#addform:focus {
+.button:focus {
     box-shadow: none;
     outline: none;
 }
