@@ -16,14 +16,16 @@ import "./components/FormElementDetailEditor.js";
 import TPL from "./Editor.js.html" assert {type: "html"};
 import STYLE from "./Editor.js.css" assert {type: "css"};
 
+const DEFAULT_CONFIG = {
+    forms: [],
+    hasHeader: false,
+    hasFooter: false,
+    defaultValues: {}
+};
+
 class Editor extends CustomElement {
 
-    #config = {
-        forms: [],
-        hasHeader: false,
-        hasFooter: false,
-        defaultValues: {}
-    };
+    #config = deepClone(DEFAULT_CONFIG);
 
     #editPath = [];
 
@@ -361,12 +363,7 @@ class Editor extends CustomElement {
     }
 
     reset() {
-        this.#config = {
-            forms: [],
-            hasHeader: false,
-            hasFooter: false,
-            defaultValues: {}
-        }
+        this.#config = deepClone(DEFAULT_CONFIG);
         this.#structureEditorTreeEl.loadConfig(this.#config);
         this.#editPath = [];
         this.#detailEditorFormElementEl.loadFormElement({type: ""});
