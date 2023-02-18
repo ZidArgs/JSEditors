@@ -224,7 +224,7 @@ export default class StructureEditorTree extends BaseClass {
             res = `${label} ${res}`;
         }
         if (name) {
-            res += ` [${name}]`;
+            res += ` $${name}`;
         }
         if (id) {
             res += ` #${id}`;

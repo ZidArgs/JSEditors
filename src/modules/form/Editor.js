@@ -20,7 +20,6 @@ class Editor extends CustomElement {
 
     #config = {
         forms: [],
-        contentMask: "0px",
         hasHeader: false,
         hasFooter: false,
         defaultValues: {}
@@ -221,6 +220,8 @@ class Editor extends CustomElement {
         if (oldMarkedEl != null) {
             oldMarkedEl.classList.remove("marked");
             oldMarkedEl.style.outline = "";
+            oldMarkedEl.style.outlineOffset = "";
+            oldMarkedEl.style.zIndex = "";
         }
         const config = this.#getCurrentElementConfig();
         if (config != null) {
@@ -228,6 +229,7 @@ class Editor extends CustomElement {
             if (newMarkedEl != null) {
                 newMarkedEl.classList.add("marked");
                 newMarkedEl.style.outline = "solid 4px red";
+                newMarkedEl.style.outlineOffset = "-6px";
                 newMarkedEl.style.zIndex = "1";
                 newMarkedEl.scrollIntoView({
                     behavior: "smooth",
@@ -273,7 +275,6 @@ class Editor extends CustomElement {
                         }
                     }
                 }],
-                contentMask: "0px",
                 hasHeader: false,
                 hasFooter: false,
                 defaultValues: {}
@@ -362,7 +363,6 @@ class Editor extends CustomElement {
     reset() {
         this.#config = {
             forms: [],
-            contentMask: "0px",
             hasHeader: false,
             hasFooter: false,
             defaultValues: {}
