@@ -4,9 +4,9 @@ import {
     mix
 } from "/emcJS/util/Mixin.js";
 import "/emcJS/ui/tree/Tree.js";
-import StructureTreeContextMenuForm from "./contextmenu/StructureTreeContextMenuForm.js";
-import StructureTreeContextMenuFormElement from "./contextmenu/StructureTreeContextMenuFormElement.js";
-import StructureTreeContextMenuFormElementWithChild from "./contextmenu/StructureTreeContextMenuFormElementWithChild.js";
+import StructureTreeContextMenuForm from "../contextmenu/StructureTreeContextMenuForm.js";
+import StructureTreeContextMenuFormElement from "../contextmenu/StructureTreeContextMenuFormElement.js";
+import StructureTreeContextMenuFormElementWithChild from "../contextmenu/StructureTreeContextMenuFormElementWithChild.js";
 import TPL from "./StructureEditorTree.js.html" assert {type: "html"};
 import STYLE from "./StructureEditorTree.js.css" assert {type: "css"};
 

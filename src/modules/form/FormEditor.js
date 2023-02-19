@@ -6,15 +6,17 @@ import FormContext from "/emcJS/util/form/FormContext.js";
 import {
     deepClone
 } from "/emcJS/util/helper/DeepClone.js";
+import {
+    scrollIntoViewIfNeeded
+} from "/emcJS/util/helper/ui/Scroll.js";
 import "/emcJS/ui/container/CaptionPanel.js";
 import "/emcJS/ui/container/CollapsePanel.js";
 import "/emcJS/ui/form/FormContainer.js";
-import "./components/StructureEditor.js";
-import "./components/StructureEditorTree.js";
+import "./components/tree/StructureEditorTree.js";
 import "./components/FormDetailEditor.js";
 import "./components/FormElementDetailEditor.js";
-import TPL from "./Editor.js.html" assert {type: "html"};
-import STYLE from "./Editor.js.css" assert {type: "css"};
+import TPL from "./FormEditor.js.html" assert {type: "html"};
+import STYLE from "./FormEditor.js.css" assert {type: "css"};
 
 const DEFAULT_CONFIG = {
     forms: [],
@@ -23,7 +25,7 @@ const DEFAULT_CONFIG = {
     defaultValues: {}
 };
 
-class Editor extends CustomElement {
+class FormEditor extends CustomElement {
 
     #config = deepClone(DEFAULT_CONFIG);
 
@@ -233,11 +235,17 @@ class Editor extends CustomElement {
                 newMarkedEl.style.outline = "solid 4px red";
                 newMarkedEl.style.outlineOffset = "-6px";
                 newMarkedEl.style.zIndex = "1";
-                newMarkedEl.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center",
-                    inline: "start"
-                });
+                if (newMarkedEl instanceof HTMLFormElement) {
+                    scrollIntoViewIfNeeded(newMarkedEl, {
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                } else {
+                    scrollIntoViewIfNeeded(newMarkedEl, {
+                        behavior: "smooth",
+                        block: "nearest"
+                    });
+                }
             }
         }
     }
@@ -372,4 +380,4 @@ class Editor extends CustomElement {
 
 }
 
-customElements.define("jse-form-editor", Editor);
+customElements.define("jse-form-editor", FormEditor);

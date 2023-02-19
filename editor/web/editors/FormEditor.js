@@ -1,5 +1,5 @@
 import FileSystem from "/emcJS/util/file/FileSystem.js";
-import "/JSEditors/modules/form/Editor.js";
+import "/JSEditors/modules/form/FormEditor.js";
 
 export default async function() {
     const editorEl = document.createElement("jse-form-editor");
