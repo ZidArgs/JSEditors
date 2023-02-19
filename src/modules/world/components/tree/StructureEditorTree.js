@@ -171,9 +171,9 @@ export default class StructureEditorTree extends BaseClass {
                 }
             };
             /*
-            TODO lists should be stored in an object with keyed lists
+            TODO this should be done via custom stuff
             */
-            if (data.list_mq != null) { // FIXME bad data design
+            if (data.list_mq != null) {
                 res[ref].children["list_mq"] = {
                     nodeType: "editor-world-area-list_mq",
                     label: "List (Master Quest)",
