@@ -2,11 +2,14 @@ import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import {
     deepClone
 } from "/emcJS/util/helper/DeepClone.js";
+import DefaultWorldConfigDataConverter from "./util/DefaultWorldConfigDataConverter.js";
 import "./components/tree/StructureEditorTree.js";
 import TPL from "./WorldEditor.js.html" assert {type: "html"};
 import STYLE from "./WorldEditor.js.css" assert {type: "css"};
 
 // TODO dedicated area list editor (with own structure etc)
+
+const DEFAULT_CONFIG_DATA_CONVERTER = new DefaultWorldConfigDataConverter();
 
 const DEFAULT_CONFIG = {
     config: {
@@ -40,6 +43,8 @@ const DEFAULT_CONFIG = {
 
 class WorldEditor extends CustomElement {
 
+    #configDataConverter;
+
     #config = deepClone(DEFAULT_CONFIG);
 
     #structureEditorTreeEl;
@@ -50,21 +55,37 @@ class WorldEditor extends CustomElement {
         STYLE.apply(this.shadowRoot);
         /* --- */
         this.#structureEditorTreeEl = this.shadowRoot.getElementById("structure-editor-tree");
-        this.#structureEditorTreeEl.loadConfig(this.#config);
+        this.#reloadTree();
+    }
+
+    set configDataConverter(value) {
+        if (value instanceof DefaultWorldConfigDataConverter) {
+            this.#configDataConverter = value;
+        } else {
+            this.#configDataConverter = null;
+        }
+    }
+
+    get configDataConverter() {
+        return this.#configDataConverter ?? DEFAULT_CONFIG_DATA_CONVERTER;
     }
 
     setConfig(config) {
-        this.#config = deepClone(config);
-        this.#structureEditorTreeEl.loadConfig(this.#config);
+        this.#config = this.configDataConverter.translateSetConfig(config);
+        this.#reloadTree();
     }
 
     getConfig() {
-        return deepClone(this.#config);
+        return this.configDataConverter.translateGetConfig(this.#config);
     }
 
     reset() {
         this.#config = deepClone(DEFAULT_CONFIG);
-        this.#structureEditorTreeEl.loadConfig(this.#config);
+        this.#reloadTree();
+    }
+
+    #reloadTree() {
+        this.#structureEditorTreeEl.loadConfig(this.configDataConverter.extractTreeStructure(this.#config));
     }
 
 }

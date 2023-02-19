@@ -9,6 +9,7 @@ import {
 import {
     scrollIntoViewIfNeeded
 } from "/emcJS/util/helper/ui/Scroll.js";
+import DefaultFromConfigDataConverter from "./util/DefaultFromConfigDataConverter.js";
 import "/emcJS/ui/container/CaptionPanel.js";
 import "/emcJS/ui/container/CollapsePanel.js";
 import "/emcJS/ui/form/FormContainer.js";
@@ -18,6 +19,8 @@ import "./components/FormElementDetailEditor.js";
 import TPL from "./FormEditor.js.html" assert {type: "html"};
 import STYLE from "./FormEditor.js.css" assert {type: "css"};
 
+const DEFAULT_CONFIG_DATA_CONVERTER = new DefaultFromConfigDataConverter();
+
 const DEFAULT_CONFIG = {
     forms: [],
     hasHeader: false,
@@ -26,6 +29,8 @@ const DEFAULT_CONFIG = {
 };
 
 class FormEditor extends CustomElement {
+
+    #configDataConverter;
 
     #config = deepClone(DEFAULT_CONFIG);
 
@@ -98,7 +103,7 @@ class FormEditor extends CustomElement {
                         }
                     };
                 }
-                this.#structureEditorTreeEl.loadConfig(this.#config);
+                this.#reloadTree();
                 this.#buildPreview();
             }
         });
@@ -117,7 +122,7 @@ class FormEditor extends CustomElement {
             };
             this.#config.forms.splice(calculatedIndex, 0, newElement);
             this.#editPath = [calculatedIndex];
-            this.#structureEditorTreeEl.loadConfig(this.#config);
+            this.#reloadTree();
             this.#buildPreview();
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
         });
@@ -128,7 +133,7 @@ class FormEditor extends CustomElement {
             const calculatedIndex = this.#normalizeIndex(path, this.#config);
             this.#config.forms.splice(calculatedIndex, 1);
             this.#editPath = [];
-            this.#structureEditorTreeEl.loadConfig(this.#config);
+            this.#reloadTree();
             this.#detailEditorFormElementEl.loadFormElement({type: ""});
             this.#buildPreview();
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
@@ -146,7 +151,7 @@ class FormEditor extends CustomElement {
             };
             context.splice(calculatedIndex, 0, newElement);
             this.#editPath = [...path, calculatedIndex];
-            this.#structureEditorTreeEl.loadConfig(this.#config);
+            this.#reloadTree();
             this.#buildPreview();
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
         });
@@ -158,7 +163,7 @@ class FormEditor extends CustomElement {
             const context = this.#getElementList(path);
             const calculatedIndex = this.#normalizeIndex(index, context);
             context.splice(calculatedIndex, 1);
-            this.#structureEditorTreeEl.loadConfig(this.#config);
+            this.#reloadTree();
             this.#editPath = [];
             this.#detailEditorFormElementEl.loadFormElement({type: ""});
             this.#buildPreview();
@@ -187,6 +192,18 @@ class FormEditor extends CustomElement {
                 this.#structureEditorTreeEl.selectItemByKey(dataId);
             }
         });
+    }
+
+    set configDataConverter(value) {
+        if (value instanceof DefaultFromConfigDataConverter) {
+            this.#configDataConverter = value;
+        } else {
+            this.#configDataConverter = null;
+        }
+    }
+
+    get configDataConverter() {
+        return this.#configDataConverter ?? DEFAULT_CONFIG_DATA_CONVERTER;
     }
 
     #getElementList(path) {
@@ -274,108 +291,27 @@ class FormEditor extends CustomElement {
     }
 
     setConfig(config) {
-        config = deepClone(config)
-        if (config.forms == null) {
-            config = {
-                forms: [{
-                    elements: this.#convertElements(config),
-                    config: {
-                        data: {
-                            id: UGen.appUID("form")
-                        }
-                    }
-                }],
-                hasHeader: false,
-                hasFooter: false,
-                defaultValues: {}
-            }
-        } else {
-            for (const form of config.forms) {
-                if (form.config == null) {
-                    form.config = {data: {}};
-                } else if (form.config.data == null) {
-                    form.config.data = {};
-                }
-                form.config.data["id"] = UGen.appUID("form");
-                form.elements = this.#convertElements(form.elements)
-            }
-        }
-        this.#config = config;
-        this.#structureEditorTreeEl.loadConfig(this.#config);
+        this.#config = this.configDataConverter.translateSetConfig(config);
+        this.#reloadTree();
         this.#editPath = [];
         this.#detailEditorFormElementEl.loadFormElement({type: ""});
         this.#buildPreview();
     }
 
-    #convertElements(elements) {
-        if (Array.isArray(elements)) {
-            for (const element of elements) {
-                if (element.data == null) {
-                    element.data = {};
-                }
-                element.data["id"] = UGen.appUID("form-element");
-                if (element.children != null) {
-                    element.children = this.#convertElements(element.children)
-                }
-            }
-            return elements;
-        } else {
-            const res = [];
-            for (const name in elements) {
-                const data = {
-                    name,
-                    label: name,
-                    ...elements[name],
-                    type: this.#translateType(elements[name].type),
-                    data: {
-                        id: UGen.appUID("form-element")
-                    }
-                };
-                if (elements[name].values != null && typeof elements[name].values === "object") {
-                    const values = elements[name].values;
-                    data.options = {};
-                    if (Array.isArray(values)) {
-                        for (const value of values) {
-                            data.options[value] = value;
-                        }
-                    } else {
-                        for (const key in values) {
-                            data.options[key] = values[key];
-                        }
-                    }
-                }
-                res.push(data);
-            }
-            return res;
-        }
-    }
-
-    #translateType(type) {
-        switch (type) {
-            case "button": return "ActionButton";
-            case "check": return "SwitchInput";
-            case "string": return "StringInput";
-            case "number": return "NumberInput";
-            case "range": return "RangeInput";
-            case "color": return "ColorInput";
-            case "password": return "PasswordInput";
-            case "hotkey": return "HotkeyInput";
-            case "choice": return "SearchSelect";
-            case "list": return "ListSelect";
-        }
-        return type;
-    }
-
     getConfig() {
-        return deepClone(this.#config);
+        return this.configDataConverter.translateGetConfig(this.#config);
     }
 
     reset() {
         this.#config = deepClone(DEFAULT_CONFIG);
-        this.#structureEditorTreeEl.loadConfig(this.#config);
+        this.#reloadTree();
         this.#editPath = [];
         this.#detailEditorFormElementEl.loadFormElement({type: ""});
         this.#buildPreview();
+    }
+
+    #reloadTree() {
+        this.#structureEditorTreeEl.loadConfig(this.configDataConverter.extractTreeStructure(this.#config));
     }
 
 }

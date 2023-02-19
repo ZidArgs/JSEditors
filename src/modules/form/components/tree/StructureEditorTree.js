@@ -182,54 +182,12 @@ export default class StructureEditorTree extends BaseClass {
     }
 
     loadConfig(config) {
-        const tree = {};
-        if (config.forms.length) {
-            let cnt = 1;
-            for (const form of config.forms) {
-                tree[form.config.data.id] = {
-                    label: `Form ${cnt++}`,
-                    children: this.#translateFormConfig(form.elements)
-                };
-            }
+        if (Object.keys(config).length) {
             this.#newButtonEl.style.display = "none";
         } else {
             this.#newButtonEl.style.display = "";
         }
-        this.#treeEl.loadConfig(tree);
-    }
-
-    #translateFormConfig(elements) {
-        const result = {};
-        for (const element of elements) {
-            const {children, ...params} = element;
-            const label = this.#extractLabel(params);
-            if (children != null) {
-                result[element.data.id] = {
-                    label,
-                    children: this.#translateFormConfig(children)
-                };
-            } else {
-                result[element.data.id] = {
-                    label
-                };
-            }
-        }
-        return result;
-    }
-
-    #extractLabel(params) {
-        const {type, text, label = text, name, id} = params;
-        let res = type ? `(${type})` : "(-- new --)";
-        if (label) {
-            res = `${label} ${res}`;
-        }
-        if (name) {
-            res += ` $${name}`;
-        }
-        if (id) {
-            res += ` #${id}`;
-        }
-        return res;
+        this.#treeEl.loadConfig(config);
     }
 
 }

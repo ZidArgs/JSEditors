@@ -92,6 +92,8 @@ export default class StructureEditorTree extends BaseClass {
         this.#treeEl.forcePathExpanded(path);
     }
 
+    // TODO transformation should be done in the editor itself
+    // TODO make default transformation but allow registration of custom transformer (load and save)
     loadConfig(config) {
         const {location, exit, area} = config;
         const tree = {

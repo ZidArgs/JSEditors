@@ -1,8 +1,10 @@
 import FileSystem from "/emcJS/util/file/FileSystem.js";
 import "/JSEditors/modules/form/FormEditor.js";
+import FromConfigDataConverter from "./util/FromConfigDataConverter.js";
 
 export default async function() {
     const editorEl = document.createElement("jse-form-editor");
+    editorEl.configDataConverter = new FromConfigDataConverter();
 
     // navigation
     const NAV = [{
