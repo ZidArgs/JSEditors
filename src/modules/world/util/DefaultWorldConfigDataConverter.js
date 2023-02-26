@@ -15,6 +15,9 @@ export default class DefaultWorldConfigDataConverter {
     }
 
     extractTreeStructure(config) {
+        if (config == null) {
+            return {};
+        }
         const {location, exit, area} = config;
         const tree = {
             world: {
@@ -47,6 +50,7 @@ export default class DefaultWorldConfigDataConverter {
     }
 
     extractTreeStructureLocations(locations = {}) {
+        console.log(locations)
         const res = {};
         for (const ref in locations) {
             const data = locations[ref];

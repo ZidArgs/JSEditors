@@ -223,7 +223,6 @@ class FormEditor extends CustomElement {
     }
 
     #buildPreview() {
-        console.log(this.#config);
         const oldFormContainerEl = this.#previewEl.querySelector("emc-form-container");
         if (oldFormContainerEl != null) {
             this.#previewFormContext.unregisterFormContainer(oldFormContainerEl);
@@ -311,7 +310,8 @@ class FormEditor extends CustomElement {
     }
 
     #reloadTree() {
-        this.#structureEditorTreeEl.loadConfig(this.configDataConverter.extractTreeStructure(this.#config));
+        const treeConfig = this.configDataConverter.extractTreeStructure(this.#config);
+        this.#structureEditorTreeEl.loadConfig(treeConfig);
     }
 
 }

@@ -85,7 +85,8 @@ class WorldEditor extends CustomElement {
     }
 
     #reloadTree() {
-        this.#structureEditorTreeEl.loadConfig(this.configDataConverter.extractTreeStructure(this.#config));
+        const treeConfig = this.configDataConverter.extractTreeStructure(this.#config);
+        this.#structureEditorTreeEl.loadConfig(treeConfig);
     }
 
 }

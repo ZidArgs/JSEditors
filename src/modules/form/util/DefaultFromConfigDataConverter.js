@@ -6,6 +6,9 @@ import {
 export default class DefaultFromConfigDataConverter {
 
     translateSetConfig(config) {
+        if (config == null) {
+            return {};
+        }
         config = deepClone(config);
         const res = {
             forms: [],
