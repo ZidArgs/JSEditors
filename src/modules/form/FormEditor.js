@@ -78,6 +78,7 @@ class FormEditor extends CustomElement {
                 }
                 formConfig.values = {...data.values};
                 this.#buildPreview();
+                this.dispatchEvent(new Event("change"));
             }
         });
         /* --- */
@@ -105,6 +106,7 @@ class FormEditor extends CustomElement {
                 }
                 this.#reloadTree();
                 this.#buildPreview();
+                this.dispatchEvent(new Event("change"));
             }
         });
         /* --- */
@@ -125,6 +127,7 @@ class FormEditor extends CustomElement {
             this.#reloadTree();
             this.#buildPreview();
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
+            this.dispatchEvent(new Event("change"));
         });
         this.#structureEditorTreeEl.addEventListener("removeForm", (event) => {
             this.#detailEditorFormEl.classList.remove("active");
@@ -137,6 +140,7 @@ class FormEditor extends CustomElement {
             this.#detailEditorFormElementEl.loadFormElement({type: ""});
             this.#buildPreview();
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
+            this.dispatchEvent(new Event("change"));
         });
         this.#structureEditorTreeEl.addEventListener("addElement", (event) => {
             const path = [...event.path];
@@ -154,6 +158,7 @@ class FormEditor extends CustomElement {
             this.#reloadTree();
             this.#buildPreview();
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
+            this.dispatchEvent(new Event("change"));
         });
         this.#structureEditorTreeEl.addEventListener("removeElement", (event) => {
             this.#detailEditorFormEl.classList.remove("active");
@@ -167,6 +172,7 @@ class FormEditor extends CustomElement {
             this.#editPath = [];
             this.#detailEditorFormElementEl.loadFormElement({type: ""});
             this.#buildPreview();
+            this.dispatchEvent(new Event("change"));
         });
         this.#structureEditorTreeEl.addEventListener("editForm", (event) => {
             this.#detailEditorFormEl.classList.add("active");
