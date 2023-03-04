@@ -63,14 +63,14 @@ export default class FromConfigDataConverter extends DefaultFromConfigDataConver
             resElement.children = this.translateSetConfigElementList(children)
         }
         if (values != null && typeof values === "object") {
-            data.options = {};
+            resElement.options = {};
             if (Array.isArray(values)) {
                 for (const value of values) {
-                    data.options[value] = value;
+                    resElement.options[value] = value;
                 }
             } else {
                 for (const key in values) {
-                    data.options[key] = values[key];
+                    resElement.options[key] = values[key];
                 }
             }
         }

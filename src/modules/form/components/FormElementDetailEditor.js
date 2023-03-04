@@ -130,6 +130,16 @@ export default class FormElementDetailEditor extends CustomElement {
         this.#setDetailConfig(config);
         this.#formContext.loadData({...defaults, ...values, type});
         this.#typeSelectEventManager.setActive(true);
+
+        const cnt = this.shadowRoot.getElementById("details");
+        const enabledLogicEl = cnt.querySelector("[name=\"enabled\"]");
+        if (enabledLogicEl != null) {
+            enabledLogicEl.addOperatorGroup("formFields");
+        }
+        const visibleLogicEl = cnt.querySelector("[name=\"visible\"]");
+        if (visibleLogicEl != null) {
+            visibleLogicEl.addOperatorGroup("formFields");
+        }
     }
 
     getData() {

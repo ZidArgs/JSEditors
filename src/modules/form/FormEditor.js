@@ -1,5 +1,6 @@
 import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import EventTargetManager from "/emcJS/util/event/EventTargetManager.js";
+import LogicOperatorRegistry from "/emcJS/data/registry/LogicOperatorRegistry.js";
 import UGen from "/emcJS/util/UniqueGenerator.js";
 import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
@@ -27,6 +28,8 @@ const DEFAULT_CONFIG = {
     hasFooter: false,
     defaultValues: {}
 };
+
+LogicOperatorRegistry.setCaption("formFields", "Form Fields");
 
 class FormEditor extends CustomElement {
 
@@ -88,6 +91,7 @@ class FormEditor extends CustomElement {
                 const path = [...this.#editPath];
                 const index = path.pop();
                 const context = this.#getElementList(path);
+                this.#checkDeleteLogicOperator(context[index]);
                 if (context[index].children != null && event.data.children != null) {
                     context[index] = {
                         ...event.data,
@@ -104,6 +108,7 @@ class FormEditor extends CustomElement {
                         }
                     };
                 }
+                this.#setLogicOperator(event.data);
                 this.#reloadTree();
                 this.#buildPreview();
                 this.dispatchEvent(new Event("change"));
@@ -137,8 +142,8 @@ class FormEditor extends CustomElement {
             this.#config.forms.splice(calculatedIndex, 1);
             this.#editPath = [];
             this.#reloadTree();
-            this.#detailEditorFormElementEl.loadFormElement({type: ""});
             this.#buildPreview();
+            this.#detailEditorFormElementEl.loadFormElement({type: ""});
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
             this.dispatchEvent(new Event("change"));
         });
@@ -167,10 +172,11 @@ class FormEditor extends CustomElement {
             const index = path.pop();
             const context = this.#getElementList(path);
             const calculatedIndex = this.#normalizeIndex(index, context);
+            this.#checkDeleteLogicOperator(context[calculatedIndex]);
             context.splice(calculatedIndex, 1);
-            this.#reloadTree();
             this.#editPath = [];
             this.#detailEditorFormElementEl.loadFormElement({type: ""});
+            this.#reloadTree();
             this.#buildPreview();
             this.dispatchEvent(new Event("change"));
         });
@@ -301,6 +307,7 @@ class FormEditor extends CustomElement {
         this.#editPath = [];
         this.#detailEditorFormElementEl.loadFormElement({type: ""});
         this.#buildPreview();
+        this.#initLogicOperators();
     }
 
     getConfig() {
@@ -313,11 +320,50 @@ class FormEditor extends CustomElement {
         this.#editPath = [];
         this.#detailEditorFormElementEl.loadFormElement({type: ""});
         this.#buildPreview();
+        this.#initLogicOperators();
     }
 
     #reloadTree() {
         const treeConfig = this.configDataConverter.extractTreeStructure(this.#config);
         this.#structureEditorTreeEl.loadConfig(treeConfig);
+    }
+
+    #initLogicOperators() {
+        for (const form of this.#config.forms) {
+            this.#loadLogicOperaots(form.elements);
+        }
+    }
+
+    #loadLogicOperaots(elements) {
+        for (const el of elements) {
+            this.#setLogicOperator(el)
+            if (el.children != null) {
+                this.#loadLogicOperaots(el.children);
+            }
+        }
+    }
+
+    #setLogicOperator(config) {
+        if (config.name) {
+            if (config.options) {
+                LogicOperatorRegistry.setOperator("formFields", config.name, {
+                    type: "state",
+                    options: config.options,
+                    value: Object.keys(config.options)[0]
+                });
+            } else {
+                LogicOperatorRegistry.setOperator("formFields", config.name, {
+                    type: "value"
+                });
+            }
+        }
+    }
+
+    #checkDeleteLogicOperator(config) {
+        if (config.name) {
+            // TODO check if last element of name
+            LogicOperatorRegistry.deleteOperator("formFields", config.name);
+        }
     }
 
 }
