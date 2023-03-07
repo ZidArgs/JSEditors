@@ -1,14 +1,12 @@
-<form id="type-form" class="top-form">
-    <h1>Form Config</h1>
-</form>
-<div id="details">
-    <form id="form">
-        TODO
+<emc-form-container id="form-container" class="has-header has-footer">
+    <form id="type-form">
+        <h1>Form Config</h1>
     </form>
-</div>
-<form id="control-form" class="bottom-form">
-    <emc-form-buttonrow>
-        <emc-button-reset></emc-button-reset>
-        <emc-button-submit></emc-button-submit>
-    </emc-form-buttonrow>
-</form>
+    <form id="detail-form"></form>
+    <form id="control-form">
+        <emc-form-buttonrow>
+            <emc-button-reset></emc-button-reset>
+            <emc-button-submit></emc-button-submit>
+        </emc-form-buttonrow>
+    </form>
+</emc-form-container>

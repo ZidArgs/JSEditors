@@ -12,6 +12,7 @@ import ResetButton from "/emcJS/ui/form/button/ResetButton.js";
 import {
     extractDefaultValuesFromConfig
 } from "/emcJS/util/helper/ui/Form.js";
+import "/emcJS/ui/form/FormContainer.js";
 import "/emcJS/ui/form/field/DefaultFormFieldsLoader.js";
 import TPL from "./FormElementDetailEditor.js.html" assert {type: "html"};
 import STYLE from "./FormElementDetailEditor.js.css" assert {type: "css"};
@@ -68,6 +69,8 @@ export default class FormElementDetailEditor extends CustomElement {
 
     #formContext = new FormContext();
 
+    #detailFormEl;
+
     #typeSelectEl;
 
     #typeSelectEventManager = new EventTargetManager();
@@ -94,6 +97,9 @@ export default class FormElementDetailEditor extends CustomElement {
             this.dispatchEvent(event);
         });
         /* --- */
+        this.#detailFormEl = this.shadowRoot.getElementById("detail-form");
+        this.#formContext.registerForm(this.#detailFormEl);
+        /* --- */
         this.#typeSelectEl = this.shadowRoot.getElementById("type-select");
         this.#typeSelectEventManager.switchTarget(this.#typeSelectEl);
         this.#typeSelectEventManager.set("change", () => {
@@ -108,35 +114,22 @@ export default class FormElementDetailEditor extends CustomElement {
         this.#formContext.registerForm(controlFormEl);
     }
 
-    #setDetailConfig(config) {
-        const cnt = this.shadowRoot.getElementById("details");
-        const oldFormEl = this.shadowRoot.getElementById("form");
-        if (oldFormEl != null) {
-            this.#formContext.unregisterForm(oldFormEl);
-            cnt.innerHTML = "";
-        }
-        /* --- */
-        const formEl = FormBuilder.buildForm(config);
-        formEl.id = "form";
-        cnt.append(formEl);
-        this.#formContext.registerForm(formEl);
-    }
-
     loadFormElement(data) {
         this.#typeSelectEventManager.setActive(false);
         const {type, ...values} = data ?? {};
         const config = getDetailConfig(type);
         const defaults = extractDefaultValuesFromConfig(config);
-        this.#setDetailConfig(config);
+
+        FormBuilder.replaceForm(this.#detailFormEl, config);
+
         this.#formContext.loadData({...defaults, ...values, type});
         this.#typeSelectEventManager.setActive(true);
 
-        const cnt = this.shadowRoot.getElementById("details");
-        const enabledLogicEl = cnt.querySelector("[name=\"enabled\"]");
+        const enabledLogicEl = this.#detailFormEl.querySelector("[name=\"enabled\"]");
         if (enabledLogicEl != null) {
             enabledLogicEl.addOperatorGroup("formFields");
         }
-        const visibleLogicEl = cnt.querySelector("[name=\"visible\"]");
+        const visibleLogicEl = this.#detailFormEl.querySelector("[name=\"visible\"]");
         if (visibleLogicEl != null) {
             visibleLogicEl.addOperatorGroup("formFields");
         }

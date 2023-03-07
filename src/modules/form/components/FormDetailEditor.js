@@ -4,6 +4,7 @@ import FormContext from "/emcJS/util/form/FormContext.js";
 import "/emcJS/ui/form/FormButtonRow.js";
 import "/emcJS/ui/form/button/SubmitButton.js";
 import "/emcJS/ui/form/button/ResetButton.js";
+import "/emcJS/ui/form/FormContainer.js";
 import "/emcJS/ui/form/field/DefaultFormFieldsLoader.js";
 import TPL from "./FormDetailEditor.js.html" assert {type: "html"};
 import STYLE from "./FormDetailEditor.js.css" assert {type: "css"};
@@ -24,6 +25,11 @@ export default class FormDetailEditor extends CustomElement {
             };
             this.dispatchEvent(event);
         });
+        /* --- */
+        const controlFormEl = this.shadowRoot.getElementById("control-form");
+        this.#formContext.registerForm(controlFormEl);
+        const detailFormEl = this.shadowRoot.getElementById("detail-form");
+        this.#formContext.registerForm(detailFormEl);
     }
 
     setData(data) {
