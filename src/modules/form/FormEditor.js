@@ -143,7 +143,7 @@ class FormEditor extends CustomElement {
             this.#editPath = [];
             this.#reloadTree();
             this.#buildPreview();
-            this.#detailEditorFormElementEl.loadFormElement({type: ""});
+            this.#detailEditorFormElementEl.setData({type: ""});
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
             this.dispatchEvent(new Event("change"));
         });
@@ -175,7 +175,7 @@ class FormEditor extends CustomElement {
             this.#checkDeleteLogicOperator(context[calculatedIndex]);
             context.splice(calculatedIndex, 1);
             this.#editPath = [];
-            this.#detailEditorFormElementEl.loadFormElement({type: ""});
+            this.#detailEditorFormElementEl.setData({type: ""});
             this.#reloadTree();
             this.#buildPreview();
             this.dispatchEvent(new Event("change"));
@@ -193,7 +193,7 @@ class FormEditor extends CustomElement {
             this.#detailEditorFormElementEl.classList.add("active");
             this.#editPath = [...event.path];
             const config = this.#getCurrentElementConfig();
-            this.#detailEditorFormElementEl.loadFormElement(config);
+            this.#detailEditorFormElementEl.setData(config);
             this.#markElement();
         });
         /* --- */
@@ -305,7 +305,7 @@ class FormEditor extends CustomElement {
         this.#config = this.configDataConverter.translateSetConfig(config);
         this.#reloadTree();
         this.#editPath = [];
-        this.#detailEditorFormElementEl.loadFormElement({type: ""});
+        this.#detailEditorFormElementEl.setData({type: ""});
         this.#buildPreview();
         this.#initLogicOperators();
     }
@@ -318,7 +318,7 @@ class FormEditor extends CustomElement {
         this.#config = deepClone(DEFAULT_CONFIG);
         this.#reloadTree();
         this.#editPath = [];
-        this.#detailEditorFormElementEl.loadFormElement({type: ""});
+        this.#detailEditorFormElementEl.setData({type: ""});
         this.#buildPreview();
         this.#initLogicOperators();
     }

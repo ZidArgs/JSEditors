@@ -104,17 +104,17 @@ export default class FormElementDetailEditor extends CustomElement {
         this.#typeSelectEventManager.switchTarget(this.#typeSelectEl);
         this.#typeSelectEventManager.set("change", () => {
             const type = this.#typeSelectEl.value;
-            this.loadFormElement({type});
+            this.setData({type});
         });
         addTypeSelectOptions(this.#typeSelectEl);
         /* --- */
-        const typeFormEl = this.shadowRoot.getElementById("type-form");
-        this.#formContext.registerForm(typeFormEl);
-        const controlFormEl = this.shadowRoot.getElementById("control-form");
-        this.#formContext.registerForm(controlFormEl);
+        const headerFormEl = this.shadowRoot.getElementById("header-form");
+        this.#formContext.registerForm(headerFormEl);
+        const footerFormEl = this.shadowRoot.getElementById("footer-form");
+        this.#formContext.registerForm(footerFormEl);
     }
 
-    loadFormElement(data) {
+    setData(data) {
         this.#typeSelectEventManager.setActive(false);
         const {type, ...values} = data ?? {};
         const config = getDetailConfig(type);

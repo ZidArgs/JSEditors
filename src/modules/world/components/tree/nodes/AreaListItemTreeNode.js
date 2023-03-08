@@ -25,6 +25,6 @@ export default class AreaListItemTreeNode extends TreeNode {
 
 }
 
-TreeNode.registerNodeType("editor-world-area-listitem", AreaListItemTreeNode);
+TreeNode.registerNodeType("editor-world-area-list-item", AreaListItemTreeNode);
 customElements.define("jse-tree-node-world-area-listitem", AreaListItemTreeNode);
 

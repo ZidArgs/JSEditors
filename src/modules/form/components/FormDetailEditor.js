@@ -26,8 +26,8 @@ export default class FormDetailEditor extends CustomElement {
             this.dispatchEvent(event);
         });
         /* --- */
-        const controlFormEl = this.shadowRoot.getElementById("control-form");
-        this.#formContext.registerForm(controlFormEl);
+        const footerFormEl = this.shadowRoot.getElementById("footer-form");
+        this.#formContext.registerForm(footerFormEl);
         const detailFormEl = this.shadowRoot.getElementById("detail-form");
         this.#formContext.registerForm(detailFormEl);
     }

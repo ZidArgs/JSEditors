@@ -11,15 +11,12 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr;
     grid-template-areas: 
-    "structure preview detail";
+    "structure detail detail";
     grid-column-gap: 5px;
     grid-row-gap: 5px;
 }
 #structure-panel {
     grid-area: structure;
-}
-#preview-panel {
-    grid-area: preview;
 }
 #detail-panel {
     grid-area: detail;

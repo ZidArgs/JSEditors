@@ -107,13 +107,13 @@ export default class DefaultWorldConfigDataConverter {
             if (type === "collection") {
                 const list = item.list;
                 res[item.id] = {
-                    nodeType: "editor-world-area-listcategory",
+                    nodeType: "editor-world-area-list-collection",
                     label: item.id,
                     children: this.extractTreeStructureAreaList(list)
                 };
             } else {
                 res[item.id] = {
-                    nodeType: "editor-world-area-listitem",
+                    nodeType: "editor-world-area-list-item",
                     label: item.id,
                     type
                 };
