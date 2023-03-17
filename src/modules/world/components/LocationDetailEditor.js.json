@@ -1,0 +1,46 @@
+[
+    {
+        "type": "SearchSelect",
+        "name": "type",
+        "label": "Type",
+        "value": "chest",
+        "options": {
+            "chest": "Chest",
+            "skulltula": "Skulltula",
+            "gossipstone": "Gossipstone",
+            "scrub": "Scrub",
+            "bean": "Bean",
+            "cow": "Cow"
+        }
+    },
+    {
+        "type": "SearchSelect",
+        "name": "logicAccess",
+        "label": "Access Name",
+        "value": "",
+        "options": {
+            "": "",
+            "all logic access values": "Access Value"
+        }
+    },
+    {
+        "type": "BoolOrLogicInput",
+        "name": "visible",
+        "label": "Visible",
+        "value": true
+    },
+    {
+        "type": "ImageIconSelect",
+        "name": "icon",
+        "label": "Icon",
+        "options": {
+            "/images/icons/chest.svg": "Chest",
+            "/images/icons/skulltula.svg": "Skulltula",
+            "/images/icons/gossipstone.svg": "Gossipstone",
+            "/images/icons/scrub.svg": "Scrub",
+            "/images/icons/bean.svg": "Bean",
+            "/images/icons/cow.svg": "Cow"
+        },
+        "value": "/images/icons/chest.svg"
+    }
+]

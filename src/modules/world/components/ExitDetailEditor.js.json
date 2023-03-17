@@ -1,0 +1,82 @@
+[
+    {
+        "type": "TokenSelect",
+        "name": "type",
+        "label": "Type",
+        "token": "exits"
+    },
+    {
+        "type": "StringInput",
+        "name": "target",
+        "label": "Default target entrance"
+    },
+    {
+        "type": "StringInput",
+        "name": "logicAccess",
+        "label": "Logic access reference"
+    },
+    {
+        "type": "SearchSelect",
+        "name": "area",
+        "label": "Area"
+    },
+    {
+        "type": "BoolOrLogicInput",
+        "name": "visible",
+        "label": "Visible",
+        "value": true
+    },
+    {
+        "type": "SwitchInput",
+        "name": "visibleRootOnly",
+        "label": "Visible on root only"
+    },
+    {
+        "type": "ImageIconSelect",
+        "name": "icon",
+        "label": "Icon",
+        "options": {
+            "/images/icons/dungeon.svg": "Dungeon",
+            "/images/icons/skulltula.svg": "Skulltula",
+            "/images/icons/gossipstone.svg": "Gossipstone",
+            "/images/icons/scrub.svg": "Scrub",
+            "/images/icons/bean.svg": "Bean",
+            "/images/icons/cow.svg": "Cow"
+        },
+        "value": "/images/icons/dungeon.svg"
+    },
+    {
+        "type": "TokenBoolOrLogicList",
+        "name": "bindsTo",
+        "label": "Binds to types",
+        "token": "exits"
+    },
+    {
+        "type": "SwitchInput",
+        "name": "ignoreBound",
+        "label": "Include bound entrances"
+    },
+    {
+        "type": "BoolOrLogicInput",
+        "name": "entranceActive",
+        "label": "Bindable",
+        "value": true
+    },
+    {
+        "type": "SwitchInput",
+        "name": "includeInactiveEntrances",
+        "label": "Include inactive entrances"
+    },
+    {
+        "type": "SwitchInput",
+        "name": "isBiDir",
+        "label": "Bidirectional entrance",
+        "value": true
+    },
+    {
+        "type": "TokenSelect",
+        "name": "tags",
+        "label": "Tags",
+        "token": "exit_tags"
+    }
+]

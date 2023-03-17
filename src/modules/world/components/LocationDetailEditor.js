@@ -4,51 +4,7 @@ import FormContext from "/emcJS/util/form/FormContext.js";
 import "/emcJS/ui/form/field/DefaultFormFieldsLoader.js";
 import TPL from "./LocationDetailEditor.js.html" assert {type: "html"};
 import STYLE from "./LocationDetailEditor.js.css" assert {type: "css"};
-
-const FORM_CONFIG = [
-    {
-        "type": "SearchSelect",
-        "name": "type",
-        "label": "Type",
-        "value": "chest",
-        "options": {
-            "chest": "Chest",
-            "skulltula": "Skulltula",
-            "gossipstone": "Gossipstone",
-            "scrub": "Scrub",
-            "bean": "Bean",
-            "cow": "Cow"
-        }
-    }, {
-        "type": "SearchSelect",
-        "name": "logicAccess",
-        "label": "Access Name",
-        "value": "",
-        "options": {
-            "": "",
-            "all logic access values": "Access Value"
-        }
-    }, {
-        "type": "BoolOrLogicInput",
-        "name": "visible",
-        "label": "Visible",
-        "value": true
-    }, {
-        "type": "ImageIconSelect",
-        "name": "icon",
-        "label": "Icon",
-        "base": "images/icons/",
-        "values": [
-            "chest.svg",
-            "skulltula.svg",
-            "gossipstone.svg",
-            "scrub.svg",
-            "bean.svg",
-            "cow.svg"
-        ],
-        "default": "chest.svg"
-    }
-];
+import FORM_CONFIG from "./LocationDetailEditor.js.json" assert {type: "json"};
 
 export default class LocationDetailEditor extends CustomElement {
 
