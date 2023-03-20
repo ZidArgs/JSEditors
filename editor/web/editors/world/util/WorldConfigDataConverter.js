@@ -12,6 +12,10 @@ export default class WorldConfigDataConverter extends DefaultWorldConfigDataConv
                 label: ref,
                 type,
                 children: {
+                    map: {
+                        nodeType: "editor-world-area-map-config",
+                        label: "Map Config"
+                    },
                     list: {
                         nodeType: "editor-world-area-list",
                         label: "List (Vanilla)",

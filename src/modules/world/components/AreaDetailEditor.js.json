@@ -1,0 +1,41 @@
+[
+    {
+        "type": "SearchSelect",
+        "name": "type",
+        "label": "Type",
+        "optiongroup": "worldEditor_areaTypes"
+    },
+    {
+        "type": "BoolOrLogicInput",
+        "name": "visible",
+        "label": "Visible"
+    },
+    {
+        "type": "SwitchInput",
+        "name": "listContents",
+        "label": "Show the content as group"
+    },
+    {
+        "type": "SwitchInput",
+        "name": "accessPenetration",
+        "label": "Add this areas access count to its parent access count"
+    },
+    {
+        "type": "ImageIconSelect",
+        "name": "icon",
+        "label": "Icon",
+        "optiongroup": "worldEditor_areaIcons"
+    },
+    {
+        "type": "TokenSelect",
+        "name": "areaTags",
+        "label": "Area Tags (Icons)",
+        "tokengroup": "worldEditor_areaTags"
+    },
+    {
+        "type": "TokenSelect",
+        "name": "tags",
+        "label": "Tags",
+        "tokengroup": "worldEditor_areaTags"
+    }
+]

@@ -4,24 +4,12 @@
         "name": "type",
         "label": "Type",
         "value": "chest",
-        "options": {
-            "chest": "Chest",
-            "skulltula": "Skulltula",
-            "gossipstone": "Gossipstone",
-            "scrub": "Scrub",
-            "bean": "Bean",
-            "cow": "Cow"
-        }
+        "optiongroup": "worldEditor_locationTypes"
     },
     {
-        "type": "SearchSelect",
+        "type": "StringInput",
         "name": "logicAccess",
-        "label": "Access Name",
-        "value": "",
-        "options": {
-            "": "",
-            "all logic access values": "Access Value"
-        }
+        "label": "Access Name"
     },
     {
         "type": "BoolOrLogicInput",
@@ -33,14 +21,12 @@
         "type": "ImageIconSelect",
         "name": "icon",
         "label": "Icon",
-        "options": {
-            "/images/icons/chest.svg": "Chest",
-            "/images/icons/skulltula.svg": "Skulltula",
-            "/images/icons/gossipstone.svg": "Gossipstone",
-            "/images/icons/scrub.svg": "Scrub",
-            "/images/icons/bean.svg": "Bean",
-            "/images/icons/cow.svg": "Cow"
-        },
-        "value": "/images/icons/chest.svg"
+        "optiongroup": "worldEditor_locationIcons"
+    },
+    {
+        "type": "TokenSelect",
+        "name": "tags",
+        "label": "Tags",
+        "tokengroup": "worldEditor_locationTags"
     }
 ]

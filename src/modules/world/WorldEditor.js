@@ -3,8 +3,16 @@ import {
     deepClone
 } from "/emcJS/util/helper/DeepClone.js";
 import DefaultWorldConfigDataConverter from "./util/DefaultWorldConfigDataConverter.js";
+import "./components/AreaDetailEditor.js";
+import "./components/AreaListEntryDetailEditor.js";
+import "./components/AreaMapConfigDetailEditor.js";
+import "./components/ExitDetailEditor.js";
 import "./components/LocationDetailEditor.js";
 import "./components/tree/StructureEditorTree.js";
+import "./components/tree/nodes/AreaListItemTreeNode.js";
+import "./components/tree/nodes/AreaMapConfigTreeNode.js";
+import "./components/tree/nodes/AreaTreeNode.js";
+import "./components/tree/nodes/ExitTreeNode.js";
 import "./components/tree/nodes/LocationTreeNode.js";
 import TPL from "./WorldEditor.js.html" assert {type: "html"};
 import STYLE from "./WorldEditor.js.css" assert {type: "css"};
@@ -56,6 +64,14 @@ class WorldEditor extends CustomElement {
 
     #editRef = "";
 
+    #detailEditorAreaEl;
+
+    #detailEditorAreaMapConfigEl;
+
+    #detailEditorAreaListEntryEl;
+
+    #detailEditorExitEl;
+
     #detailEditorLocationEl;
 
     #structureEditorTreeEl;
@@ -65,7 +81,40 @@ class WorldEditor extends CustomElement {
         this.shadowRoot.append(TPL.generate());
         STYLE.apply(this.shadowRoot);
         /* --- */
+        this.#detailEditorAreaEl = this.shadowRoot.getElementById("detail-editor-area");
+        this.#detailEditorAreaMapConfigEl = this.shadowRoot.getElementById("detail-editor-area-map-config");
+        this.#detailEditorAreaListEntryEl = this.shadowRoot.getElementById("detail-editor-area-list-entry");
+        this.#detailEditorExitEl = this.shadowRoot.getElementById("detail-editor-exit");
         this.#detailEditorLocationEl = this.shadowRoot.getElementById("detail-editor-location");
+        this.#detailEditorAreaEl.addEventListener("save", (event) => {
+            if (this.#editRef !== "") {
+                // const areaConfig = this.#config.area[this.#editRef];
+                // this.#config.area[this.#editRef] = {
+                //     ...areaConfig,
+                //     ...event.data
+                // };
+                // this.dispatchEvent(new Event("change"));
+            }
+        });
+        this.#detailEditorAreaMapConfigEl.addEventListener("save", (event) => {
+            if (this.#editRef !== "") {
+                // this.#config.area[this.#editRef].map = event.data;
+                // this.dispatchEvent(new Event("change"));
+            }
+        });
+        this.#detailEditorAreaListEntryEl.addEventListener("save", (event) => {
+            if (this.#editRef !== "") {
+                // const [area, ...path] = this.#editRef.split(".");
+                // this.#config.area[area] = event.data;
+                // this.dispatchEvent(new Event("change"));
+            }
+        });
+        this.#detailEditorExitEl.addEventListener("save", (event) => {
+            if (this.#editRef !== "") {
+                this.#config.exit[this.#editRef] = event.data;
+                this.dispatchEvent(new Event("change"));
+            }
+        });
         this.#detailEditorLocationEl.addEventListener("save", (event) => {
             if (this.#editRef !== "") {
                 this.#config.location[this.#editRef] = event.data;
@@ -76,12 +125,20 @@ class WorldEditor extends CustomElement {
         this.#structureEditorTreeEl = this.shadowRoot.getElementById("structure-editor-tree");
         this.#reloadTree();
         /* --- */
+        this.#structureEditorTreeEl.addEventListener("editArea", (event) => {
+            this.#showDetailEditor("area", event.ref);
+        });
+        this.#structureEditorTreeEl.addEventListener("areaMapConfigSelect", (event) => {
+            this.#showDetailEditor("areaMapConfig", event.ref);
+        });
+        this.#structureEditorTreeEl.addEventListener("areaListItemSelect", (event) => {
+            this.#showDetailEditor("areaListEntry", event.ref);
+        });
+        this.#structureEditorTreeEl.addEventListener("editExit", (event) => {
+            this.#showDetailEditor("exit", event.ref);
+        });
         this.#structureEditorTreeEl.addEventListener("editLocation", (event) => {
-            this.#detailEditorLocationEl.classList.add("active");
-            this.#editType = "location";
-            this.#editRef = event.ref;
-            const config = this.#getCurrentElementConfig();
-            this.#detailEditorLocationEl.setData(config);
+            this.#showDetailEditor("location", event.ref);
         });
     }
 
@@ -111,6 +168,21 @@ class WorldEditor extends CustomElement {
         this.#reloadTree();
     }
 
+    #showDetailEditor(type, ref) {
+        this.#detailEditorAreaEl.classList.remove("active");
+        this.#detailEditorAreaMapConfigEl.classList.remove("active");
+        this.#detailEditorAreaListEntryEl.classList.remove("active");
+        this.#detailEditorExitEl.classList.remove("active");
+        this.#detailEditorLocationEl.classList.remove("active");
+        /* --- */
+        this.#editType = type;
+        this.#editRef = ref;
+        const detailEditorEl = this.#getEditor(type);
+        detailEditorEl.classList.add("active");
+        const config = this.#getCurrentElementConfig();
+        detailEditorEl.setData(config);
+    }
+
     #reloadTree() {
         const treeConfig = this.configDataConverter.extractTreeStructure(this.#config);
         this.#structureEditorTreeEl.loadConfig(treeConfig);
@@ -119,6 +191,24 @@ class WorldEditor extends CustomElement {
     #getCurrentElementConfig() {
         if (this.#editType === "location") {
             return this.#config.location[this.#editRef];
+        }
+    }
+
+    #getEditor(type) {
+        if (this.#editType === "area") {
+            return this.#detailEditorAreaEl;
+        }
+        if (this.#editType === "areaMapConfig") {
+            return this.#detailEditorAreaMapConfigEl;
+        }
+        if (this.#editType === "areaListEntry") {
+            return this.#detailEditorAreaListEntryEl;
+        }
+        if (this.#editType === "exit") {
+            return this.#detailEditorExitEl;
+        }
+        if (this.#editType === "location") {
+            return this.#detailEditorLocationEl;
         }
     }
 

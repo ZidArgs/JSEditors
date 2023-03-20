@@ -1,0 +1,51 @@
+{
+    "worldEditor_locationTypes": {
+        "chest": "Chest",
+        "skulltula": "Skulltula",
+        "gossipstone": "Gossipstone",
+        "scrub": "Scrub",
+        "bean": "Bean",
+        "cow": "Cow"
+    },
+    "worldEditor_locationIcons": {
+        "/images/icons/dungeon.svg": "Dungeon",
+        "/images/icons/skulltula.svg": "Skulltula",
+        "/images/icons/gossipstone.svg": "Gossipstone",
+        "/images/icons/scrub.svg": "Scrub",
+        "/images/icons/bean.svg": "Bean",
+        "/images/icons/cow.svg": "Cow"
+    },
+    "worldEditor_areaTypes": {
+        "overworld": "Overworld",
+        "area": "Area",
+        "dungeon": "Dungeon",
+        "interior": "Interior"
+    },
+    "worldEditor_areaIcons": {
+        "/images/icons/overworld.svg": "Overworld",
+        "/images/icons/area.svg": "Area",
+        "/images/icons/dungeon.svg": "Dungeon",
+        "/images/icons/dungeon_boss.svg": "Boss Dungeon",
+        "/images/icons/area_boss.svg": "Boss Area",
+        "/images/icons/interior.svg": "Interior"
+    },
+    "worldEditor_exitTypes": {
+        "overworld": "Overworld",
+        "dungeon_inner": "Dungeon Inner",
+        "dungeon_outer": "Dungeon Outer",
+        "interior_outer": "Interior Outer",
+        "interior_inner": "Interior Outer",
+        "grotto_outer": "Grotto Outer",
+        "grotto_inner": "Grotto Outer",
+        "flight": "Flight",
+        "spawn": "Spawn",
+        "warp": "Warp",
+        "voided": "Voided"
+    },
+    "worldEditor_exitIcons": {
+        "/images/icons/entrance.svg": "Entrance",
+        "/images/icons/dungeon.svg": "Dungeon",
+        "/images/icons/dungeon_boss.svg": "Boss Dungeon",
+        "/images/icons/area_boss.svg": "Boss Area"
+    }
+}

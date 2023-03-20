@@ -1,0 +1,37 @@
+[
+    {
+        "type": "SwitchInput",
+        "name": "active",
+        "label": "Map Active",
+        "optiongroup": "worldEditor_exitTypes"
+    },
+    {
+        "type": "ColorInput",
+        "name": "color",
+        "label": "Map Background Color"
+    },
+    {
+        "type": "FileInput",
+        "name": "background",
+        "label": "Map Image",
+        "relativeTo": "${PROJECT_ROOT}"
+    },
+    {
+        "type": "NumberInput",
+        "name": "width",
+        "label": "Map Width"
+    },
+    {
+        "type": "NumberInput",
+        "name": "height",
+        "label": "Map Height"
+    },
+    {
+        "type": "RangeInput",
+        "name": "height",
+        "label": "Map Height",
+        "min": 10,
+        "max": 200,
+        "scratched": true
+    }
+]

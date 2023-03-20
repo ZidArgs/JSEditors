@@ -1,0 +1,24 @@
+[
+    {
+        "type": "SimpleSelect",
+        "name": "type",
+        "label": "Entry Type",
+        "options": {
+            "location": "Location",
+            "area": "Area",
+            "exit": "Exit"
+        },
+        "value": "location"
+    },
+    {
+        "type": "SearchSelect",
+        "name": "id",
+        "label": "Map Active",
+        "optiongroup": "worldEditor_exitTypes"
+    },
+    {
+        "type": "CoordInput",
+        "name": "pos",
+        "label": "Position on Map"
+    }
+]

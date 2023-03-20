@@ -1,9 +1,9 @@
 [
     {
-        "type": "TokenSelect",
+        "type": "SearchSelect",
         "name": "type",
         "label": "Type",
-        "token": "exits"
+        "optiongroup": "worldEditor_exitTypes"
     },
     {
         "type": "StringInput",
@@ -18,7 +18,8 @@
     {
         "type": "SearchSelect",
         "name": "area",
-        "label": "Area"
+        "label": "Area",
+        "optiongroup": "worldEditor_areas"
     },
     {
         "type": "BoolOrLogicInput",
@@ -35,21 +36,13 @@
         "type": "ImageIconSelect",
         "name": "icon",
         "label": "Icon",
-        "options": {
-            "/images/icons/dungeon.svg": "Dungeon",
-            "/images/icons/skulltula.svg": "Skulltula",
-            "/images/icons/gossipstone.svg": "Gossipstone",
-            "/images/icons/scrub.svg": "Scrub",
-            "/images/icons/bean.svg": "Bean",
-            "/images/icons/cow.svg": "Cow"
-        },
-        "value": "/images/icons/dungeon.svg"
+        "optiongroup": "worldEditor_exitIcons"
     },
     {
         "type": "TokenBoolOrLogicList",
         "name": "bindsTo",
         "label": "Binds to types",
-        "token": "exits"
+        "optiongroup": "worldEditor_exitTypes"
     },
     {
         "type": "SwitchInput",
@@ -77,6 +70,6 @@
         "type": "TokenSelect",
         "name": "tags",
         "label": "Tags",
-        "token": "exit_tags"
+        "tokengroup": "worldEditor_exitTags"
     }
 ]
