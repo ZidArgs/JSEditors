@@ -12,13 +12,18 @@
     },
     {
         "type": "SearchSelect",
-        "name": "id",
-        "label": "Map Active",
-        "optiongroup": "worldEditor_exitTypes"
+        "name": "ref",
+        "label": "Entry Reference"
     },
     {
         "type": "CoordInput",
         "name": "pos",
         "label": "Position on Map"
+    },
+    {
+        "type": "BoolOrLogicInput",
+        "name": "visible",
+        "label": "Visible",
+        "value": true
     }
 ]

@@ -14,7 +14,8 @@
         "type": "FileInput",
         "name": "background",
         "label": "Map Image",
-        "relativeTo": "${PROJECT_ROOT}"
+        "relativeTo": "${PROJECT_ROOT}",
+        "accept": "image/*"
     },
     {
         "type": "NumberInput",

@@ -30,6 +30,7 @@
         "type": "TokenSelect",
         "name": "areaTags",
         "label": "Area Tags (Icons)",
+        "multiple": true,
         "tokengroup": "worldEditor_areaTags"
     },
     {
