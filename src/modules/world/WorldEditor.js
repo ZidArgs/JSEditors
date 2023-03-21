@@ -189,6 +189,12 @@ class WorldEditor extends CustomElement {
     }
 
     #getCurrentElementConfig() {
+        if (this.#editType === "area") {
+            return this.#config.area[this.#editRef];
+        }
+        if (this.#editType === "exit") {
+            return this.#config.exit[this.#editRef];
+        }
         if (this.#editType === "location") {
             return this.#config.location[this.#editRef];
         }
@@ -198,9 +204,9 @@ class WorldEditor extends CustomElement {
         if (type === "area") {
             return this.#detailEditorAreaEl;
         }
-        if (type === "areaMapConfig") {
-            return this.#detailEditorAreaMapConfigEl;
-        }
+        // if (type === "areaMapConfig") {
+        //     return this.#detailEditorAreaMapConfigEl;
+        // }
         if (type === "areaListEntry") {
             return this.#detailEditorAreaListEntryEl;
         }
