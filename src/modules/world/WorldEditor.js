@@ -31,7 +31,7 @@ const DEFAULT_CONFIG = {
         map: {
             color: "black"
         },
-        areaTags: {},
+        areaContentHints: {},
         region: {
             root: "",
             prefix: "",
@@ -88,12 +88,12 @@ class WorldEditor extends CustomElement {
         this.#detailEditorLocationEl = this.shadowRoot.getElementById("detail-editor-location");
         this.#detailEditorAreaEl.addEventListener("save", (event) => {
             if (this.#editRef !== "") {
-                // const areaConfig = this.#config.area[this.#editRef];
-                // this.#config.area[this.#editRef] = {
-                //     ...areaConfig,
-                //     ...event.data
-                // };
-                // this.dispatchEvent(new Event("change"));
+                const areaConfig = this.#config.area[this.#editRef];
+                this.#config.area[this.#editRef] = {
+                    ...areaConfig,
+                    ...event.data
+                };
+                this.dispatchEvent(new Event("change"));
             }
         });
         this.#detailEditorAreaMapConfigEl.addEventListener("save", (event) => {

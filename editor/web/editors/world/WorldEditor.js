@@ -2,6 +2,7 @@ import FileSystem from "/emcJS/util/file/FileSystem.js";
 import OptionGroupRegistry from "/emcJS/data/registry/OptionGroupRegistry.js";
 import TokenRegistry from "/emcJS/data/registry/TokenRegistry.js";
 import "/JSEditors/modules/world/WorldEditor.js";
+import WorldConfigDataConverter from "./util/WorldConfigDataConverter.js";
 import OPTION_GROUPS from "./config/OptionGroups.json" assert {type: "json"};
 import TOKEN_GROUPS from "./config/TokenGroups.json" assert {type: "json"};
 
@@ -10,6 +11,7 @@ export default async function() {
     TokenRegistry.load(TOKEN_GROUPS);
 
     const editorEl = document.createElement("jse-world-editor");
+    editorEl.configDataConverter = new WorldConfigDataConverter();
 
     // navigation
     const NAV = [{

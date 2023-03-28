@@ -70,6 +70,7 @@
         "type": "TokenSelect",
         "name": "tags",
         "label": "Tags",
-        "tokengroup": "worldEditor_exitTags"
+        "multiple": true,
+        "tokengroup": "worldEditor_tags"
     }
 ]

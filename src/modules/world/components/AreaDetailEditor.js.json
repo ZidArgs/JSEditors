@@ -28,15 +28,17 @@
     },
     {
         "type": "TokenSelect",
-        "name": "areaTags",
-        "label": "Area Tags (Icons)",
+        "name": "areaContentHints",
+        "label": "Area Content Hints (Icons)",
         "multiple": true,
-        "tokengroup": "worldEditor_areaTags"
+        "chooseonly": true,
+        "tokengroup": "worldEditor_areaContentHints"
     },
     {
         "type": "TokenSelect",
         "name": "tags",
         "label": "Tags",
-        "tokengroup": "worldEditor_areaTags"
+        "multiple": true,
+        "tokengroup": "worldEditor_tags"
     }
 ]
