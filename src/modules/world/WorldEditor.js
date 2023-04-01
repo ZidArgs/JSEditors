@@ -9,9 +9,10 @@ import "./components/AreaMapConfigDetailEditor.js";
 import "./components/ExitDetailEditor.js";
 import "./components/LocationDetailEditor.js";
 import "./components/tree/StructureEditorTree.js";
+import "./components/tree/nodes/AreaTreeNode.js";
+import "./components/tree/nodes/AreaListTreeNode.js";
 import "./components/tree/nodes/AreaListItemTreeNode.js";
 import "./components/tree/nodes/AreaMapConfigTreeNode.js";
-import "./components/tree/nodes/AreaTreeNode.js";
 import "./components/tree/nodes/ExitTreeNode.js";
 import "./components/tree/nodes/LocationTreeNode.js";
 import TPL from "./WorldEditor.js.html" assert {type: "html"};
@@ -60,9 +61,11 @@ class WorldEditor extends CustomElement {
 
     #config = deepClone(DEFAULT_CONFIG);
 
-    #editType = "";
+    #editRef = null;
 
-    #editRef = "";
+    #areaListName = null;
+
+    #areaListIndex = null;
 
     #detailEditorAreaEl;
 
@@ -98,15 +101,14 @@ class WorldEditor extends CustomElement {
         });
         this.#detailEditorAreaMapConfigEl.addEventListener("save", (event) => {
             if (this.#editRef !== "") {
-                // this.#config.area[this.#editRef].map = event.data;
-                // this.dispatchEvent(new Event("change"));
+                this.#config.area[this.#editRef].map = event.data;
+                this.dispatchEvent(new Event("change"));
             }
         });
         this.#detailEditorAreaListEntryEl.addEventListener("save", (event) => {
             if (this.#editRef !== "") {
-                // const [area, ...path] = this.#editRef.split(".");
-                // this.#config.area[area] = event.data;
-                // this.dispatchEvent(new Event("change"));
+                this.#config.area[this.#editRef][this.#areaListName][this.#areaListIndex] = event.data;
+                this.dispatchEvent(new Event("change"));
             }
         });
         this.#detailEditorExitEl.addEventListener("save", (event) => {
@@ -126,19 +128,24 @@ class WorldEditor extends CustomElement {
         this.#reloadTree();
         /* --- */
         this.#structureEditorTreeEl.addEventListener("editArea", (event) => {
-            this.#showDetailEditor("area", event.ref);
+            const {ref} = event;
+            this.#showDetailEditor("area", ref);
         });
-        // this.#structureEditorTreeEl.addEventListener("areaMapConfigSelect", (event) => {
-        //     this.#showDetailEditor("areaMapConfig", event.ref);
-        // });
+        this.#structureEditorTreeEl.addEventListener("editAreaMapConfig", (event) => {
+            const {area} = event;
+            this.#showDetailEditor("areaMapConfig", area);
+        });
         this.#structureEditorTreeEl.addEventListener("editAreaListItem", (event) => {
-            this.#showDetailEditor("areaListEntry", event.ref);
+            const {area, list, index} = event;
+            this.#showDetailEditor("areaListEntry", area, list, index);
         });
         this.#structureEditorTreeEl.addEventListener("editExit", (event) => {
-            this.#showDetailEditor("exit", event.ref);
+            const {ref} = event;
+            this.#showDetailEditor("exit", ref);
         });
         this.#structureEditorTreeEl.addEventListener("editLocation", (event) => {
-            this.#showDetailEditor("location", event.ref);
+            const {ref} = event;
+            this.#showDetailEditor("location", ref);
         });
     }
 
@@ -168,18 +175,19 @@ class WorldEditor extends CustomElement {
         this.#reloadTree();
     }
 
-    #showDetailEditor(type, ref) {
+    #showDetailEditor(type, ref, list, index) {
         this.#detailEditorAreaEl.classList.remove("active");
         this.#detailEditorAreaMapConfigEl.classList.remove("active");
         this.#detailEditorAreaListEntryEl.classList.remove("active");
         this.#detailEditorExitEl.classList.remove("active");
         this.#detailEditorLocationEl.classList.remove("active");
         /* --- */
-        this.#editType = type;
         this.#editRef = ref;
+        this.#areaListName = list;
+        this.#areaListIndex = index;
         const detailEditorEl = this.#getEditor(type);
         detailEditorEl.classList.add("active");
-        const config = this.#getCurrentElementConfig();
+        const config = this.#getCurrentElementConfig(type);
         detailEditorEl.setData(config);
     }
 
@@ -188,14 +196,20 @@ class WorldEditor extends CustomElement {
         this.#structureEditorTreeEl.loadConfig(treeConfig);
     }
 
-    #getCurrentElementConfig() {
-        if (this.#editType === "area") {
+    #getCurrentElementConfig(type) {
+        if (type === "area") {
             return this.#config.area[this.#editRef];
         }
-        if (this.#editType === "exit") {
+        if (type === "areaMapConfig") {
+            return this.#config.area[this.#editRef].map;
+        }
+        if (type === "areaListEntry") {
+            return this.#config.area[this.#editRef][this.#areaListName][this.#areaListIndex];
+        }
+        if (type === "exit") {
             return this.#config.exit[this.#editRef];
         }
-        if (this.#editType === "location") {
+        if (type === "location") {
             return this.#config.location[this.#editRef];
         }
     }
@@ -204,9 +218,9 @@ class WorldEditor extends CustomElement {
         if (type === "area") {
             return this.#detailEditorAreaEl;
         }
-        // if (type === "areaMapConfig") {
-        //     return this.#detailEditorAreaMapConfigEl;
-        // }
+        if (type === "areaMapConfig") {
+            return this.#detailEditorAreaMapConfigEl;
+        }
         if (type === "areaListEntry") {
             return this.#detailEditorAreaListEntryEl;
         }

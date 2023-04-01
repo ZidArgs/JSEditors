@@ -2,8 +2,7 @@
     {
         "type": "SwitchInput",
         "name": "active",
-        "label": "Map Active",
-        "optiongroup": "worldEditor_exitTypes"
+        "label": "Map Active"
     },
     {
         "type": "ColorInput",
@@ -11,11 +10,10 @@
         "label": "Map Background Color"
     },
     {
-        "type": "FileInput",
+        "type": "ImageSelect",
         "name": "background",
         "label": "Map Image",
-        "relativeTo": "${PROJECT_ROOT}",
-        "accept": "image/*"
+        "optiongroup": "worldEditor_areaMapImages"
     },
     {
         "type": "NumberInput",
@@ -29,8 +27,8 @@
     },
     {
         "type": "RangeInput",
-        "name": "height",
-        "label": "Map Height",
+        "name": "zoom",
+        "label": "Default Scale",
         "min": 10,
         "max": 200,
         "scratched": true

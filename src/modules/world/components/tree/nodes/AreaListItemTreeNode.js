@@ -8,17 +8,19 @@ export default class AreaListItemTreeNode extends TreeNode {
         this.addEventListener("click", (event) => {
             event.stopPropagation();
             event.preventDefault();
+            const targetIndex = Array.from(this.parentElement.children).indexOf(this);
             const ev = new Event("areaListItemSelect", {bubbles: true, cancelable: true});
             ev.element = this;
-            ev.ref = this.ref;
+            ev.index = targetIndex;
             this.dispatchEvent(ev);
         });
         this.addEventListener("contextmenu", (event) => {
             event.stopPropagation();
             event.preventDefault();
+            const targetIndex = Array.from(this.parentElement.children).indexOf(this);
             const ev = new Event("areaListItemMenu", {bubbles: true, cancelable: true});
             ev.element = this;
-            ev.ref = this.ref;
+            ev.index = targetIndex;
             this.dispatchEvent(ev);
         });
     }

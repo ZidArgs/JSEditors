@@ -50,10 +50,17 @@ export default class StructureEditorTree extends BaseClass {
             this.dispatchEvent(ev);
         });
         this.#treeEl.addEventListener("areaListItemSelect", (event) => {
-            const {area, ref} = event;
+            const {area, list, index} = event;
             const ev = new Event("editAreaListItem", {bubbles: true, cancelable: true});
             ev.area = area;
-            ev.ref = ref;
+            ev.list = list;
+            ev.index = index;
+            this.dispatchEvent(ev);
+        });
+        this.#treeEl.addEventListener("areaMapConfigSelect", (event) => {
+            const {area} = event;
+            const ev = new Event("editAreaMapConfig", {bubbles: true, cancelable: true});
+            ev.area = area;
             this.dispatchEvent(ev);
         });
         this.#treeEl.addEventListener("select", (event) => {

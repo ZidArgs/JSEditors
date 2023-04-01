@@ -30,6 +30,13 @@
         "/images/icons/area_boss.svg": "Boss Area",
         "/images/icons/interior.svg": "Interior"
     },
+    "worldEditor_areaMapImages": {
+        "": "",
+        "/images/maps/hyrule.png": "Hyrule",
+        "/images/maps/dungeon/deku.png": "Deku Tree",
+        "/images/maps/dungeon/dodongo.png": "Dodongos Cavern",
+        "/images/maps/dungeon/jabu.png": "Jabu Jabu"
+    },
     "worldEditor_exitTypes": {
         "overworld": "Overworld",
         "dungeon_inner": "Dungeon Inner",

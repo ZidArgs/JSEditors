@@ -33,7 +33,7 @@
         "label": "Visible on root only"
     },
     {
-        "type": "ImageIconSelect",
+        "type": "ImageSelect",
         "name": "icon",
         "label": "Icon",
         "optiongroup": "worldEditor_exitIcons"
