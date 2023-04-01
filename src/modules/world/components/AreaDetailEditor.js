@@ -6,6 +6,12 @@ import TPL from "./AreaDetailEditor.js.html" assert {type: "html"};
 import STYLE from "./AreaDetailEditor.js.css" assert {type: "css"};
 import FORM_CONFIG from "./AreaDetailEditor.js.json" assert {type: "json"};
 
+/* TODO add new entries via dialog
+    - choose if either "collection" or one of the entries of the locations, exits and areas
+    - if "collection" fill in "type" automatically
+    - if "location", "exit" or "area", fill in "type" and "ref" automatically
+*/
+
 export default class AreaDetailEditor extends CustomElement {
 
     #formContext = new FormContext();

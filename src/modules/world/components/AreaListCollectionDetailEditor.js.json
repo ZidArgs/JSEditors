@@ -1,0 +1,29 @@
+[
+    {
+        "type": "SimpleSelect",
+        "name": "type",
+        "label": "Entry Type",
+        "options": {
+            "location": "Location",
+            "area": "Area",
+            "exit": "Exit"
+        },
+        "value": "location"
+    },
+    {
+        "type": "StringInput",
+        "name": "label",
+        "label": "Collection Label"
+    },
+    {
+        "type": "CoordInput",
+        "name": "pos",
+        "label": "Position on Map"
+    },
+    {
+        "type": "BoolOrLogicInput",
+        "name": "visible",
+        "label": "Visible",
+        "value": true
+    }
+]

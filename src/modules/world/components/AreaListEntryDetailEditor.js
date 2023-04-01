@@ -6,6 +6,8 @@ import TPL from "./AreaListEntryDetailEditor.js.html" assert {type: "html"};
 import STYLE from "./AreaListEntryDetailEditor.js.css" assert {type: "css"};
 import FORM_CONFIG from "./AreaListEntryDetailEditor.js.json" assert {type: "json"};
 
+// TODO make this coord picker only
+
 export default class AreaListEntryDetailEditor extends CustomElement {
 
     #formContext = new FormContext();
