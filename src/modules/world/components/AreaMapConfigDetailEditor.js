@@ -46,6 +46,21 @@ export default class AreaMapConfigDetailEditor extends CustomElement {
             visibleLogicEl.addOperatorGroup("filter");
             visibleLogicEl.addOperatorGroup("locations done");
         }
+        const mapImageSelectEl = this.#detailFormEl.querySelector("#mapselect");
+        const mapImageWidthEl = this.#detailFormEl.querySelector("#mapwidth");
+        const mapImageHeightEl = this.#detailFormEl.querySelector("#mapheight");
+        mapImageSelectEl.addEventListener("change", () => {
+            const img = new Image();
+            img.onload = () => {
+                mapImageWidthEl.value = img.naturalWidth;
+                mapImageHeightEl.value = img.naturalHeight;
+            };
+            img.onerror = () => {
+                mapImageWidthEl.value = 0;
+                mapImageHeightEl.value = 0;
+            }
+            img.src = mapImageSelectEl.value;
+        });
     }
 
     setData(data) {

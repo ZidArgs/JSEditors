@@ -11,19 +11,24 @@
     },
     {
         "type": "ImageSelect",
+        "id": "mapselect",
         "name": "background",
         "label": "Map Image",
         "optiongroup": "worldEditor_areaMapImages"
     },
     {
         "type": "NumberInput",
+        "id": "mapwidth",
         "name": "width",
-        "label": "Map Width"
+        "label": "Map Width",
+        "readonly": true
     },
     {
         "type": "NumberInput",
+        "id": "mapheight",
         "name": "height",
-        "label": "Map Height"
+        "label": "Map Height",
+        "readonly": true
     },
     {
         "type": "RangeInput",
