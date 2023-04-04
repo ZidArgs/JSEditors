@@ -62,8 +62,10 @@ export default class AreaListEntryModal extends Modal {
             if (targetEl instanceof I18nOption) {
                 this.remove();
                 const ev = new Event("submit");
-                ev.ref = targetEl.value;
-                ev.type = targetEl.dataset.type;
+                ev.data = {
+                    type: targetEl.dataset.type,
+                    ref: targetEl.value
+                };
                 this.dispatchEvent(ev);
                 event.preventDefault();
                 return false;
