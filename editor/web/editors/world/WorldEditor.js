@@ -3,8 +3,79 @@ import OptionGroupRegistry from "/emcJS/data/registry/OptionGroupRegistry.js";
 import TokenRegistry from "/emcJS/data/registry/TokenRegistry.js";
 import "/JSEditors/modules/world/WorldEditor.js";
 import WorldConfigDataConverter from "./util/WorldConfigDataConverter.js";
-import OPTION_GROUPS from "./config/OptionGroups.json" assert {type: "json"};
-import TOKEN_GROUPS from "./config/TokenGroups.json" assert {type: "json"};
+
+const OPTION_GROUPS = {
+    "worldEditor_locationTypes": {
+        "chest": "Chest",
+        "skulltula": "Skulltula",
+        "gossipstone": "Gossipstone",
+        "scrub": "Scrub",
+        "bean": "Bean",
+        "cow": "Cow"
+    },
+    "worldEditor_locationIcons": {
+        "": "",
+        "/images/icons/chest.svg": "Chest",
+        "/images/icons/skulltula.svg": "Skulltula",
+        "/images/icons/gossipstone.svg": "Gossipstone",
+        "/images/icons/scrub.svg": "Scrub",
+        "/images/icons/bean.svg": "Bean",
+        "/images/icons/cow.svg": "Cow"
+    },
+    "worldEditor_areaTypes": {
+        "overworld": "Overworld",
+        "area": "Area",
+        "dungeon": "Dungeon",
+        "interior": "Interior"
+    },
+    "worldEditor_areaIcons": {
+        "": "",
+        "/images/icons/area.svg": "Area",
+        "/images/icons/dungeon.svg": "Dungeon",
+        "/images/icons/dungeon_boss.svg": "Boss Dungeon",
+        "/images/icons/area_boss.svg": "Boss Area",
+        "/images/icons/interior.svg": "Interior"
+    },
+    "worldEditor_areaMapImages": {
+        "": "",
+        "/images/maps/hyrule.png": "Hyrule",
+        "/images/maps/dungeon/deku.png": "Deku Tree",
+        "/images/maps/dungeon/dodongo.png": "Dodongos Cavern",
+        "/images/maps/dungeon/jabu.png": "Jabu Jabu"
+    },
+    "worldEditor_exitTypes": {
+        "overworld": "Overworld",
+        "dungeon_inner": "Dungeon Inner",
+        "dungeon_outer": "Dungeon Outer",
+        "interior_outer": "Interior Outer",
+        "interior_inner": "Interior Outer",
+        "grotto_outer": "Grotto Outer",
+        "grotto_inner": "Grotto Outer",
+        "flight": "Flight",
+        "spawn": "Spawn",
+        "warp": "Warp",
+        "voided": "Voided"
+    },
+    "worldEditor_exitIcons": {
+        "": "",
+        "/images/icons/entrance.svg": "Entrance",
+        "/images/icons/dungeon.svg": "Dungeon",
+        "/images/icons/dungeon_boss.svg": "Boss Dungeon",
+        "/images/icons/area_boss.svg": "Boss Area"
+    }
+};
+
+const TOKEN_GROUPS = {
+    "worldEditor_areaContentHints": [
+        "chest",
+        "skulltula",
+        "gossipstone",
+        "scrub",
+        "cow",
+        "fountain",
+        "rupees"
+    ]
+};
 
 export default async function() {
     OptionGroupRegistry.load(OPTION_GROUPS);

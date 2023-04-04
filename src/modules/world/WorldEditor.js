@@ -2,7 +2,11 @@ import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import {
     deepClone
 } from "/emcJS/util/helper/DeepClone.js";
+import {
+    areaListEntries, exitListEntries, locationListEntries
+} from "./data/EntityRegistries.js";
 import DefaultWorldConfigDataConverter from "./util/DefaultWorldConfigDataConverter.js";
+import AreaListEntryModal from "./components/modal/AreaListEntryModal.js";
 import "./components/AreaDetailEditor.js";
 import "./components/AreaListEntryDetailEditor.js";
 import "./components/AreaMapConfigDetailEditor.js";
@@ -139,6 +143,11 @@ class WorldEditor extends CustomElement {
             const {area, list, index} = event;
             this.#showDetailEditor("areaListEntry", area, list, index);
         });
+        this.#structureEditorTreeEl.addEventListener("menuAreaListItem", (/* event */) => {
+            // const {area, list, index} = event;
+            const dialogEl = new AreaListEntryModal();
+            dialogEl.show();
+        });
         this.#structureEditorTreeEl.addEventListener("editExit", (event) => {
             const {ref} = event;
             this.#showDetailEditor("exit", ref);
@@ -164,6 +173,7 @@ class WorldEditor extends CustomElement {
     setConfig(config) {
         this.#config = this.configDataConverter.translateSetConfig(config);
         this.#reloadTree();
+        this.#extractEntries();
     }
 
     getConfig() {
@@ -229,6 +239,21 @@ class WorldEditor extends CustomElement {
         }
         if (type === "location") {
             return this.#detailEditorLocationEl;
+        }
+    }
+
+    #extractEntries() {
+        locationListEntries.clear();
+        for (const ref in this.#config.location) {
+            locationListEntries.add(ref);
+        }
+        exitListEntries.clear();
+        for (const ref in this.#config.exit) {
+            exitListEntries.add(ref);
+        }
+        areaListEntries.clear();
+        for (const ref in this.#config.area) {
+            areaListEntries.add(ref);
         }
     }
 
