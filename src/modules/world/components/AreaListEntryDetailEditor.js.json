@@ -16,7 +16,8 @@
         "label": "Entry Reference"
     },
     {
-        "type": "CoordInput",
+        "type": "PositionInput",
+        "id": "pos-input",
         "name": "pos",
         "label": "Position on Map"
     },
