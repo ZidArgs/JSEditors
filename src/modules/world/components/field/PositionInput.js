@@ -74,8 +74,8 @@ export default class PositionInput extends AbstractFormInput {
         }
     }
 
-    loadData(map, connections, entries) {
-        this.#inputEl.loadData(map, connections, entries);
+    loadData(map, connections, entries, currentType, currentIndex, currentLabel) {
+        this.#inputEl.loadData(map, connections, entries, currentType, currentIndex, currentLabel);
     }
 
 }

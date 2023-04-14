@@ -1,19 +1,20 @@
 import CustomElement from "/emcJS/ui/element/CustomElement.js";
+import {
+    debounce
+} from "/emcJS/util/Debouncer.js";
 import "./components/AreaMarker.js";
 import "./components/ConnectionMarker.js";
 import "./components/ExitMarker.js";
 import "./components/LocationMarker.js";
 import TPL from "./MapPosInput.js.html" assert {type: "html"};
 import STYLE from "./MapPosInput.js.css" assert {type: "css"};
-import {
-    debounce
-} from "/emcJS/util/Debouncer.js";
 
 // TODO use element manager
 // TODO add current marker preview (class="active")
-// - if x or y is empty: dont show preview marker
+// TODO if x or y is empty: dont show preview marker
 // TODO use form styles
 // TODO scroll to current marker position
+// TODO add "remove position"-button
 
 export default class MapPosInput extends CustomElement {
 
@@ -22,6 +23,14 @@ export default class MapPosInput extends CustomElement {
     #posXInputElement;
 
     #posYInputElement;
+
+    #currentMarkerType;
+
+    #currentMarkerIndex;
+
+    #currentMarkerLabel;
+
+    #currentMarkerEl;
 
     constructor() {
         super();
@@ -37,15 +46,13 @@ export default class MapPosInput extends CustomElement {
             this.#posYInputElement.value = clientY;
         });
         this.#posXInputElement.addEventListener("change", () => {
-            const currentEl = this.querySelector(".active");
             const value = this.#posXInputElement.value;
-            currentEl.style.left = `${value}px`;
+            this.#currentMarkerEl.x = value;
             this.#onChange();
         });
         this.#posYInputElement.addEventListener("change", () => {
-            const currentEl = this.querySelector(".active");
             const value = this.#posYInputElement.value;
-            currentEl.style.left = `${value}px`;
+            this.#currentMarkerEl.y = value;
             this.#onChange();
         });
     }
@@ -58,6 +65,15 @@ export default class MapPosInput extends CustomElement {
         const {x, y} = value;
         this.#posXInputElement.value = x ?? "";
         this.#posYInputElement.value = y ?? "";
+        if (this.#currentMarkerEl) {
+            this.#currentMarkerEl.x = x;
+            this.#currentMarkerEl.y = y;
+        } else {
+            this.#currentMarkerEl = this.#createMarker(this.#currentMarkerType, this.#currentMarkerIndex, x, y, this.#currentMarkerLabel);
+            if (this.#currentMarkerEl) {
+                this.#currentMarkerEl.classList.add("active");
+            }
+        }
     }
 
     get value() {
@@ -67,7 +83,10 @@ export default class MapPosInput extends CustomElement {
         };
     }
 
-    loadData(map, connections, entries) {
+    loadData(map, connections, entries, currentType, currentIndex, currentLabel) {
+        this.#currentMarkerType = currentType;
+        this.#currentMarkerIndex = currentIndex;
+        this.#currentMarkerLabel = currentLabel;
         this.innerHTML = "";
         if (map != null) {
             const {color, background, width, height} = map;
@@ -81,23 +100,18 @@ export default class MapPosInput extends CustomElement {
                 const connectionList = connections[connectionName];
                 for (const index in connectionList) {
                     const connection = connectionList[index];
-                    const el = document.createElement("jse-world-editor-input-position-marker-connection");
                     const {x, y} = connection;
-                    el.label = connectionName;
-                    el.x = x;
-                    el.y = y;
-                    el.dataset.ref = `${connectionName}.${index}`;
-                    this.append(el);
+                    this.#createMarker("connection", index, x, y, connectionName);
                 }
             }
             for (const index in entries) {
                 const entry = entries[index];
                 const {pos: {x, y} = {}, type} = entry;
-                const el = document.createElement(`jse-world-editor-input-position-marker-${type}`);
-                el.x = x;
-                el.y = y;
-                el.dataset.ref = `${index}[${type}]`;
-                this.append(el);
+                this.#createMarker(type, index, x, y);
+            }
+            this.#currentMarkerEl = this.querySelector(`${currentType}[${currentIndex}]`);
+            if (this.#currentMarkerEl) {
+                this.#currentMarkerEl.classList.add("active");
             }
         } else {
             this.#mapElement.style.backgroundColor = "";
@@ -106,6 +120,20 @@ export default class MapPosInput extends CustomElement {
             this.#mapElement.style.height = "0px";
             this.#posXInputElement.max = 0;
             this.#posYInputElement.max = 0;
+        }
+    }
+
+    #createMarker(type, index, x, y, label) {
+        if (!isNaN(x) && !isNaN(y)) {
+            const el = document.createElement(`jse-world-editor-input-position-marker-${type}`);
+            el.x = x;
+            el.y = y;
+            el.dataset.ref = `${type}[${index}]`;
+            if (label != null) {
+                el.label = label;
+            }
+            this.append(el);
+            return el;
         }
     }
 
