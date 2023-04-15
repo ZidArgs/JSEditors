@@ -124,7 +124,7 @@ export default class AreaListEntryDetailEditor extends CustomElement {
                 },
                 "type": "location"
             }
-        ])
+        ], "location", 0)
     }
 
     #prepareForm() {

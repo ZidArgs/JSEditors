@@ -5,3 +5,5 @@ export const locationListEntries = new ObservableSet();
 export const exitListEntries = new ObservableSet();
 
 export const areaListEntries = new ObservableSet();
+
+export const collectionListEntries = new ObservableSet();

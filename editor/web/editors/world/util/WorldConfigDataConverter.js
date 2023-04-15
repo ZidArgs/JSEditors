@@ -3,27 +3,9 @@ import DefaultWorldConfigDataConverter from "/JSEditors/modules/world/util/Defau
 export default class WorldConfigDataConverter extends DefaultWorldConfigDataConverter {
 
     extractTreeStructureAreas(areas = {}) {
-        const res = {};
+        const res = super.extractTreeStructureAreas(areas);
         for (const ref in areas) {
             const data = areas[ref];
-            const type = data.type;
-            res[ref] = {
-                nodeType: "editor-world-area",
-                label: ref,
-                type,
-                children: {
-                    map: {
-                        nodeType: "editor-world-area-map-config",
-                        label: "Map Config"
-                    },
-                    list: {
-                        nodeType: "editor-world-area-list",
-                        label: "List (Vanilla)",
-                        startCollapsed: true,
-                        children: this.extractTreeStructureAreaList(data.list)
-                    }
-                }
-            };
             if (data.list_mq != null) {
                 res[ref].children["list_mq"] = {
                     nodeType: "editor-world-area-list",

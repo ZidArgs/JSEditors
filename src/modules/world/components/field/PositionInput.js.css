@@ -1,6 +1,6 @@
 #input {
     flex-grow: 1;
-    height: 400px;
+    height: 600px;
 }
 #input:focus {
     box-shadow: 0 0 2px 3px var(--input-focus-color, #06b5ff);

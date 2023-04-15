@@ -10,18 +10,22 @@ import "/emcJS/ui/FilteredList.js";
 import "/emcJS/ui/container/CollapsePanel.js";
 import "/emcJS/ui/form/button/Button.js";
 import {
-    areaListEntries, exitListEntries, locationListEntries
+    areaListEntries, exitListEntries, locationListEntries, collectionListEntries
 } from "../../data/EntityRegistries.js";
 import TPL from "./AreaListEntryModal.js.html" assert {type: "html"};
 import STYLE from "./AreaListEntryModal.js.css" assert {type: "css"};
 
-function entryComposer(key, params) {
-    const {type, ref = key} = params;
-    const el = I18nOption.create();
-    el.i18nValue = ref;
-    el.value = ref;
-    el.dataset.type = type;
-    return el;
+class SelectionEntryElementManager extends ElementManager {
+
+    composer(key, params) {
+        const {type, ref = key} = params;
+        const el = I18nOption.create();
+        el.i18nValue = ref;
+        el.value = ref;
+        el.dataset.type = type;
+        return el;
+    }
+
 }
 
 export default class AreaListEntryModal extends Modal {
@@ -32,11 +36,15 @@ export default class AreaListEntryModal extends Modal {
 
     #areaCollapsibleEl;
 
+    #collectionCollapsibleEl;
+
     #locationEntryElManager;
 
     #exitEntryElManager;
 
     #areaEntryElManager;
+
+    #collectionEntryElManager;
 
     #i18nEventManager = new EventTargetManager(i18n);
 
@@ -75,15 +83,11 @@ export default class AreaListEntryModal extends Modal {
         this.#locationCollapsibleEl = this.shadowRoot.getElementById("locations");
         this.#exitCollapsibleEl = this.shadowRoot.getElementById("exits");
         this.#areaCollapsibleEl = this.shadowRoot.getElementById("areas");
-        this.#locationEntryElManager = new ElementManager(this.#locationCollapsibleEl, {
-            composer: entryComposer
-        });
-        this.#exitEntryElManager = new ElementManager(this.#exitCollapsibleEl, {
-            composer: entryComposer
-        });
-        this.#areaEntryElManager = new ElementManager(this.#areaCollapsibleEl, {
-            composer: entryComposer
-        });
+        this.#collectionCollapsibleEl = this.shadowRoot.getElementById("collections");
+        this.#locationEntryElManager = new SelectionEntryElementManager(this.#locationCollapsibleEl);
+        this.#exitEntryElManager = new SelectionEntryElementManager(this.#exitCollapsibleEl);
+        this.#areaEntryElManager = new SelectionEntryElementManager(this.#areaCollapsibleEl);
+        this.#collectionEntryElManager = new SelectionEntryElementManager(this.#collectionCollapsibleEl);
         /* --- */
         locationListEntries.addEventListener("change", () => {
             this.#refreshLocationEntries();
@@ -94,21 +98,27 @@ export default class AreaListEntryModal extends Modal {
         areaListEntries.addEventListener("change", () => {
             this.#refreshAreaEntries();
         });
+        collectionListEntries.addEventListener("change", () => {
+            this.#refreshCollectionEntries();
+        });
         /* --- */
         this.#i18nEventManager.set("language", () => {
             sortChildren(this.#locationCollapsibleEl);
             sortChildren(this.#exitCollapsibleEl);
             sortChildren(this.#areaCollapsibleEl);
+            sortChildren(this.#collectionCollapsibleEl);
         });
         this.#i18nEventManager.set("translation", () => {
             sortChildren(this.#locationCollapsibleEl);
             sortChildren(this.#exitCollapsibleEl);
             sortChildren(this.#areaCollapsibleEl);
+            sortChildren(this.#collectionCollapsibleEl);
         });
         /* --- */
         this.#refreshLocationEntries();
         this.#refreshExitEntries();
         this.#refreshAreaEntries();
+        this.#refreshCollectionEntries();
     }
 
     #refreshLocationEntries() {
@@ -124,8 +134,8 @@ export default class AreaListEntryModal extends Modal {
     #refreshExitEntries() {
         this.#exitCollapsibleEl.innerHTML = "";
         const data = [];
-        for (const location of exitListEntries) {
-            data.push({key: location, type: "exit"});
+        for (const exit of exitListEntries) {
+            data.push({key: exit, type: "exit"});
         }
         this.#exitEntryElManager.manage(data);
         sortChildren(this.#exitCollapsibleEl);
@@ -134,11 +144,21 @@ export default class AreaListEntryModal extends Modal {
     #refreshAreaEntries() {
         this.#areaCollapsibleEl.innerHTML = "";
         const data = [];
-        for (const location of areaListEntries) {
-            data.push({key: location, type: "area"});
+        for (const area of areaListEntries) {
+            data.push({key: area, type: "area"});
         }
         this.#areaEntryElManager.manage(data);
         sortChildren(this.#areaCollapsibleEl);
+    }
+
+    #refreshCollectionEntries() {
+        this.#collectionCollapsibleEl.innerHTML = "";
+        const data = [];
+        for (const collection of collectionListEntries) {
+            data.push({key: collection, type: "collection"});
+        }
+        this.#collectionEntryElManager.manage(data);
+        sortChildren(this.#collectionCollapsibleEl);
     }
 
 }

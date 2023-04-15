@@ -3,7 +3,7 @@ import {
     deepClone
 } from "/emcJS/util/helper/DeepClone.js";
 import {
-    areaListEntries, exitListEntries, locationListEntries
+    areaListEntries, exitListEntries, locationListEntries, collectionListEntries
 } from "./data/EntityRegistries.js";
 import DefaultWorldConfigDataConverter from "./util/DefaultWorldConfigDataConverter.js";
 import AreaListEntryModal from "./components/modal/AreaListEntryModal.js";
@@ -254,6 +254,10 @@ class WorldEditor extends CustomElement {
         areaListEntries.clear();
         for (const ref in this.#config.area) {
             areaListEntries.add(ref);
+        }
+        collectionListEntries.clear();
+        for (const ref in this.#config.collection) {
+            collectionListEntries.add(ref);
         }
     }
 
