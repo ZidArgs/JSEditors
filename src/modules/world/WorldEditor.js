@@ -59,17 +59,24 @@ const DEFAULT_CONFIG = {
     exit: {}
 };
 
+/* TODO outsource individual categories actions
+    like area, location, exit and connection
+*/
+/* TODO add empty detail editor for non-editable tree entries */
+
 class WorldEditor extends CustomElement {
 
     #configDataConverter;
 
     #config = deepClone(DEFAULT_CONFIG);
 
+    /* TODO should be one "path" property */
     #editRef = null;
 
     #areaListName = null;
 
     #areaListIndex = null;
+    /* --- */
 
     #detailEditorAreaEl;
 

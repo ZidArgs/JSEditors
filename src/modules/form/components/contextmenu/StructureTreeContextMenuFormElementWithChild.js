@@ -5,15 +5,15 @@ export default class StructureTreeContextMenuFormElementWithChild extends Contex
     initItems() {
         super.setItems([
             {menuAction: "edit", content: "Edit"},
+            // "splitter",
+            // {menuAction: "moveup", content: "Move element up"},
+            // {menuAction: "movedown", content: "Move element down"},
             "splitter",
             {menuAction: "addelementtop", content: "Add element at top"},
             {menuAction: "addelementbottom", content: "Add element at bottom"},
             "splitter",
-            {menuAction: "addbefore", content: "Add before"},
-            {menuAction: "addafter", content: "Add after"},
-            // "splitter",
-            // {menuAction: "moveup", content: "Move up"},
-            // {menuAction: "movedown", content: "Move down"},
+            {menuAction: "addbefore", content: "Add element before"},
+            {menuAction: "addafter", content: "Add element after"},
             "splitter",
             {menuAction: "remove", content: "Remove"}
         ]);

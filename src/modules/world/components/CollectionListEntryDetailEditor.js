@@ -2,13 +2,11 @@ import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
 import "/emcJS/ui/form/field/DefaultFormFieldsLoader.js";
-import TPL from "./AreaListCollectionDetailEditor.js.html" assert {type: "html"};
-import STYLE from "./AreaListCollectionDetailEditor.js.css" assert {type: "css"};
-import FORM_CONFIG from "./AreaListCollectionDetailEditor.js.json" assert {type: "json"};
+import TPL from "./CollectionListEntryDetailEditor.js.html" assert {type: "html"};
+import STYLE from "./CollectionListEntryDetailEditor.js.css" assert {type: "css"};
+import FORM_CONFIG from "./CollectionListEntryDetailEditor.js.json" assert {type: "json"};
 
-// TODO make this label and coord picker only
-
-export default class AreaListCollectionDetailEditor extends CustomElement {
+export default class CollectionListEntryDetailEditor extends CustomElement {
 
     #formContext = new FormContext();
 
@@ -60,4 +58,4 @@ export default class AreaListCollectionDetailEditor extends CustomElement {
 
 }
 
-customElements.define("jse-world-editor-detail-area-list-collection", AreaListCollectionDetailEditor);
+customElements.define("jse-world-editor-detail-collection-list-entry", CollectionListEntryDetailEditor);
