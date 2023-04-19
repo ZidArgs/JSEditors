@@ -117,23 +117,24 @@ export default class DefaultWorldConfigDataConverter {
         return res;
     }
 
-    // TODO connections should be binary and have a label, stored in an array
     extractTreeStructureAreaConnections(areaConnectionItems = []) {
         const res = {};
-        // for (const item of areaConnectionItems) {
-        //     res[item.id] = {
-        //         nodeType: "editor-world-area-connection-item",
-        //         label: item.id,
-        //         type: item.type ?? item.category
-        //     };
-        // }
+        for (const index in areaConnectionItems) {
+            const item = areaConnectionItems[index];
+            res[index] = {
+                nodeType: "editor-world-area-connection-item",
+                label: item.label,
+                type: item.type ?? item.category
+            };
+        }
         return res;
     }
 
     extractTreeStructureAreaList(areaListItems = []) {
         const res = {};
-        for (const item of areaListItems) {
-            res[item.id] = {
+        for (const index in areaListItems) {
+            const item = areaListItems[index];
+            res[index] = {
                 nodeType: "editor-world-area-list-item",
                 label: item.id,
                 type: item.type ?? item.category
@@ -164,10 +165,11 @@ export default class DefaultWorldConfigDataConverter {
         return res;
     }
 
-    extractTreeStructureCollectionList(areaListItems = []) {
+    extractTreeStructureCollectionList(collectionListItems = []) {
         const res = {};
-        for (const item of areaListItems) {
-            res[item.id] = {
+        for (const index in collectionListItems) {
+            const item = collectionListItems[index];
+            res[index] = {
                 nodeType: "editor-world-collection-list-item",
                 label: item.id,
                 type: item.type ?? item.category
