@@ -23,6 +23,7 @@ function createWindow() {
         /* redirects */
         url = url.replace(/^\/?JSEditors\//i, "./web/JSEditors/");
         url = url.replace(/^\/?emcJS\//i, "./web/emcJS/");
+        url = url.replace(/^\/?images\//i, "./web/images/");
         url = path.join(__dirnameUnix, ".", url);
         url = path.normalize(url);
         console.log(url);
