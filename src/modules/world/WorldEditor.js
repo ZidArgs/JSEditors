@@ -32,7 +32,6 @@ const DEFAULT_CONFIG_DATA_CONVERTER = new DefaultWorldConfigDataConverter();
 const DEFAULT_CONFIG = {
     config: {
         defaultArea: "",
-        prefetchEntries: false, // TODO really needed?
         map: {
             color: "black"
         },
