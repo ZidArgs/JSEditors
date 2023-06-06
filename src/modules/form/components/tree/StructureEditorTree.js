@@ -124,9 +124,9 @@ export default class StructureEditorTree extends BaseClass {
         /* --- */
         this.#treeEl = this.shadowRoot.getElementById("tree");
         this.#treeEl.addEventListener("select", (event) => {
-            if (!event.isSelected) {
+            if (!event.data.isSelected) {
                 event.preventDefault();
-                const {path} = event;
+                const {path} = event.data;
                 if (path.length === 1) {
                     const ev = new Event("editForm", {bubbles: true, cancelable: true});
                     ev.path = path;
@@ -139,7 +139,7 @@ export default class StructureEditorTree extends BaseClass {
             }
         });
         this.#treeEl.addEventListener("menu", (event) => {
-            const {path, element} = event;
+            const {path, element} = event.data;
             this.#treeEl.markItemByPathForMenu(path);
             if (path.length === 1) {
                 this.showContextMenu("form", event, {path});

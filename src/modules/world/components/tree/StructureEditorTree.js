@@ -72,12 +72,12 @@ export default class StructureEditorTree extends BaseClass {
             this.dispatchEvent(ev);
         });
         this.#treeEl.addEventListener("select", (event) => {
-            if (!event.isSelected) {
+            if (!event.data.isSelected) {
                 event.preventDefault();
             }
         });
         this.#treeEl.addEventListener("menu", (event) => {
-            const {path, element} = event;
+            const {path, element} = event.data;
             this.#treeEl.markItemByPathForMenu(path);
             if (path.length === 1) {
                 this.showContextMenu("form", event, {path});
