@@ -13,8 +13,8 @@ const TPL = new Template(`
     :host {
         display: flex;
         flex-direction: column;
-        width: 100vw;
-        height: 100vh;
+        width: 100dvw;
+        height: 100dvh;
         margin: 0px;
         background-color: var(--page-background-color, #000000);
         color: var(--page-text-color, #ffffff);
