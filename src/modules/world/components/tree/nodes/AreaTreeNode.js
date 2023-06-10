@@ -23,6 +23,28 @@ export default class AreaTreeNode extends TreeNode {
         });
         /* --- */
         const subTreeEl = this.shadowRoot.getElementById("tree");
+        subTreeEl.addEventListener("areaConnectionItemSelect", (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            const {element, index, list} = event;
+            const ev = new Event("areaConnectionItemSelect", {bubbles: true, cancelable: true});
+            ev.element = element;
+            ev.area = this.ref;
+            ev.list = list;
+            ev.index = index;
+            this.dispatchEvent(ev);
+        });
+        subTreeEl.addEventListener("areaConnectionItemMenu", (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            const {element, index, list} = event;
+            const ev = new Event("areaConnectionItemMenu", {bubbles: true, cancelable: true});
+            ev.element = element;
+            ev.area = this.ref;
+            ev.list = list;
+            ev.index = index;
+            this.dispatchEvent(ev);
+        });
         subTreeEl.addEventListener("areaListItemSelect", (event) => {
             event.stopPropagation();
             event.preventDefault();

@@ -6,13 +6,13 @@
     },
     {
         "type": "PositionInput",
-        "id": "pos-input",
+        "id": "pos-input-0",
         "name": "posA",
         "label": "1st Connection Position on Map"
     },
     {
         "type": "PositionInput",
-        "id": "pos-input",
+        "id": "pos-input-1",
         "name": "posB",
         "label": "2nd Connection Position on Map"
     }

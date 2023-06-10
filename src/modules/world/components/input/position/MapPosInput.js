@@ -138,18 +138,22 @@ export default class MapPosInput extends CustomElement {
             this.#mapElement.style.height = `${height}px`;
             this.#posXInputElement.max = width;
             this.#posYInputElement.max = height;
-            for (const connectionName in connections ?? {}) {
-                const connectionList = connections[connectionName];
-                for (const index in connectionList) {
-                    const connection = connectionList[index];
-                    const {x, y} = connection;
-                    this.#createMarker("connection", index, x, y, connectionName);
+            for (const index in connections ?? []) {
+                const entry = connections[index];
+                const {label, posA, posB} = entry;
+                if (posA != null) {
+                    this.#createMarker("connection", `${index}_0`, posA.x, posA.y, label);
+                }
+                if (posB != null) {
+                    this.#createMarker("connection", `${index}_1`, posB.x, posB.y, label);
                 }
             }
-            for (const index in entries) {
+            for (const index in entries ?? []) {
                 const entry = entries[index];
-                const {pos: {x, y} = {}, type} = entry;
-                this.#createMarker(type, index, x, y);
+                const {pos, category} = entry;
+                if (category != null && pos != null) {
+                    this.#createMarker(category, index, pos.x, pos.y);
+                }
             }
             this.#currentMarkerEl = this.querySelector(`[data-ref="${currentType}__${currentIndex}"]`);
             if (this.#currentMarkerEl) {

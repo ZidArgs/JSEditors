@@ -8,6 +8,7 @@ import {
 import DefaultWorldConfigDataConverter from "./util/DefaultWorldConfigDataConverter.js";
 import AreaListEntryModal from "./components/modal/AreaListEntryModal.js";
 import "./components/AreaDetailEditor.js";
+import "./components/AreaConnectionsEntryDetailEditor.js";
 import "./components/AreaListEntryDetailEditor.js";
 import "./components/AreaMapConfigDetailEditor.js";
 import "./components/ExitDetailEditor.js";
@@ -15,6 +16,7 @@ import "./components/LocationDetailEditor.js";
 import "./components/tree/StructureEditorTree.js";
 import "./components/tree/nodes/AreaTreeNode.js";
 import "./components/tree/nodes/AreaListTreeNode.js";
+import "./components/tree/nodes/AreaConnectionItemTreeNode.js";
 import "./components/tree/nodes/AreaListItemTreeNode.js";
 import "./components/tree/nodes/AreaMapConfigTreeNode.js";
 import "./components/tree/nodes/ExitTreeNode.js";
@@ -81,6 +83,8 @@ class WorldEditor extends CustomElement {
 
     #detailEditorAreaMapConfigEl;
 
+    #detailEditorAreaConnectionsEntryEl;
+
     #detailEditorAreaListEntryEl;
 
     #detailEditorExitEl;
@@ -96,6 +100,7 @@ class WorldEditor extends CustomElement {
         /* --- */
         this.#detailEditorAreaEl = this.shadowRoot.getElementById("detail-editor-area");
         this.#detailEditorAreaMapConfigEl = this.shadowRoot.getElementById("detail-editor-area-map-config");
+        this.#detailEditorAreaConnectionsEntryEl = this.shadowRoot.getElementById("detail-editor-area-connections-entry");
         this.#detailEditorAreaListEntryEl = this.shadowRoot.getElementById("detail-editor-area-list-entry");
         this.#detailEditorExitEl = this.shadowRoot.getElementById("detail-editor-exit");
         this.#detailEditorLocationEl = this.shadowRoot.getElementById("detail-editor-location");
@@ -144,6 +149,10 @@ class WorldEditor extends CustomElement {
         this.#structureEditorTreeEl.addEventListener("editAreaMapConfig", (event) => {
             const {area} = event;
             this.#showDetailEditor("areaMapConfig", area);
+        });
+        this.#structureEditorTreeEl.addEventListener("editAreaConnectionItem", (event) => {
+            const {area, list, index} = event;
+            this.#showDetailEditor("areaConnectionEntry", area, list, index);
         });
         this.#structureEditorTreeEl.addEventListener("editAreaListItem", (event) => {
             const {area, list, index} = event;
@@ -194,6 +203,7 @@ class WorldEditor extends CustomElement {
     #showDetailEditor(type, ref, list, index) {
         this.#detailEditorAreaEl.classList.remove("active");
         this.#detailEditorAreaMapConfigEl.classList.remove("active");
+        this.#detailEditorAreaConnectionsEntryEl.classList.remove("active");
         this.#detailEditorAreaListEntryEl.classList.remove("active");
         this.#detailEditorExitEl.classList.remove("active");
         this.#detailEditorLocationEl.classList.remove("active");
@@ -219,8 +229,39 @@ class WorldEditor extends CustomElement {
         if (type === "areaMapConfig") {
             return this.#config.area[this.#editRef].map;
         }
+        if (type === "areaConnectionEntry") {
+            const areaConfig = this.#config.area[this.#editRef];
+            const connectionList = areaConfig.connections;
+            const {label, posA, posB} = connectionList[this.#areaListIndex];
+            return {
+                mapConfig: areaConfig.map,
+                connections: connectionList,
+                list: [],
+                index: this.#areaListIndex,
+                entry: {
+                    label,
+                    posA,
+                    posB
+                }
+            };
+        }
         if (type === "areaListEntry") {
-            return this.#config.area[this.#editRef][this.#areaListName][this.#areaListIndex];
+            const areaConfig = this.#config.area[this.#editRef];
+            const locationList = areaConfig[this.#areaListName];
+            const {category, id, pos, visible = true} = locationList[this.#areaListIndex];
+            return {
+                mapConfig: areaConfig.map,
+                connections: areaConfig.connections,
+                list: locationList,
+                type: category,
+                index: this.#areaListIndex,
+                entry: {
+                    category,
+                    id,
+                    pos,
+                    visible
+                }
+            };
         }
         if (type === "exit") {
             return this.#config.exit[this.#editRef];
@@ -236,6 +277,9 @@ class WorldEditor extends CustomElement {
         }
         if (type === "areaMapConfig") {
             return this.#detailEditorAreaMapConfigEl;
+        }
+        if (type === "areaConnectionEntry") {
+            return this.#detailEditorAreaConnectionsEntryEl;
         }
         if (type === "areaListEntry") {
             return this.#detailEditorAreaListEntryEl;

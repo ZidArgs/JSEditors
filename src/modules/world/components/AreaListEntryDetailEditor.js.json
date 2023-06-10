@@ -1,7 +1,7 @@
 [
     {
         "type": "SimpleSelect",
-        "name": "type",
+        "name": "category",
         "label": "Entry Type",
         "options": {
             "location": "Location",
@@ -12,7 +12,7 @@
     },
     {
         "type": "SearchSelect",
-        "name": "ref",
+        "name": "id",
         "label": "Entry Reference"
     },
     {
