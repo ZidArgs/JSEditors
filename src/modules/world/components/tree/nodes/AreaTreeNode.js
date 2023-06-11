@@ -8,7 +8,7 @@ export default class AreaTreeNode extends TreeNode {
         this.addEventListener("click", (event) => {
             event.stopPropagation();
             event.preventDefault();
-            const ev = new Event("areaSelect", {bubbles: true, cancelable: true});
+            const ev = new Event("areaSelect", {bubbles: true, cancelable: true, composed: true});
             ev.element = this;
             ev.ref = this.ref;
             this.dispatchEvent(ev);
@@ -16,7 +16,7 @@ export default class AreaTreeNode extends TreeNode {
         this.addEventListener("contextmenu", (event) => {
             event.stopPropagation();
             event.preventDefault();
-            const ev = new Event("areaMenu", {bubbles: true, cancelable: true});
+            const ev = new Event("areaMenu", {bubbles: true, cancelable: true, composed: true});
             ev.element = this;
             ev.ref = this.ref;
             this.dispatchEvent(ev);
@@ -26,22 +26,20 @@ export default class AreaTreeNode extends TreeNode {
         subTreeEl.addEventListener("areaConnectionItemSelect", (event) => {
             event.stopPropagation();
             event.preventDefault();
-            const {element, index, list} = event;
-            const ev = new Event("areaConnectionItemSelect", {bubbles: true, cancelable: true});
+            const {element, index} = event;
+            const ev = new Event("areaConnectionItemSelect", {bubbles: true, cancelable: true, composed: true});
             ev.element = element;
             ev.area = this.ref;
-            ev.list = list;
             ev.index = index;
             this.dispatchEvent(ev);
         });
         subTreeEl.addEventListener("areaConnectionItemMenu", (event) => {
             event.stopPropagation();
             event.preventDefault();
-            const {element, index, list} = event;
-            const ev = new Event("areaConnectionItemMenu", {bubbles: true, cancelable: true});
+            const {element, index} = event;
+            const ev = new Event("areaConnectionItemMenu", {bubbles: true, cancelable: true, composed: true});
             ev.element = element;
             ev.area = this.ref;
-            ev.list = list;
             ev.index = index;
             this.dispatchEvent(ev);
         });
@@ -49,7 +47,7 @@ export default class AreaTreeNode extends TreeNode {
             event.stopPropagation();
             event.preventDefault();
             const {element, index, list} = event;
-            const ev = new Event("areaListItemSelect", {bubbles: true, cancelable: true});
+            const ev = new Event("areaListItemSelect", {bubbles: true, cancelable: true, composed: true});
             ev.element = element;
             ev.area = this.ref;
             ev.list = list;
@@ -60,7 +58,7 @@ export default class AreaTreeNode extends TreeNode {
             event.stopPropagation();
             event.preventDefault();
             const {element, index, list} = event;
-            const ev = new Event("areaListItemMenu", {bubbles: true, cancelable: true});
+            const ev = new Event("areaListItemMenu", {bubbles: true, cancelable: true, composed: true});
             ev.element = element;
             ev.area = this.ref;
             ev.list = list;
@@ -71,7 +69,7 @@ export default class AreaTreeNode extends TreeNode {
             event.stopPropagation();
             event.preventDefault();
             const {element} = event;
-            const ev = new Event("areaMapConfigSelect", {bubbles: true, cancelable: true});
+            const ev = new Event("areaMapConfigSelect", {bubbles: true, cancelable: true, composed: true});
             ev.element = element;
             ev.area = this.ref;
             this.dispatchEvent(ev);
@@ -80,7 +78,7 @@ export default class AreaTreeNode extends TreeNode {
             event.stopPropagation();
             event.preventDefault();
             const {element} = event;
-            const ev = new Event("areaMapConfigSelect", {bubbles: true, cancelable: true});
+            const ev = new Event("areaMapConfigSelect", {bubbles: true, cancelable: true, composed: true});
             ev.element = element;
             ev.area = this.ref;
             this.dispatchEvent(ev);

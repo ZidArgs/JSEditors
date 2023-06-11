@@ -9,7 +9,7 @@ export default class AreaConnectionItemTreeNode extends TreeNode {
             event.stopPropagation();
             event.preventDefault();
             const targetIndex = Array.from(this.parentElement.children).indexOf(this);
-            const ev = new Event("areaConnectionItemSelect", {bubbles: true, cancelable: true});
+            const ev = new Event("areaConnectionItemSelect", {bubbles: true, cancelable: true, composed: true});
             ev.element = this;
             ev.index = targetIndex;
             this.dispatchEvent(ev);
@@ -18,7 +18,7 @@ export default class AreaConnectionItemTreeNode extends TreeNode {
             event.stopPropagation();
             event.preventDefault();
             const targetIndex = Array.from(this.parentElement.children).indexOf(this);
-            const ev = new Event("areaConnectionItemMenu", {bubbles: true, cancelable: true});
+            const ev = new Event("areaConnectionItemMenu", {bubbles: true, cancelable: true, composed: true});
             ev.element = this;
             ev.index = targetIndex;
             this.dispatchEvent(ev);

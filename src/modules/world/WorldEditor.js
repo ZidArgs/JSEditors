@@ -1,12 +1,8 @@
 import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import {
-    deepClone
-} from "/emcJS/util/helper/DeepClone.js";
-import {
     areaListEntries, exitListEntries, locationListEntries, collectionListEntries
 } from "./data/EntityRegistries.js";
 import DefaultWorldConfigDataConverter from "./util/DefaultWorldConfigDataConverter.js";
-import AreaListEntryModal from "./components/modal/AreaListEntryModal.js";
 import "./components/AreaDetailEditor.js";
 import "./components/AreaConnectionsEntryDetailEditor.js";
 import "./components/AreaListEntryDetailEditor.js";
@@ -23,55 +19,23 @@ import "./components/tree/nodes/ExitTreeNode.js";
 import "./components/tree/nodes/LocationTreeNode.js";
 import TPL from "./WorldEditor.js.html" assert {type: "html"};
 import STYLE from "./WorldEditor.js.css" assert {type: "css"};
-
-/*
-TODO add coordinates input
-for area coordinates add input that allows choosing coordinates on any 2d plane
-*/
+import AreaListEntryController from "./controller/AreaListEntryController.js";
+import AreaConnectionsEntryController from "./controller/AreaConnectionsEntryController.js";
+import LocationEntryController from "./controller/LocationEntryController.js";
+import AreaEntryController from "./controller/AreaEntryController.js";
+import AreaMapConfigController from "./controller/AreaMapConfigController.js";
+import ExitEntryController from "./controller/ExitEntryController.js";
+import scope from "./data/WorldEditorScope.js";
 
 const DEFAULT_CONFIG_DATA_CONVERTER = new DefaultWorldConfigDataConverter();
 
-const DEFAULT_CONFIG = {
-    config: {
-        defaultArea: "",
-        map: {
-            color: "black"
-        },
-        areaContentHints: {},
-        region: {
-            root: "",
-            prefix: "",
-            postfix: ""
-        },
-        gateways: {
-            incoming: {
-                prefix: "",
-                postfix: ""
-            },
-            outgoing: {
-                prefix: "",
-                postfix: ""
-            },
-            variants: []
-        }
-    },
-    area: {},
-    location: {},
-    exit: {}
-};
-
-/* TODO outsource individual categories actions
-    like area, location, exit and connection
-*/
 /* TODO add empty detail editor for non-editable tree entries */
 
 class WorldEditor extends CustomElement {
 
     #configDataConverter;
 
-    #config = deepClone(DEFAULT_CONFIG);
-
-    /* TODO should be one "path" property */
+    /* TODO should be one "path" property (?) */
     #editRef = null;
 
     #areaListName = null;
@@ -106,8 +70,8 @@ class WorldEditor extends CustomElement {
         this.#detailEditorLocationEl = this.shadowRoot.getElementById("detail-editor-location");
         this.#detailEditorAreaEl.addEventListener("save", (event) => {
             if (this.#editRef !== "") {
-                const areaConfig = this.#config.area[this.#editRef];
-                this.#config.area[this.#editRef] = {
+                const areaConfig = scope.config.area[this.#editRef];
+                scope.config.area[this.#editRef] = {
                     ...areaConfig,
                     ...event.data
                 };
@@ -116,25 +80,25 @@ class WorldEditor extends CustomElement {
         });
         this.#detailEditorAreaMapConfigEl.addEventListener("save", (event) => {
             if (this.#editRef !== "") {
-                this.#config.area[this.#editRef].map = event.data;
+                scope.config.area[this.#editRef].map = event.data;
                 this.dispatchEvent(new Event("change"));
             }
         });
         this.#detailEditorAreaListEntryEl.addEventListener("save", (event) => {
             if (this.#editRef !== "") {
-                this.#config.area[this.#editRef][this.#areaListName][this.#areaListIndex] = event.data;
+                scope.config.area[this.#editRef][this.#areaListName][this.#areaListIndex] = event.data;
                 this.dispatchEvent(new Event("change"));
             }
         });
         this.#detailEditorExitEl.addEventListener("save", (event) => {
             if (this.#editRef !== "") {
-                this.#config.exit[this.#editRef] = event.data;
+                scope.config.exit[this.#editRef] = event.data;
                 this.dispatchEvent(new Event("change"));
             }
         });
         this.#detailEditorLocationEl.addEventListener("save", (event) => {
             if (this.#editRef !== "") {
-                this.#config.location[this.#editRef] = event.data;
+                scope.config.location[this.#editRef] = event.data;
                 this.dispatchEvent(new Event("change"));
             }
         });
@@ -142,35 +106,12 @@ class WorldEditor extends CustomElement {
         this.#structureEditorTreeEl = this.shadowRoot.getElementById("structure-editor-tree");
         this.#reloadTree();
         /* --- */
-        this.#structureEditorTreeEl.addEventListener("editArea", (event) => {
-            const {ref} = event;
-            this.#showDetailEditor("area", ref);
-        });
-        this.#structureEditorTreeEl.addEventListener("editAreaMapConfig", (event) => {
-            const {area} = event;
-            this.#showDetailEditor("areaMapConfig", area);
-        });
-        this.#structureEditorTreeEl.addEventListener("editAreaConnectionItem", (event) => {
-            const {area, list, index} = event;
-            this.#showDetailEditor("areaConnectionEntry", area, list, index);
-        });
-        this.#structureEditorTreeEl.addEventListener("editAreaListItem", (event) => {
-            const {area, list, index} = event;
-            this.#showDetailEditor("areaListEntry", area, list, index);
-        });
-        this.#structureEditorTreeEl.addEventListener("menuAreaListItem", (/* event */) => {
-            // const {area, list, index} = event;
-            const dialogEl = new AreaListEntryModal();
-            dialogEl.show();
-        });
-        this.#structureEditorTreeEl.addEventListener("editExit", (event) => {
-            const {ref} = event;
-            this.#showDetailEditor("exit", ref);
-        });
-        this.#structureEditorTreeEl.addEventListener("editLocation", (event) => {
-            const {ref} = event;
-            this.#showDetailEditor("location", ref);
-        });
+        new AreaMapConfigController(this, this.#structureEditorTreeEl, this.#detailEditorAreaMapConfigEl);
+        new AreaEntryController(this, this.#structureEditorTreeEl, this.#detailEditorAreaEl);
+        new AreaConnectionsEntryController(this, this.#structureEditorTreeEl, this.#detailEditorAreaConnectionsEntryEl);
+        new AreaListEntryController(this, this.#structureEditorTreeEl, this.#detailEditorAreaListEntryEl);
+        new ExitEntryController(this, this.#structureEditorTreeEl, this.#detailEditorExitEl);
+        new LocationEntryController(this, this.#structureEditorTreeEl, this.#detailEditorLocationEl);
     }
 
     set configDataConverter(value) {
@@ -186,127 +127,54 @@ class WorldEditor extends CustomElement {
     }
 
     setConfig(config) {
-        this.#config = this.configDataConverter.translateSetConfig(config);
+        scope.config = this.configDataConverter.translateSetConfig(config);
         this.#reloadTree();
         this.#extractEntries();
     }
 
     getConfig() {
-        return this.configDataConverter.translateGetConfig(this.#config);
+        return this.configDataConverter.translateGetConfig(scope.config);
     }
 
     reset() {
-        this.#config = deepClone(DEFAULT_CONFIG);
+        scope.reset();
         this.#reloadTree();
     }
 
-    #showDetailEditor(type, ref, list, index) {
-        this.#detailEditorAreaEl.classList.remove("active");
-        this.#detailEditorAreaMapConfigEl.classList.remove("active");
-        this.#detailEditorAreaConnectionsEntryEl.classList.remove("active");
-        this.#detailEditorAreaListEntryEl.classList.remove("active");
-        this.#detailEditorExitEl.classList.remove("active");
-        this.#detailEditorLocationEl.classList.remove("active");
-        /* --- */
-        this.#editRef = ref;
-        this.#areaListName = list;
-        this.#areaListIndex = index;
-        const detailEditorEl = this.#getEditor(type);
-        detailEditorEl.classList.add("active");
-        const config = this.#getCurrentElementConfig(type);
-        detailEditorEl.setData(config);
+    switchDetailEditor(detailEditorEl, config, ref, list, index) {
+        const currentEditorEl = this.shadowRoot.querySelector("#detail-panel > .active");
+        if (currentEditorEl != null) {
+            currentEditorEl.classList.remove("active");
+        }
+        if (detailEditorEl != null) {
+            this.#editRef = ref;
+            this.#areaListName = list;
+            this.#areaListIndex = index;
+            detailEditorEl.classList.add("active");
+            detailEditorEl.setData(config);
+        }
     }
 
     #reloadTree() {
-        const treeConfig = this.configDataConverter.extractTreeStructure(this.#config);
+        const treeConfig = this.configDataConverter.extractTreeStructure(scope.config);
         this.#structureEditorTreeEl.loadConfig(treeConfig);
-    }
-
-    #getCurrentElementConfig(type) {
-        if (type === "area") {
-            return this.#config.area[this.#editRef];
-        }
-        if (type === "areaMapConfig") {
-            return this.#config.area[this.#editRef].map;
-        }
-        if (type === "areaConnectionEntry") {
-            const areaConfig = this.#config.area[this.#editRef];
-            const connectionList = areaConfig.connections;
-            const {label, posA, posB} = connectionList[this.#areaListIndex];
-            return {
-                mapConfig: areaConfig.map,
-                connections: connectionList,
-                list: [],
-                index: this.#areaListIndex,
-                entry: {
-                    label,
-                    posA,
-                    posB
-                }
-            };
-        }
-        if (type === "areaListEntry") {
-            const areaConfig = this.#config.area[this.#editRef];
-            const locationList = areaConfig[this.#areaListName];
-            const {category, id, pos, visible = true} = locationList[this.#areaListIndex];
-            return {
-                mapConfig: areaConfig.map,
-                connections: areaConfig.connections,
-                list: locationList,
-                type: category,
-                index: this.#areaListIndex,
-                entry: {
-                    category,
-                    id,
-                    pos,
-                    visible
-                }
-            };
-        }
-        if (type === "exit") {
-            return this.#config.exit[this.#editRef];
-        }
-        if (type === "location") {
-            return this.#config.location[this.#editRef];
-        }
-    }
-
-    #getEditor(type) {
-        if (type === "area") {
-            return this.#detailEditorAreaEl;
-        }
-        if (type === "areaMapConfig") {
-            return this.#detailEditorAreaMapConfigEl;
-        }
-        if (type === "areaConnectionEntry") {
-            return this.#detailEditorAreaConnectionsEntryEl;
-        }
-        if (type === "areaListEntry") {
-            return this.#detailEditorAreaListEntryEl;
-        }
-        if (type === "exit") {
-            return this.#detailEditorExitEl;
-        }
-        if (type === "location") {
-            return this.#detailEditorLocationEl;
-        }
     }
 
     #extractEntries() {
         locationListEntries.clear();
-        for (const ref in this.#config.location) {
+        for (const ref in scope.config.location) {
             locationListEntries.add(ref);
         }
         exitListEntries.clear();
-        for (const ref in this.#config.exit) {
+        for (const ref in scope.config.exit) {
             exitListEntries.add(ref);
         }
         areaListEntries.clear();
-        for (const ref in this.#config.area) {
+        for (const ref in scope.config.area) {
             areaListEntries.add(ref);
         }
         collectionListEntries.clear();
-        for (const ref in this.#config.collection) {
+        for (const ref in scope.config.collection) {
             collectionListEntries.add(ref);
         }
     }

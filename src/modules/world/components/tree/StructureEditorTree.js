@@ -28,65 +28,8 @@ export default class StructureEditorTree extends BaseClass {
         this.addEventListener("contextmenusclosed", () => {
             this.#treeEl.markItemByPathForMenu();
         });
-        // TODO add contextmenus
         /* --- */
         this.#treeEl = this.shadowRoot.getElementById("tree");
-        this.#treeEl.addEventListener("locationSelect", (event) => {
-            const {ref} = event;
-            const ev = new Event("editLocation", {bubbles: true, cancelable: true});
-            ev.ref = ref;
-            this.dispatchEvent(ev);
-        });
-        this.#treeEl.addEventListener("exitSelect", (event) => {
-            const {ref} = event;
-            const ev = new Event("editExit", {bubbles: true, cancelable: true});
-            ev.ref = ref;
-            this.dispatchEvent(ev);
-        });
-        this.#treeEl.addEventListener("areaSelect", (event) => {
-            const {ref} = event;
-            const ev = new Event("editArea", {bubbles: true, cancelable: true});
-            ev.ref = ref;
-            this.dispatchEvent(ev);
-        });
-        this.#treeEl.addEventListener("areaConnectionItemSelect", (event) => {
-            const {area, list, index} = event;
-            const ev = new Event("editAreaConnectionItem", {bubbles: true, cancelable: true});
-            ev.area = area;
-            ev.list = list;
-            ev.index = index;
-            this.dispatchEvent(ev);
-        });
-        this.#treeEl.addEventListener("areaConnectionItemMenu", (event) => {
-            const {area, list, index} = event;
-            const ev = new Event("menuAreaConnectionItem", {bubbles: true, cancelable: true});
-            ev.area = area;
-            ev.list = list;
-            ev.index = index;
-            this.dispatchEvent(ev);
-        });
-        this.#treeEl.addEventListener("areaListItemSelect", (event) => {
-            const {area, list, index} = event;
-            const ev = new Event("editAreaListItem", {bubbles: true, cancelable: true});
-            ev.area = area;
-            ev.list = list;
-            ev.index = index;
-            this.dispatchEvent(ev);
-        });
-        this.#treeEl.addEventListener("areaListItemMenu", (event) => {
-            const {area, list, index} = event;
-            const ev = new Event("menuAreaListItem", {bubbles: true, cancelable: true});
-            ev.area = area;
-            ev.list = list;
-            ev.index = index;
-            this.dispatchEvent(ev);
-        });
-        this.#treeEl.addEventListener("areaMapConfigSelect", (event) => {
-            const {area} = event;
-            const ev = new Event("editAreaMapConfig", {bubbles: true, cancelable: true});
-            ev.area = area;
-            this.dispatchEvent(ev);
-        });
         this.#treeEl.addEventListener("select", (event) => {
             if (!event.data.isSelected) {
                 event.preventDefault();
@@ -123,8 +66,6 @@ export default class StructureEditorTree extends BaseClass {
         this.#treeEl.forcePathExpanded(path);
     }
 
-    // TODO transformation should be done in the editor itself
-    // TODO make default transformation but allow registration of custom transformer (load and save)
     loadConfig(config) {
         this.#treeEl.loadConfig(config);
     }

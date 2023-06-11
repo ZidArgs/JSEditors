@@ -8,7 +8,7 @@ export default class LocationTreeNode extends TreeNode {
         this.addEventListener("click", (event) => {
             event.stopPropagation();
             event.preventDefault();
-            const ev = new Event("locationSelect", {bubbles: true, cancelable: true});
+            const ev = new Event("locationSelect", {bubbles: true, cancelable: true, composed: true});
             ev.element = this;
             ev.ref = this.ref;
             this.dispatchEvent(ev);
@@ -16,7 +16,7 @@ export default class LocationTreeNode extends TreeNode {
         this.addEventListener("contextmenu", (event) => {
             event.stopPropagation();
             event.preventDefault();
-            const ev = new Event("locationMenu", {bubbles: true, cancelable: true});
+            const ev = new Event("locationMenu", {bubbles: true, cancelable: true, composed: true});
             ev.element = this;
             ev.ref = this.ref;
             this.dispatchEvent(ev);

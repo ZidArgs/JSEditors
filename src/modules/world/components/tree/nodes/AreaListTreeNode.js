@@ -10,7 +10,7 @@ export default class AreaListItemTreeNode extends TreeNode {
             event.stopPropagation();
             event.preventDefault();
             const {element, index} = event;
-            const ev = new Event("areaListItemSelect", {bubbles: true, cancelable: true});
+            const ev = new Event("areaListItemSelect", {bubbles: true, cancelable: true, composed: true});
             ev.element = element;
             ev.list = this.ref;
             ev.index = index;
@@ -20,7 +20,7 @@ export default class AreaListItemTreeNode extends TreeNode {
             event.stopPropagation();
             event.preventDefault();
             const {element, index} = event;
-            const ev = new Event("areaListItemMenu", {bubbles: true, cancelable: true});
+            const ev = new Event("areaListItemMenu", {bubbles: true, cancelable: true, composed: true});
             ev.element = element;
             ev.list = this.ref;
             ev.index = index;
