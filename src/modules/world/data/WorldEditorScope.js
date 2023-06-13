@@ -35,8 +35,11 @@ class WorldEditorScope {
 
     #config = deepClone(DEFAULT_CONFIG);
 
+    #editPath = [];
+
     reset() {
         this.#config = deepClone(DEFAULT_CONFIG);
+        this.#editPath = [];
     }
 
     set config(value) {
@@ -45,6 +48,14 @@ class WorldEditorScope {
 
     get config() {
         return this.#config;
+    }
+
+    set editPath(value) {
+        this.#editPath = [...value];
+    }
+
+    get editPath() {
+        return [...this.#editPath];
     }
 
 }

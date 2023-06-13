@@ -35,14 +35,6 @@ class WorldEditor extends CustomElement {
 
     #configDataConverter;
 
-    /* TODO should be one "path" property (?) */
-    #editRef = null;
-
-    #areaListName = null;
-
-    #areaListIndex = null;
-    /* --- */
-
     #detailEditorAreaEl;
 
     #detailEditorAreaMapConfigEl;
@@ -68,40 +60,6 @@ class WorldEditor extends CustomElement {
         this.#detailEditorAreaListEntryEl = this.shadowRoot.getElementById("detail-editor-area-list-entry");
         this.#detailEditorExitEl = this.shadowRoot.getElementById("detail-editor-exit");
         this.#detailEditorLocationEl = this.shadowRoot.getElementById("detail-editor-location");
-        this.#detailEditorAreaEl.addEventListener("save", (event) => {
-            if (this.#editRef !== "") {
-                const areaConfig = scope.config.area[this.#editRef];
-                scope.config.area[this.#editRef] = {
-                    ...areaConfig,
-                    ...event.data
-                };
-                this.dispatchEvent(new Event("change"));
-            }
-        });
-        this.#detailEditorAreaMapConfigEl.addEventListener("save", (event) => {
-            if (this.#editRef !== "") {
-                scope.config.area[this.#editRef].map = event.data;
-                this.dispatchEvent(new Event("change"));
-            }
-        });
-        this.#detailEditorAreaListEntryEl.addEventListener("save", (event) => {
-            if (this.#editRef !== "") {
-                scope.config.area[this.#editRef][this.#areaListName][this.#areaListIndex] = event.data;
-                this.dispatchEvent(new Event("change"));
-            }
-        });
-        this.#detailEditorExitEl.addEventListener("save", (event) => {
-            if (this.#editRef !== "") {
-                scope.config.exit[this.#editRef] = event.data;
-                this.dispatchEvent(new Event("change"));
-            }
-        });
-        this.#detailEditorLocationEl.addEventListener("save", (event) => {
-            if (this.#editRef !== "") {
-                scope.config.location[this.#editRef] = event.data;
-                this.dispatchEvent(new Event("change"));
-            }
-        });
         /* --- */
         this.#structureEditorTreeEl = this.shadowRoot.getElementById("structure-editor-tree");
         this.#reloadTree();
@@ -139,19 +97,16 @@ class WorldEditor extends CustomElement {
     reset() {
         scope.reset();
         this.#reloadTree();
+        this.switchDetailEditor();
     }
 
-    switchDetailEditor(detailEditorEl, config, ref, list, index) {
+    switchDetailEditor(detailEditorEl) {
         const currentEditorEl = this.shadowRoot.querySelector("#detail-panel > .active");
         if (currentEditorEl != null) {
             currentEditorEl.classList.remove("active");
         }
         if (detailEditorEl != null) {
-            this.#editRef = ref;
-            this.#areaListName = list;
-            this.#areaListIndex = index;
             detailEditorEl.classList.add("active");
-            detailEditorEl.setData(config);
         }
     }
 

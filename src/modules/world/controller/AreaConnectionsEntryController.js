@@ -3,17 +3,28 @@ import scope from "../data/WorldEditorScope.js";
 
 export default class AreaConnectionsEntryController {
 
-    constructor(editorEl, treeEl, detailEditor) {
+    constructor(editorEl, treeEl, detailEditorEl) {
         // TODO add contextmenus
         treeEl.addEventListener("areaConnectionItemSelect", (event) => {
             const {area, index} = event;
             const data = this.getConfigData(area, index);
-            editorEl.switchDetailEditor(detailEditor, data, area, null, index);
+            scope.editPath = [area, index];
+            detailEditorEl.setData(data);
+            editorEl.switchDetailEditor(detailEditorEl);
         });
         treeEl.addEventListener("areaConnectionItemMenu", (/* event */) => {
             // const {area, index} = event;
             // const dialogEl = new AreaListEntryModal();
             // dialogEl.show();
+        });
+        /* --- */
+        detailEditorEl.addEventListener("save", (event) => {
+            const [ref, listIndex] = scope.editPath;
+            if (ref != null && listIndex != null) {
+                // TODO streamline event data structure
+                scope.config.area[ref].connections[listIndex] = event.data;
+                this.dispatchEvent(new Event("change"));
+            }
         });
     }
 
