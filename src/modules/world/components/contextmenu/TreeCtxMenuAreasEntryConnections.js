@@ -1,6 +1,6 @@
 import ContextMenu from "/emcJS/ui/overlay/ctxmenu/ContextMenu.js";
 
-export default class TreeCtxMenuAreaConnections extends ContextMenu {
+export default class TreeCtxMenuAreasEntryConnections extends ContextMenu {
 
     initItems() {
         super.setItems([
@@ -14,4 +14,4 @@ export default class TreeCtxMenuAreaConnections extends ContextMenu {
 
 }
 
-customElements.define("jse-ctxmenu-edit-world-tree-area-connections", TreeCtxMenuAreaConnections);
+customElements.define("jse-ctxmenu-edit-world-tree-area-connections", TreeCtxMenuAreasEntryConnections);

@@ -10,21 +10,22 @@ import "./components/AreaMapConfigDetailEditor.js";
 import "./components/ExitDetailEditor.js";
 import "./components/LocationDetailEditor.js";
 import "./components/tree/StructureEditorTree.js";
-import "./components/tree/nodes/AreaTreeNode.js";
-import "./components/tree/nodes/AreaListTreeNode.js";
-import "./components/tree/nodes/AreaConnectionItemTreeNode.js";
-import "./components/tree/nodes/AreaListItemTreeNode.js";
-import "./components/tree/nodes/AreaMapConfigTreeNode.js";
-import "./components/tree/nodes/ExitTreeNode.js";
-import "./components/tree/nodes/LocationTreeNode.js";
+import "./components/tree/nodes/TreeNodeAreasEntry.js";
+import "./components/tree/nodes/TreeNodeAreasEntryConnectionsItem.js";
+import "./components/tree/nodes/TreeNodeAreasEntryList.js";
+import "./components/tree/nodes/TreeNodeAreasEntryListItem.js";
+import "./components/tree/nodes/TreeNodeAreasEntryMapConfig.js";
+import "./components/tree/nodes/TreeNodeExitsEntry.js";
+import "./components/tree/nodes/TreeNodeLocationsEntry.js";
 import TPL from "./WorldEditor.js.html" assert {type: "html"};
 import STYLE from "./WorldEditor.js.css" assert {type: "css"};
-import AreaListEntryController from "./controller/AreaListEntryController.js";
-import AreaConnectionsEntryController from "./controller/AreaConnectionsEntryController.js";
-import LocationEntryController from "./controller/LocationEntryController.js";
-import AreaEntryController from "./controller/AreaEntryController.js";
-import AreaMapConfigController from "./controller/AreaMapConfigController.js";
-import ExitEntryController from "./controller/ExitEntryController.js";
+import ControllerAreasEntry from "./controller/ControllerAreasEntry.js";
+import ControllerAreasEntryConnectionsItem from "./controller/ControllerAreasEntryConnectionsItem.js";
+import ControllerAreasEntryList from "./controller/ControllerAreasEntryList.js";
+import ControllerAreasEntryListItem from "./controller/ControllerAreasEntryListItem.js";
+import ControllerAreasEntryMapConfig from "./controller/ControllerAreasEntryMapConfig.js";
+import ControllerExitsEntry from "./controller/ControllerExitsEntry.js";
+import ControllerLocationsEntry from "./controller/ControllerLocationsEntry.js";
 import scope from "./data/WorldEditorScope.js";
 
 const DEFAULT_CONFIG_DATA_CONVERTER = new DefaultWorldConfigDataConverter();
@@ -64,12 +65,13 @@ class WorldEditor extends CustomElement {
         this.#structureEditorTreeEl = this.shadowRoot.getElementById("structure-editor-tree");
         this.#reloadTree();
         /* --- */
-        new AreaMapConfigController(this, this.#structureEditorTreeEl, this.#detailEditorAreaMapConfigEl);
-        new AreaEntryController(this, this.#structureEditorTreeEl, this.#detailEditorAreaEl);
-        new AreaConnectionsEntryController(this, this.#structureEditorTreeEl, this.#detailEditorAreaConnectionsEntryEl);
-        new AreaListEntryController(this, this.#structureEditorTreeEl, this.#detailEditorAreaListEntryEl);
-        new ExitEntryController(this, this.#structureEditorTreeEl, this.#detailEditorExitEl);
-        new LocationEntryController(this, this.#structureEditorTreeEl, this.#detailEditorLocationEl);
+        new ControllerAreasEntry(this, this.#structureEditorTreeEl, this.#detailEditorAreaEl);
+        new ControllerAreasEntryConnectionsItem(this, this.#structureEditorTreeEl, this.#detailEditorAreaConnectionsEntryEl);
+        new ControllerAreasEntryList(this, this.#structureEditorTreeEl);
+        new ControllerAreasEntryListItem(this, this.#structureEditorTreeEl, this.#detailEditorAreaListEntryEl);
+        new ControllerAreasEntryMapConfig(this, this.#structureEditorTreeEl, this.#detailEditorAreaMapConfigEl);
+        new ControllerExitsEntry(this, this.#structureEditorTreeEl, this.#detailEditorExitEl);
+        new ControllerLocationsEntry(this, this.#structureEditorTreeEl, this.#detailEditorLocationEl);
     }
 
     set configDataConverter(value) {
