@@ -41,7 +41,7 @@ export default class TreeNodeAreasEntryList extends BaseClass {
         this.setDefaultContextMenu(TreeCtxMenuAreasEntryList);
         this.addDefaultContextMenuHandler("addelementtop", () => {
             const dialogEl = new AreaListEntryModal();
-            dialogEl.onsubmit = function(event) {
+            dialogEl.addEventListener("submit", (event) => {
                 const {type, ref} = event.data;
                 const ev = new Event("areaListAddElementTop", {bubbles: true, cancelable: true, composed: true});
                 ev.data = {
@@ -51,12 +51,12 @@ export default class TreeNodeAreasEntryList extends BaseClass {
                     list: this.ref
                 };
                 this.dispatchEvent(ev);
-            }
+            });
             dialogEl.show();
         });
         this.addDefaultContextMenuHandler("addelementbottom", () => {
             const dialogEl = new AreaListEntryModal();
-            dialogEl.onsubmit = function(event) {
+            dialogEl.addEventListener("submit", (event) => {
                 const {type, ref} = event.data;
                 const ev = new Event("areaListAddElementBottom", {bubbles: true, cancelable: true, composed: true});
                 ev.data = {
@@ -66,7 +66,7 @@ export default class TreeNodeAreasEntryList extends BaseClass {
                     list: this.ref
                 };
                 this.dispatchEvent(ev);
-            }
+            });
             dialogEl.show();
         });
         /* --- */
@@ -91,10 +91,11 @@ export default class TreeNodeAreasEntryList extends BaseClass {
         ], (event) => {
             event.stopPropagation();
             event.preventDefault();
-            const {element, type, ref} = event.data;
+            const {element, index, type, ref} = event.data;
             const ev = new Event(event.type, {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element,
+                index,
                 type,
                 ref,
                 list: this.ref

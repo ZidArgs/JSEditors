@@ -82,10 +82,11 @@ export default class TreeNodeAreasEntry extends BaseClass {
         ], (event) => {
             event.stopPropagation();
             event.preventDefault();
-            const {element, type, ref, list} = event.data;
+            const {element, index, type, ref, list} = event.data;
             const ev = new Event(event.type, {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element,
+                index,
                 type,
                 ref,
                 list,

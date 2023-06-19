@@ -47,45 +47,44 @@ export default class TreeNodeAreasEntryListItem extends BaseClass {
         });
         this.addDefaultContextMenuHandler("addbefore", () => {
             const dialogEl = new AreaListEntryModal();
-            dialogEl.onsubmit = function(event) {
+            dialogEl.addEventListener("submit", (event) => {
                 const {type, ref} = event.data;
+                const targetIndex = Array.from(this.parentElement.children).indexOf(this);
                 const ev = new Event("areaListAddElementBefore", {bubbles: true, cancelable: true, composed: true});
                 ev.data = {
                     element: this,
+                    index: targetIndex,
                     type,
                     ref
                 };
                 this.dispatchEvent(ev);
-            }
+            });
             dialogEl.show();
         });
         this.addDefaultContextMenuHandler("addafter", () => {
             const dialogEl = new AreaListEntryModal();
-            dialogEl.onsubmit = function(event) {
+            dialogEl.addEventListener("submit", (event) => {
                 const {type, ref} = event.data;
+                const targetIndex = Array.from(this.parentElement.children).indexOf(this);
                 const ev = new Event("areaListAddElementAfter", {bubbles: true, cancelable: true, composed: true});
                 ev.data = {
                     element: this,
+                    index: targetIndex,
                     type,
                     ref
                 };
                 this.dispatchEvent(ev);
-            }
+            });
             dialogEl.show();
         });
         this.addDefaultContextMenuHandler("remove", () => {
-            const dialogEl = new AreaListEntryModal();
-            dialogEl.onsubmit = function(event) {
-                const {type, ref} = event.data;
-                const ev = new Event("areaListRemoveElement", {bubbles: true, cancelable: true, composed: true});
-                ev.data = {
-                    element: this,
-                    type,
-                    ref
-                };
-                this.dispatchEvent(ev);
-            }
-            dialogEl.show();
+            const targetIndex = Array.from(this.parentElement.children).indexOf(this);
+            const ev = new Event("areaListRemoveElement", {bubbles: true, cancelable: true, composed: true});
+            ev.data = {
+                element: this,
+                index: targetIndex
+            };
+            this.dispatchEvent(ev);
         });
     }
 

@@ -5,7 +5,6 @@ export default class ControllerAreasEntryList extends EventTarget {
 
     constructor(editorEl, treeEl, detailEditorEl) {
         super();
-        // TODO add contextmenus
         treeEl.addEventListener("areasEntryListSelect", (event) => {
             const {area, list} = event.data;
             scope.editPath = [area, list];
@@ -20,16 +19,47 @@ export default class ControllerAreasEntryList extends EventTarget {
             detailEditorEl.addEventListener("save", (event) => {
                 const [ref] = scope.editPath;
                 if (ref != null) {
-                    // TODO streamline event data structure
                     const areaConfig = scope.config.area[ref];
+                    const listItem = this.generateItemDetail(event.data);
                     scope.config.area[ref] = {
                         ...areaConfig,
-                        ...event.data
+                        ...listItem
                     };
                     editorEl.dispatchEvent(new Event("change"));
                 }
             });
         }
+        /* --- */
+        treeEl.addEventListener("areaListAddElementTop", (event) => {
+            const {area, list, ref, type} = event.data;
+            const data = scope.config.area[area][list];
+            const newListItem = this.generateItemDetail({
+                category: type,
+                id: ref
+            });
+            data.unshift(newListItem);
+            editorEl.reloadTree();
+            scope.editPath = [area, list, 0];
+            if (detailEditorEl != null) {
+                detailEditorEl.setData(newListItem);
+            }
+            editorEl.switchDetailEditor(detailEditorEl);
+        });
+        treeEl.addEventListener("areaListAddElementBottom", (event) => {
+            const {area, list, ref, type} = event.data;
+            const data = scope.config.area[area][list];
+            const newListItem = this.generateItemDetail({
+                category: type,
+                id: ref
+            });
+            data.push(newListItem);
+            editorEl.reloadTree();
+            scope.editPath = [area, list, data.length - 1];
+            if (detailEditorEl != null) {
+                detailEditorEl.setData(newListItem);
+            }
+            editorEl.switchDetailEditor(detailEditorEl);
+        });
     }
 
     getConfigData(ref, listName) {
@@ -39,6 +69,16 @@ export default class ControllerAreasEntryList extends EventTarget {
             mapConfig: areaConfig.map,
             connections: areaConfig.connections,
             list: locationList
+        };
+    }
+
+    generateItemDetail(data) {
+        const {category, id, pos, visible} = data;
+        return {
+            category,
+            id,
+            pos,
+            visible
         };
     }
 

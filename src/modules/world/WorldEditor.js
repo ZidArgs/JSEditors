@@ -63,7 +63,7 @@ class WorldEditor extends CustomElement {
         this.#detailEditorLocationEl = this.shadowRoot.getElementById("detail-editor-location");
         /* --- */
         this.#structureEditorTreeEl = this.shadowRoot.getElementById("structure-editor-tree");
-        this.#reloadTree();
+        this.reloadTree();
         /* --- */
         new ControllerAreasEntry(this, this.#structureEditorTreeEl, this.#detailEditorAreaEl);
         new ControllerAreasEntryConnectionsItem(this, this.#structureEditorTreeEl, this.#detailEditorAreaConnectionsEntryEl);
@@ -88,7 +88,7 @@ class WorldEditor extends CustomElement {
 
     setConfig(config) {
         scope.config = this.configDataConverter.translateSetConfig(config);
-        this.#reloadTree();
+        this.reloadTree();
         this.#extractEntries();
     }
 
@@ -98,7 +98,7 @@ class WorldEditor extends CustomElement {
 
     reset() {
         scope.reset();
-        this.#reloadTree();
+        this.reloadTree();
         this.switchDetailEditor();
     }
 
@@ -112,7 +112,7 @@ class WorldEditor extends CustomElement {
         }
     }
 
-    #reloadTree() {
+    reloadTree() {
         const treeConfig = this.configDataConverter.extractTreeStructure(scope.config);
         this.#structureEditorTreeEl.loadConfig(treeConfig);
     }
