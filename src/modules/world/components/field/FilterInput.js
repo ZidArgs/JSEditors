@@ -9,6 +9,10 @@ import STYLE from "./FilterInput.js.css" assert {type: "css"};
 
 export default class FilterInput extends AbstractFormInput {
 
+    static get suppressScrollIntoView() {
+        return true;
+    }
+
     #inputEl;
 
     constructor() {
@@ -74,8 +78,8 @@ export default class FilterInput extends AbstractFormInput {
         }
     }
 
-    loadData(map, connections, entries, currentType, currentIndex, currentLabel) {
-        this.#inputEl.loadData(map, connections, entries, currentType, currentIndex, currentLabel);
+    loadFilterConfig(config) {
+        this.#inputEl.loadFilterConfig(config);
     }
 
 }

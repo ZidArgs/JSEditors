@@ -3,6 +3,7 @@ import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
 import "/emcJS/ui/form/field/DefaultFormFieldsLoader.js";
 import "../components/field/PositionInput.js";
+import "../components/field/FilterInput.js";
 import TPL from "./AreaListEntryDetailEditor.js.html" assert {type: "html"};
 import STYLE from "./AreaListEntryDetailEditor.js.css" assert {type: "css"};
 import FORM_CONFIG from "./AreaListEntryDetailEditor.js.json" assert {type: "json"};
@@ -14,6 +15,8 @@ export default class AreaListEntryDetailEditor extends CustomElement {
     #detailFormEl;
 
     #posInputEl;
+
+    #filterInputEl;
 
     constructor() {
         super();
@@ -38,6 +41,7 @@ export default class AreaListEntryDetailEditor extends CustomElement {
         this.#formContext.registerForm(footerFormEl);
         /* --- */
         this.#posInputEl = this.shadowRoot.getElementById("pos-input");
+        this.#filterInputEl = this.shadowRoot.getElementById("filter-input");
     }
 
     #prepareForm() {
@@ -61,6 +65,10 @@ export default class AreaListEntryDetailEditor extends CustomElement {
 
     getData() {
         return this.#formContext.getData();
+    }
+
+    setFilterConfig(config) {
+        this.#filterInputEl.loadFilterConfig(config);
     }
 
 }

@@ -15,9 +15,8 @@ export default class TreeNodeExitsEntry extends BaseClass {
     constructor() {
         super();
         /* --- */
-        this.addEventListener("click", (event) => {
+        this.addEventListener("contentclick", (event) => {
             event.stopPropagation();
-            event.preventDefault();
             const ev = new Event("exitsEntrySelect", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element: this,
@@ -25,9 +24,8 @@ export default class TreeNodeExitsEntry extends BaseClass {
             };
             this.dispatchEvent(ev);
         });
-        this.addEventListener("contextmenu", (event) => {
+        this.addEventListener("contentcontextmenu", (event) => {
             event.stopPropagation();
-            event.preventDefault();
             this.showDefaultContextMenu(event);
             return false;
         });

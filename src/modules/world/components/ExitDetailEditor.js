@@ -2,6 +2,7 @@ import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
 import "/emcJS/ui/form/field/DefaultFormFieldsLoader.js";
+import "../components/field/FilterInput.js";
 import TPL from "./ExitDetailEditor.js.html" assert {type: "html"};
 import STYLE from "./ExitDetailEditor.js.css" assert {type: "css"};
 import FORM_CONFIG from "./ExitDetailEditor.js.json" assert {type: "json"};
@@ -11,6 +12,8 @@ export default class ExitDetailEditor extends CustomElement {
     #formContext = new FormContext();
 
     #detailFormEl;
+
+    #filterInputEl;
 
     constructor() {
         super();
@@ -33,6 +36,8 @@ export default class ExitDetailEditor extends CustomElement {
         this.#formContext.registerForm(headerFormEl);
         const footerFormEl = this.shadowRoot.getElementById("footer-form");
         this.#formContext.registerForm(footerFormEl);
+        /* --- */
+        this.#filterInputEl = this.shadowRoot.getElementById("filter-input");
     }
 
     #prepareForm() {
@@ -54,6 +59,10 @@ export default class ExitDetailEditor extends CustomElement {
 
     getData() {
         return this.#formContext.getData();
+    }
+
+    setFilterConfig(config) {
+        this.#filterInputEl.loadFilterConfig(config);
     }
 
 }

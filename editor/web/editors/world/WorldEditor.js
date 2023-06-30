@@ -77,12 +77,44 @@ const TOKEN_GROUPS = {
     ]
 };
 
+const FILTER_CONFIG = {
+    "era": [
+        "both",
+        "child",
+        "adult"
+    ],
+    "time": [
+        "both",
+        "day",
+        "night"
+    ],
+    "chests": [
+        "true",
+        "false"
+    ],
+    "skulltulas": [
+        "true",
+        "dungeons",
+        "overworld",
+        "false"
+    ],
+    "gossipstones": [
+        "true",
+        "false"
+    ],
+    "show_done": [
+        "true",
+        "false"
+    ]
+};
+
 export default async function() {
     OptionGroupRegistry.load(OPTION_GROUPS);
     TokenRegistry.load(TOKEN_GROUPS);
 
     const editorEl = document.createElement("jse-world-editor");
     editorEl.configDataConverter = new WorldConfigDataConverter();
+    editorEl.setFilterConfig(FILTER_CONFIG);
 
     // navigation
     const NAV = [{

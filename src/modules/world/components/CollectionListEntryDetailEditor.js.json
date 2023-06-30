@@ -25,5 +25,12 @@
         "name": "visible",
         "label": "Visible",
         "value": true
+    },
+    {
+        "type": "FilterInput",
+        "id": "filter-input",
+        "name": "filter",
+        "label": "Filter (hide if any value resolves to false)",
+        "value": {}
     }
 ]

@@ -10,6 +10,7 @@ export default class ControllerAreasEntryListItem {
             if (detailEditorEl != null) {
                 const data = this.getConfigData(area, list, index);
                 detailEditorEl.setData(data);
+                detailEditorEl.setFilterConfig(scope.filterConfig);
             }
             editorEl.switchDetailEditor(detailEditorEl);
         });
@@ -20,7 +21,7 @@ export default class ControllerAreasEntryListItem {
                 if (ref != null && listName != null && listIndex != null) {
                     // TODO streamline event data structure
                     scope.config.area[ref][listName][listIndex] = event.data;
-                    this.dispatchEvent(new Event("change"));
+                    editorEl.dispatchEvent(new Event("change"));
                 }
             });
         }

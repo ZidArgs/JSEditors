@@ -18,6 +18,13 @@
         "value": true
     },
     {
+        "type": "FilterInput",
+        "id": "filter-input",
+        "name": "filter",
+        "label": "Filter (hide if any value resolves to false)",
+        "value": {}
+    },
+    {
         "type": "ImageSelect",
         "name": "icon",
         "label": "Icon",

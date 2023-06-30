@@ -3,6 +3,14 @@ import {
     areaListEntries, exitListEntries, locationListEntries, collectionListEntries
 } from "./data/EntityRegistries.js";
 import DefaultWorldConfigDataConverter from "./util/DefaultWorldConfigDataConverter.js";
+import ControllerAreasEntry from "./controller/ControllerAreasEntry.js";
+import ControllerAreasEntryConnectionsItem from "./controller/ControllerAreasEntryConnectionsItem.js";
+import ControllerAreasEntryList from "./controller/ControllerAreasEntryList.js";
+import ControllerAreasEntryListItem from "./controller/ControllerAreasEntryListItem.js";
+import ControllerAreasEntryMapConfig from "./controller/ControllerAreasEntryMapConfig.js";
+import ControllerExitsEntry from "./controller/ControllerExitsEntry.js";
+import ControllerLocationsEntry from "./controller/ControllerLocationsEntry.js";
+import scope from "./data/WorldEditorScope.js";
 import "./components/AreaDetailEditor.js";
 import "./components/AreaConnectionsEntryDetailEditor.js";
 import "./components/AreaListEntryDetailEditor.js";
@@ -19,14 +27,6 @@ import "./components/tree/nodes/TreeNodeExitsEntry.js";
 import "./components/tree/nodes/TreeNodeLocationsEntry.js";
 import TPL from "./WorldEditor.js.html" assert {type: "html"};
 import STYLE from "./WorldEditor.js.css" assert {type: "css"};
-import ControllerAreasEntry from "./controller/ControllerAreasEntry.js";
-import ControllerAreasEntryConnectionsItem from "./controller/ControllerAreasEntryConnectionsItem.js";
-import ControllerAreasEntryList from "./controller/ControllerAreasEntryList.js";
-import ControllerAreasEntryListItem from "./controller/ControllerAreasEntryListItem.js";
-import ControllerAreasEntryMapConfig from "./controller/ControllerAreasEntryMapConfig.js";
-import ControllerExitsEntry from "./controller/ControllerExitsEntry.js";
-import ControllerLocationsEntry from "./controller/ControllerLocationsEntry.js";
-import scope from "./data/WorldEditorScope.js";
 
 const DEFAULT_CONFIG_DATA_CONVERTER = new DefaultWorldConfigDataConverter();
 
@@ -134,6 +134,10 @@ class WorldEditor extends CustomElement {
         for (const ref in scope.config.collection) {
             collectionListEntries.add(ref);
         }
+    }
+
+    setFilterConfig(config) {
+        scope.filterConfig = config;
     }
 
 }

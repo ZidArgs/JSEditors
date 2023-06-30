@@ -11,6 +11,7 @@ export default class ControllerLocationsEntry {
             if (detailEditorEl != null) {
                 const data = this.getConfigData(ref);
                 detailEditorEl.setData(data);
+                detailEditorEl.setFilterConfig(scope.filterConfig);
             }
             editorEl.switchDetailEditor(detailEditorEl);
         });
@@ -21,7 +22,7 @@ export default class ControllerLocationsEntry {
                 if (ref != null) {
                     // TODO streamline event data structure
                     scope.config.location[ref] = event.data;
-                    this.dispatchEvent(new Event("change"));
+                    editorEl.dispatchEvent(new Event("change"));
                 }
             });
         }

@@ -21,7 +21,7 @@ export default class ControllerAreasEntryMapConfig {
                 if (ref != null) {
                     // TODO streamline event data structure
                     scope.config.area[ref].map = event.data;
-                    this.dispatchEvent(new Event("change"));
+                    editorEl.dispatchEvent(new Event("change"));
                 }
             });
         }

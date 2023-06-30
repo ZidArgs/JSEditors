@@ -22,6 +22,9 @@ export default class FilterInputGroup extends CustomElement {
         this.shadowRoot.append(TPL.generate());
         STYLE.apply(this.shadowRoot);
         /* --- */
+        this.#eventTargetManager.set("change", (event) => {
+            event.stopPropagation();
+        });
         this.#eventTargetManager.set("value", (event) => {
             event.stopPropagation();
             const valueEl = event.target;
@@ -34,17 +37,17 @@ export default class FilterInputGroup extends CustomElement {
         });
     }
 
-    loadFilterValues(values) {
+    loadFilterValues(valueNames) {
         this.innerHTML = "";
         this.#eventTargetManager.clearTargets();
-        for (const valueName of values) {
+        for (const valueName of valueNames) {
             const valueEl = document.createElement("emc-field-input-boolorlogic");
             valueEl.dataset.name = valueName;
             valueEl.label = valueName;
-            const value = this.#value[valueName];
-            valueEl.value = value;
-            this.#eventTargetManager.addTarget(valueEl);
+            const currValue = this.#value?.[valueName];
+            valueEl.value = currValue === undefined ? true : currValue;
             this.append(valueEl);
+            this.#eventTargetManager.addTarget(valueEl);
         }
     }
 
@@ -54,12 +57,12 @@ export default class FilterInputGroup extends CustomElement {
             const valueEls = this.querySelectorAll("emc-field-input-boolorlogic");
             for (const valueEl of valueEls) {
                 const valueName = valueEl.dataset.name;
-                const value = this.#value[valueName];
-                valueEl.value = /* value === undefined ? true :  */value;
+                const currValue = this.#value?.[valueName];
+                valueEl.value = currValue === undefined ? true : currValue;
             }
             /* --- */
             // TODO debounce?
-            const ev = new Event("value", {bubbles: true, cancelable: true});
+            const ev = new Event("change", {bubbles: true, cancelable: true});
             ev.value = this.#value;
             this.dispatchEvent(ev);
         }
@@ -77,11 +80,15 @@ export default class FilterInputGroup extends CustomElement {
         return this.getAttribute("label");
     }
 
+    static get observedAttributes() {
+        return ["label", "disabled"];
+    }
+
     attributeChangedCallback(name, oldValue, newValue) {
         switch (name) {
             case "label": {
                 if (oldValue != newValue) {
-                    this.shadowRoot.getElementById("text").i18nValue = newValue;
+                    this.shadowRoot.getElementById("legend").innerHTML = newValue;
                 }
             } break;
             case "disabled": {

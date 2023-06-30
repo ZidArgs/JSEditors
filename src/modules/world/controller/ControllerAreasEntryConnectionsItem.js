@@ -21,7 +21,7 @@ export default class ControllerAreasEntryConnectionsItem {
                 if (ref != null && listIndex != null) {
                     // TODO streamline event data structure
                     scope.config.area[ref].connections[listIndex] = event.data;
-                    this.dispatchEvent(new Event("change"));
+                    editorEl.dispatchEvent(new Event("change"));
                 }
             });
         }

@@ -20,9 +20,8 @@ export default class TreeNodeAreasEntryList extends BaseClass {
     constructor() {
         super();
         /* --- */
-        this.addEventListener("click", (event) => {
+        this.addEventListener("contentclick", (event) => {
             event.stopPropagation();
-            event.preventDefault();
             const targetIndex = Array.from(this.parentElement.children).indexOf(this);
             const ev = new Event("areasEntryListSelect", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
@@ -31,9 +30,8 @@ export default class TreeNodeAreasEntryList extends BaseClass {
             };
             this.dispatchEvent(ev);
         });
-        this.addEventListener("contextmenu", (event) => {
+        this.addEventListener("contentcontextmenu", (event) => {
             event.stopPropagation();
-            event.preventDefault();
             this.showDefaultContextMenu(event);
             return false;
         });

@@ -1,0 +1,30 @@
+{
+    "era": [
+        "both",
+        "child",
+        "adult"
+    ],
+    "time": [
+        "both",
+        "day",
+        "night"
+    ],
+    "chests": [
+        "true",
+        "false"
+    ],
+    "skulltulas": [
+        "true",
+        "dungeons",
+        "overworld",
+        "false"
+    ],
+    "gossipstones": [
+        "true",
+        "false"
+    ],
+    "show_done": [
+        "true",
+        "false"
+    ]
+}

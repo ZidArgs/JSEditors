@@ -31,11 +31,13 @@ const DEFAULT_CONFIG = {
     exit: {}
 };
 
-class WorldEditorScope {
+class WorldEditorScope extends EventTarget {
 
     #config = deepClone(DEFAULT_CONFIG);
 
     #editPath = [];
+
+    #filterConfig = {};
 
     reset() {
         this.#config = deepClone(DEFAULT_CONFIG);
@@ -56,6 +58,14 @@ class WorldEditorScope {
 
     get editPath() {
         return [...this.#editPath];
+    }
+
+    set filterConfig(config) {
+        this.#filterConfig = deepClone(config);
+    }
+
+    get filterConfig() {
+        return this.#filterConfig;
     }
 
 }
