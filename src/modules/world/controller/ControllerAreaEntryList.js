@@ -1,11 +1,11 @@
 import scope from "../data/WorldEditorScope";
 // import AreaEntryModal from "../components/modal/AreaEntryModal.js";
 
-export default class ControllerAreasEntryList extends EventTarget {
+export default class ControllerAreaEntryList extends EventTarget {
 
     constructor(editorEl, treeEl, detailEditorEl) {
         super();
-        treeEl.addEventListener("areasEntryListSelect", (event) => {
+        treeEl.addEventListener("areaEntryListSelect", (event) => {
             const {area, list} = event.data;
             scope.editPath = [area, list];
             if (detailEditorEl != null) {

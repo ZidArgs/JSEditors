@@ -1,10 +1,10 @@
 import scope from "../data/WorldEditorScope";
 
-export default class ControllerAreasEntryListItem {
+export default class ControllerAreaEntryListItem {
 
     constructor(editorEl, treeEl, detailEditorEl) {
         // TODO add contextmenus
-        treeEl.addEventListener("areasEntryListItemSelect", (event) => {
+        treeEl.addEventListener("areaEntryListItemSelect", (event) => {
             const {area, list, index} = event.data;
             scope.editPath = [area, list, index];
             if (detailEditorEl != null) {
@@ -26,7 +26,7 @@ export default class ControllerAreasEntryListItem {
             });
         }
         /* --- */
-        treeEl.addEventListener("areaListAddElementBefore", (event) => {
+        treeEl.addEventListener("areaEntryListAddElementBefore", (event) => {
             const {area, list, index, ref, type} = event.data;
             const data = scope.config.area[area][list];
             const newListItem = this.generateItemDetail({
@@ -41,7 +41,7 @@ export default class ControllerAreasEntryListItem {
             }
             editorEl.switchDetailEditor(detailEditorEl);
         });
-        treeEl.addEventListener("areaListAddElementAfter", (event) => {
+        treeEl.addEventListener("areaEntryListAddElementAfter", (event) => {
             const {area, list, index, ref, type} = event.data;
             const data = scope.config.area[area][list];
             const newListItem = this.generateItemDetail({
@@ -56,7 +56,7 @@ export default class ControllerAreasEntryListItem {
             }
             editorEl.switchDetailEditor(detailEditorEl);
         });
-        treeEl.addEventListener("areaListRemoveElement", (event) => {
+        treeEl.addEventListener("areaEntryListRemoveElement", (event) => {
             const {area, list, index} = event.data;
             const data = scope.config.area[area][list];
             data.splice(index, 1);

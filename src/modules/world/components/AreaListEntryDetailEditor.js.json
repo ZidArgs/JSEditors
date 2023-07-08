@@ -1,19 +1,15 @@
 [
     {
-        "type": "SimpleSelect",
+        "type": "StringInput",
         "name": "category",
         "label": "Entry Type",
-        "options": {
-            "location": "Location",
-            "area": "Area",
-            "exit": "Exit"
-        },
-        "value": "location"
+        "readonly": true
     },
     {
-        "type": "SearchSelect",
+        "type": "StringInput",
         "name": "id",
-        "label": "Entry Reference"
+        "label": "Entry Reference",
+        "readonly": true
     },
     {
         "type": "PositionInput",

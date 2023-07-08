@@ -25,28 +25,28 @@ export default class DefaultWorldConfigDataConverter {
                 label: "World Config"
             },
             location: {
-                nodeType: "editor-world-category-location",
+                nodeType: "editor-world-location",
                 label: "Locations",
                 sorted: true,
                 startCollapsed: true,
                 children: this.extractTreeStructureLocations(location)
             },
             exit: {
-                nodeType: "editor-world-category-exit",
+                nodeType: "editor-world-exit",
                 label: "Exits",
                 sorted: true,
                 startCollapsed: true,
                 children: this.extractTreeStructureExits(exit)
             },
             collection: {
-                nodeType: "editor-world-category-collection",
+                nodeType: "editor-world-collection",
                 label: "Collections",
                 sorted: true,
                 startCollapsed: true,
                 children: this.extractTreeStructureCollections(collection)
             },
             area: {
-                nodeType: "editor-world-category-area",
+                nodeType: "editor-world-area",
                 label: "Areas",
                 sorted: true,
                 startCollapsed: true,
@@ -63,7 +63,7 @@ export default class DefaultWorldConfigDataConverter {
             const data = locations[ref];
             const type = data.type;
             res[ref] = {
-                nodeType: "editor-world-location",
+                nodeType: "editor-world-location-entry",
                 label: ref,
                 type
             };
@@ -77,7 +77,7 @@ export default class DefaultWorldConfigDataConverter {
             const data = exits[ref];
             const type = data.type;
             res[ref] = {
-                nodeType: "editor-world-exit",
+                nodeType: "editor-world-exit-entry",
                 label: ref,
                 type
             };
@@ -91,22 +91,22 @@ export default class DefaultWorldConfigDataConverter {
             const data = areas[ref];
             const type = data.type;
             res[ref] = {
-                nodeType: "editor-world-area",
+                nodeType: "editor-world-area-entry",
                 label: ref,
                 type,
                 children: {
                     map: {
-                        nodeType: "editor-world-area-map-config",
+                        nodeType: "editor-world-area-entry-map-config",
                         label: "Map Config"
                     },
                     connections: {
-                        nodeType: "editor-world-area-connections",
+                        nodeType: "editor-world-area-entry-connections",
                         label: "Connections",
                         startCollapsed: true,
                         children: this.extractTreeStructureAreaConnections(data.connections)
                     },
                     list: {
-                        nodeType: "editor-world-area-list",
+                        nodeType: "editor-world-area-entry-list",
                         label: "List",
                         startCollapsed: true,
                         children: this.extractTreeStructureAreaList(data.list)
@@ -122,7 +122,7 @@ export default class DefaultWorldConfigDataConverter {
         for (const index in areaConnectionItems) {
             const item = areaConnectionItems[index];
             res[index] = {
-                nodeType: "editor-world-area-connection-item",
+                nodeType: "editor-world-area-entry-connections-item",
                 label: item.label,
                 type: item.type ?? item.category
             };
@@ -135,7 +135,7 @@ export default class DefaultWorldConfigDataConverter {
         for (const index in areaListItems) {
             const item = areaListItems[index];
             res[index] = {
-                nodeType: "editor-world-area-list-item",
+                nodeType: "editor-world-area-entry-list-item",
                 label: item.id,
                 type: item.type ?? item.category
             };
@@ -149,15 +149,15 @@ export default class DefaultWorldConfigDataConverter {
             const data = collections[ref];
             const type = data.type;
             res[ref] = {
-                nodeType: "editor-world-collection",
+                nodeType: "editor-world-collection-entry",
                 label: ref,
                 type,
                 children: {
                     list: {
-                        nodeType: "editor-world-collection-list",
+                        nodeType: "editor-world-collection-entry-list",
                         label: "List",
                         startCollapsed: true,
-                        children: this.extractTreeStructureAreaList(data.list)
+                        children: this.extractTreeStructureCollectionList(data.list)
                     }
                 }
             };
@@ -170,7 +170,7 @@ export default class DefaultWorldConfigDataConverter {
         for (const index in collectionListItems) {
             const item = collectionListItems[index];
             res[index] = {
-                nodeType: "editor-world-collection-list-item",
+                nodeType: "editor-world-collection-entry-list-item",
                 label: item.id,
                 type: item.type ?? item.category
             };

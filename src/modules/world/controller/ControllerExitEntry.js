@@ -1,16 +1,17 @@
 import scope from "../data/WorldEditorScope";
-// import AreaMapConfigModal from "../components/modal/AreaMapConfigModal.js";
+// import ExitEntryModal from "../components/modal/ExitEntryModal.js";
 
-export default class ControllerAreasEntryMapConfig {
+export default class ControllerExitEntry {
 
     constructor(editorEl, treeEl, detailEditorEl) {
         // TODO add contextmenus
-        treeEl.addEventListener("areasEntryMapConfigSelect", (event) => {
-            const {area} = event.data;
-            scope.editPath = [area];
+        treeEl.addEventListener("exitEntrySelect", (event) => {
+            const {ref} = event.data;
+            scope.editPath = [ref];
             if (detailEditorEl != null) {
-                const data = this.getConfigData(area);
+                const data = this.getConfigData(ref);
                 detailEditorEl.setData(data);
+                detailEditorEl.setFilterConfig(scope.filterConfig);
             }
             editorEl.switchDetailEditor(detailEditorEl);
         });
@@ -20,7 +21,7 @@ export default class ControllerAreasEntryMapConfig {
                 const [ref] = scope.editPath;
                 if (ref != null) {
                     // TODO streamline event data structure
-                    scope.config.area[ref].map = event.data;
+                    scope.config.exit[ref] = event.data;
                     editorEl.dispatchEvent(new Event("change"));
                 }
             });
@@ -28,7 +29,7 @@ export default class ControllerAreasEntryMapConfig {
     }
 
     getConfigData(ref) {
-        return scope.config.area[ref].map;
+        return scope.config.exit[ref];
     }
 
 }

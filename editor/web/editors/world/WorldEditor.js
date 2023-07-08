@@ -109,12 +109,15 @@ const FILTER_CONFIG = {
 };
 
 export default async function() {
-    OptionGroupRegistry.load(OPTION_GROUPS);
-    TokenRegistry.load(TOKEN_GROUPS);
-
     const editorEl = document.createElement("jse-world-editor");
     editorEl.configDataConverter = new WorldConfigDataConverter();
-    editorEl.setFilterConfig(FILTER_CONFIG);
+
+    // refresh
+    async function refreshFn() {
+        OptionGroupRegistry.load(OPTION_GROUPS);
+        TokenRegistry.load(TOKEN_GROUPS);
+        editorEl.setFilterConfig(FILTER_CONFIG);
+    }
 
     // navigation
     const NAV = [{
@@ -149,6 +152,7 @@ export default async function() {
     return {
         name: "World Editor",
         panel: editorEl,
-        navigation: NAV
+        navigation: NAV,
+        refreshFn
     }
 }

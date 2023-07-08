@@ -3,7 +3,7 @@ import TreeNode from "/emcJS/ui/tree/components/TreeNode.js";
 import {
     mix
 } from "/emcJS/util/Mixin.js";
-import TreeCtxMenuAreasEntryListItem from "../../contextmenu/TreeCtxMenuAreasEntryListItem.js";
+import TreeCtxMenuAreaEntryListItem from "../../contextmenu/TreeCtxMenuAreaEntryListItem.js";
 import AreaListEntryModal from "../../modal/AreaListEntryModal.js";
 
 const BaseClass = mix(
@@ -12,7 +12,7 @@ const BaseClass = mix(
     ContextMenuManagerMixin
 );
 
-export default class TreeNodeAreasEntryListItem extends BaseClass {
+export default class TreeNodeCollectionEntryListItem extends BaseClass {
 
     constructor() {
         super();
@@ -20,7 +20,7 @@ export default class TreeNodeAreasEntryListItem extends BaseClass {
         this.addEventListener("contentclick", (event) => {
             event.stopPropagation();
             const targetIndex = Array.from(this.parentElement.children).indexOf(this);
-            const ev = new Event("areasEntryListItemSelect", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event("collectionEntryListItemSelect", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element: this,
                 index: targetIndex
@@ -33,10 +33,10 @@ export default class TreeNodeAreasEntryListItem extends BaseClass {
             return false;
         });
         /* --- */
-        this.setDefaultContextMenu(TreeCtxMenuAreasEntryListItem);
+        this.setDefaultContextMenu(TreeCtxMenuAreaEntryListItem);
         this.addDefaultContextMenuHandler("edit", () => {
             const targetIndex = Array.from(this.parentElement.children).indexOf(this);
-            const ev = new Event("areaListItemSelect", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event("collectionEntryListItemSelect", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element: this,
                 index: targetIndex
@@ -48,7 +48,7 @@ export default class TreeNodeAreasEntryListItem extends BaseClass {
             dialogEl.addEventListener("submit", (event) => {
                 const {type, ref} = event.data;
                 const targetIndex = Array.from(this.parentElement.children).indexOf(this);
-                const ev = new Event("areaListAddElementBefore", {bubbles: true, cancelable: true, composed: true});
+                const ev = new Event("collectionEntryListAddElementBefore", {bubbles: true, cancelable: true, composed: true});
                 ev.data = {
                     element: this,
                     index: targetIndex,
@@ -64,7 +64,7 @@ export default class TreeNodeAreasEntryListItem extends BaseClass {
             dialogEl.addEventListener("submit", (event) => {
                 const {type, ref} = event.data;
                 const targetIndex = Array.from(this.parentElement.children).indexOf(this);
-                const ev = new Event("areaListAddElementAfter", {bubbles: true, cancelable: true, composed: true});
+                const ev = new Event("collectionEntryListAddElementAfter", {bubbles: true, cancelable: true, composed: true});
                 ev.data = {
                     element: this,
                     index: targetIndex,
@@ -77,7 +77,7 @@ export default class TreeNodeAreasEntryListItem extends BaseClass {
         });
         this.addDefaultContextMenuHandler("remove", () => {
             const targetIndex = Array.from(this.parentElement.children).indexOf(this);
-            const ev = new Event("areaListRemoveElement", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event("collectionEntryListRemoveElement", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element: this,
                 index: targetIndex
@@ -88,6 +88,5 @@ export default class TreeNodeAreasEntryListItem extends BaseClass {
 
 }
 
-TreeNode.registerNodeType("editor-world-area-list-item", TreeNodeAreasEntryListItem);
-customElements.define("jse-tree-node-world-area-listitem", TreeNodeAreasEntryListItem);
-
+TreeNode.registerNodeType("editor-world-collection-entry-list-item", TreeNodeCollectionEntryListItem);
+customElements.define("jse-tree-node-world-collection-entry-listitem", TreeNodeCollectionEntryListItem);

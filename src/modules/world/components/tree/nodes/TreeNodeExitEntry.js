@@ -10,14 +10,14 @@ const BaseClass = mix(
     ContextMenuManagerMixin
 );
 
-export default class TreeNodeLocationsEntry extends BaseClass {
+export default class TreeNodeExitEntry extends BaseClass {
 
     constructor() {
         super();
         /* --- */
         this.addEventListener("contentclick", (event) => {
             event.stopPropagation();
-            const ev = new Event("locationsEntrySelect", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event("exitEntrySelect", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element: this,
                 ref: this.ref
@@ -34,6 +34,5 @@ export default class TreeNodeLocationsEntry extends BaseClass {
 
 }
 
-TreeNode.registerNodeType("editor-world-location", TreeNodeLocationsEntry);
-customElements.define("jse-tree-node-world-location", TreeNodeLocationsEntry);
-
+TreeNode.registerNodeType("editor-world-exit-entry", TreeNodeExitEntry);
+customElements.define("jse-tree-node-world-exit-entry", TreeNodeExitEntry);

@@ -1,0 +1,12 @@
+* {
+    box-sizing: border-box;
+}
+:host {
+    display: flex;
+    flex-direction: column;
+    width: 100dvw;
+    height: 100dvh;
+    margin: 0px;
+    background-color: var(--page-background-color, #000000);
+    color: var(--page-text-color, #ffffff);
+}

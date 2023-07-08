@@ -10,17 +10,18 @@ const BaseClass = mix(
     ContextMenuManagerMixin
 );
 
-export default class TreeNodeExitsEntry extends BaseClass {
+export default class TreeNodeAreaEntryConnectionsItem extends BaseClass {
 
     constructor() {
         super();
         /* --- */
         this.addEventListener("contentclick", (event) => {
             event.stopPropagation();
-            const ev = new Event("exitsEntrySelect", {bubbles: true, cancelable: true, composed: true});
+            const targetIndex = Array.from(this.parentElement.children).indexOf(this);
+            const ev = new Event("areaEntryConnectionsItemSelect", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element: this,
-                ref: this.ref
+                index: targetIndex
             };
             this.dispatchEvent(ev);
         });
@@ -34,6 +35,5 @@ export default class TreeNodeExitsEntry extends BaseClass {
 
 }
 
-TreeNode.registerNodeType("editor-world-exit", TreeNodeExitsEntry);
-customElements.define("jse-tree-node-world-exit", TreeNodeExitsEntry);
-
+TreeNode.registerNodeType("editor-world-area-entry-connections-item", TreeNodeAreaEntryConnectionsItem);
+customElements.define("jse-tree-node-world-area-entry-connections-item", TreeNodeAreaEntryConnectionsItem);

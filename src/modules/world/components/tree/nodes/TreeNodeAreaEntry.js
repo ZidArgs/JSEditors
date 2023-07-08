@@ -13,14 +13,14 @@ const BaseClass = mix(
     ContextMenuManagerMixin
 );
 
-export default class TreeNodeAreasEntry extends BaseClass {
+export default class TreeNodeAreaEntry extends BaseClass {
 
     constructor() {
         super();
         /* --- */
         this.addEventListener("contentclick", (event) => {
             event.stopPropagation();
-            const ev = new Event("areasEntrySelect", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event("areaEntrySelect", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element: this,
                 ref: this.ref
@@ -34,11 +34,11 @@ export default class TreeNodeAreasEntry extends BaseClass {
         });
         /* --- */
         const subTreeEl = this.shadowRoot.getElementById("tree");
-        subTreeEl.addEventListener("areasEntryConnectionItemSelect", (event) => {
+        subTreeEl.addEventListener("areaEntryConnectionsItemSelect", (event) => {
             event.stopPropagation();
             event.preventDefault();
             const {element, index} = event.data;
-            const ev = new Event("areasEntryConnectionItemSelect", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event("areaEntryConnectionsItemSelect", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element,
                 index,
@@ -46,11 +46,11 @@ export default class TreeNodeAreasEntry extends BaseClass {
             };
             this.dispatchEvent(ev);
         });
-        subTreeEl.addEventListener("areasEntryListItemSelect", (event) => {
+        subTreeEl.addEventListener("areaEntryListItemSelect", (event) => {
             event.stopPropagation();
             event.preventDefault();
             const {element, index, list} = event.data;
-            const ev = new Event("areasEntryListItemSelect", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event("areaEntryListItemSelect", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element,
                 index,
@@ -59,11 +59,11 @@ export default class TreeNodeAreasEntry extends BaseClass {
             };
             this.dispatchEvent(ev);
         });
-        subTreeEl.addEventListener("areasEntryMapConfigSelect", (event) => {
+        subTreeEl.addEventListener("areaEntryMapConfigSelect", (event) => {
             event.stopPropagation();
             event.preventDefault();
             const {element} = event.data;
-            const ev = new Event("areasEntryMapConfigSelect", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event("areaEntryMapConfigSelect", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element,
                 area: this.ref
@@ -96,6 +96,5 @@ export default class TreeNodeAreasEntry extends BaseClass {
 
 }
 
-TreeNode.registerNodeType("editor-world-area", TreeNodeAreasEntry);
-customElements.define("jse-tree-node-world-area", TreeNodeAreasEntry);
-
+TreeNode.registerNodeType("editor-world-area-entry", TreeNodeAreaEntry);
+customElements.define("jse-tree-node-world-area-entry", TreeNodeAreaEntry);

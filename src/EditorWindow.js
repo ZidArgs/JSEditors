@@ -1,28 +1,11 @@
-import Template from "/emcJS/util/html/Template.js";
+import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import "/emcJS/ui/Page.js";
 import "/emcJS/ui/navigation/NavBar.js";
 import "./EditorChoice.js";
+import TPL from "./EditorWindow.js.html" assert {type: "html"};
+import STYLE from "./EditorWindow.js.css" assert {type: "css"};
 
 const TITLE_PREFIX = "Editor";
-
-const TPL = new Template(`
-<style>
-    * {
-        box-sizing: border-box;
-    }
-    :host {
-        display: flex;
-        flex-direction: column;
-        width: 100dvw;
-        height: 100dvh;
-        margin: 0px;
-        background-color: var(--page-background-color, #000000);
-        color: var(--page-text-color, #ffffff);
-    }
-</style>
-<slot>
-</slot>
-`);
 
 const MAIN_NAV = [{
     "content": "EXIT",
@@ -31,71 +14,88 @@ const MAIN_NAV = [{
     }
 }];
 
-const NAVI = new WeakMap();
-const CHOICE = new WeakMap();
-const PANELS = new WeakMap();
+export default class EditorWindow extends CustomElement {
 
-export default class EditorWindow extends HTMLElement {
+    #navbarEl = null;
+
+    #choiceEl = null;
+
+    #panelConfig = new Map();
+
+    #currentPanel = null;
 
     constructor() {
         super();
-        this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
+        STYLE.apply(this.shadowRoot);
+        /* --- */
 
-        const navi = document.createElement("emc-navbar");
-        navi.loadNavigation(MAIN_NAV);
-        NAVI.set(this, navi);
+        this.#navbarEl = this.shadowRoot.getElementById("navbar");
+        this.#navbarEl.loadNavigation(MAIN_NAV);
 
-        const choice = document.createElement("jse-choice");
-        choice.addEventListener("choice", (event) => {
+        this.#choiceEl = this.shadowRoot.getElementById("choice");
+        this.#choiceEl.addEventListener("choice", (event) => {
             this.#onChoice(event);
         });
-        CHOICE.set(this, choice);
-
-        PANELS.set(this, new Map());
     }
 
-    connectedCallback() {
-        this.innerHTML = "";
-        this.append(NAVI.get(this));
-        this.append(CHOICE.get(this));
-    }
-
-    register(name, panel, navigation, refreshFn) {
-        if (PANELS.get(this).has(name)) {
+    register(name, panelEl, navConfig, refreshFn) {
+        if (typeof name !== "string" || name == "") {
+            throw Error("Panel name must be a non empty string");
+        }
+        if (this.#panelConfig.has(name)) {
             throw Error(`Panel with name "${name}" already registered`);
         }
-        PANELS.get(this).set(name, {
-            navigation: navigation,
-            refreshFn: refreshFn
+        this.#panelConfig.set(name, {
+            panelEl,
+            navConfig,
+            refreshFn
         });
-        panel.addEventListener("close", () => this.closeCurrent());
-        CHOICE.get(this).register(panel, name);
+        panelEl.addEventListener("close", () => this.changeApp());
+        this.#choiceEl.register(name);
+        this.append(panelEl);
     }
 
     closeCurrent() {
-        CHOICE.get(this).closeCurrent();
+        this.changeApp();
     }
 
     #onChoice(event) {
-        if (event.app == "") {
+        this.changeApp(event.app);
+    }
+
+    async changeApp(name) {
+        if (typeof name !== "string" || name == "") {
             document.title = TITLE_PREFIX;
-            NAVI.get(this).loadNavigation(MAIN_NAV);
-        } else {
-            document.title = `${TITLE_PREFIX} - ${event.app}`;
-            const data = PANELS.get(this).get(event.app);
-            if (typeof data.refreshFn == "function") {
-                data.refreshFn();
+            if (this.#currentPanel != null) {
+                this.#currentPanel.removeAttribute("slot");
             }
-            if (data.navigation != null) {
-                NAVI.get(this).loadNavigation(data.navigation);
+            this.#currentPanel = null;
+            this.#navbarEl.loadNavigation(MAIN_NAV);
+        } else {
+            const {panelEl, refreshFn, navConfig} = this.#panelConfig.get(name);
+            if (panelEl == null) {
+                await this.changeApp();
             } else {
-                NAVI.get(this).loadNavigation([{
-                    "content": "EXIT",
-                    "handler": () => {
-                        CHOICE.get(this).closeCurrent();
-                    }
-                }]);
+                document.title = `${TITLE_PREFIX} - ${name}`;
+                if (this.#currentPanel != null) {
+                    this.#currentPanel.removeAttribute("slot");
+                }
+                panelEl.setAttribute("slot", "visible");
+                this.#currentPanel = panelEl;
+                if (typeof refreshFn === "function") {
+                    await refreshFn();
+                }
+                if (navConfig != null) {
+                    this.#navbarEl.loadNavigation(navConfig);
+                } else {
+                    this.#navbarEl.loadNavigation([{
+                        "content": "EXIT",
+                        "handler": () => {
+                            this.changeApp();
+                        }
+                    }]);
+                }
             }
         }
     }

@@ -1,11 +1,11 @@
 import scope from "../data/WorldEditorScope";
-// import ExitEntryModal from "../components/modal/ExitEntryModal.js";
+// import LocationEntryModal from "../components/modal/LocationEntryModal.js";
 
-export default class ControllerExitsEntry {
+export default class ControllerLocationEntry {
 
     constructor(editorEl, treeEl, detailEditorEl) {
         // TODO add contextmenus
-        treeEl.addEventListener("exitsEntrySelect", (event) => {
+        treeEl.addEventListener("locationEntrySelect", (event) => {
             const {ref} = event.data;
             scope.editPath = [ref];
             if (detailEditorEl != null) {
@@ -21,7 +21,7 @@ export default class ControllerExitsEntry {
                 const [ref] = scope.editPath;
                 if (ref != null) {
                     // TODO streamline event data structure
-                    scope.config.exit[ref] = event.data;
+                    scope.config.location[ref] = event.data;
                     editorEl.dispatchEvent(new Event("change"));
                 }
             });
@@ -29,7 +29,7 @@ export default class ControllerExitsEntry {
     }
 
     getConfigData(ref) {
-        return scope.config.exit[ref];
+        return scope.config.location[ref];
     }
 
 }

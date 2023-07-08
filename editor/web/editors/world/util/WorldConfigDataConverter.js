@@ -8,7 +8,7 @@ export default class WorldConfigDataConverter extends DefaultWorldConfigDataConv
             const data = areas[ref];
             if (data.list_mq != null) {
                 res[ref].children["list_mq"] = {
-                    nodeType: "editor-world-area-list",
+                    nodeType: "editor-world-area-entry-list",
                     label: "List (Master Quest)",
                     startCollapsed: true,
                     children: this.extractTreeStructureAreaList(data.list_mq)

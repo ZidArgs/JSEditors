@@ -1,11 +1,11 @@
 import scope from "../data/WorldEditorScope";
 // import AreaConnectionsEntryModal from "../components/modal/AreaConnectionsEntryModal.js";
 
-export default class ControllerAreasEntryConnectionsItem {
+export default class ControllerAreaEntryConnectionsItem {
 
     constructor(editorEl, treeEl, detailEditorEl) {
         // TODO add contextmenus
-        treeEl.addEventListener("areasEntryConnectionItemSelect", (event) => {
+        treeEl.addEventListener("areaEntryConnectionsItemSelect", (event) => {
             const {area, index} = event.data;
             scope.editPath = [area, index];
             if (detailEditorEl != null) {

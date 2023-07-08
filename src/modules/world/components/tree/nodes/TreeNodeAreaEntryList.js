@@ -6,7 +6,7 @@ import {
 import {
     addEventListenerForMultiType
 } from "/emcJS/util/helper/Event.js";
-import TreeCtxMenuAreasEntryList from "../../contextmenu/TreeCtxMenuAreasEntryList.js";
+import TreeCtxMenuAreaEntryList from "../../contextmenu/TreeCtxMenuAreaEntryList.js";
 import AreaListEntryModal from "../../modal/AreaListEntryModal.js";
 
 const BaseClass = mix(
@@ -15,7 +15,7 @@ const BaseClass = mix(
     ContextMenuManagerMixin
 );
 
-export default class TreeNodeAreasEntryList extends BaseClass {
+export default class TreeNodeAreaEntryList extends BaseClass {
 
     constructor() {
         super();
@@ -23,7 +23,7 @@ export default class TreeNodeAreasEntryList extends BaseClass {
         this.addEventListener("contentclick", (event) => {
             event.stopPropagation();
             const targetIndex = Array.from(this.parentElement.children).indexOf(this);
-            const ev = new Event("areasEntryListSelect", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event("areaEntryListSelect", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element: this,
                 index: targetIndex
@@ -36,7 +36,7 @@ export default class TreeNodeAreasEntryList extends BaseClass {
             return false;
         });
         /* --- */
-        this.setDefaultContextMenu(TreeCtxMenuAreasEntryList);
+        this.setDefaultContextMenu(TreeCtxMenuAreaEntryList);
         this.addDefaultContextMenuHandler("addelementtop", () => {
             const dialogEl = new AreaListEntryModal();
             dialogEl.addEventListener("submit", (event) => {
@@ -69,11 +69,11 @@ export default class TreeNodeAreasEntryList extends BaseClass {
         });
         /* --- */
         const subTreeEl = this.shadowRoot.getElementById("tree");
-        subTreeEl.addEventListener("areasEntryListItemSelect", (event) => {
+        subTreeEl.addEventListener("areaEntryListItemSelect", (event) => {
             event.stopPropagation();
             event.preventDefault();
             const {element, index} = event.data;
-            const ev = new Event("areasEntryListItemSelect", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event("areaEntryListItemSelect", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element,
                 index,
@@ -104,6 +104,5 @@ export default class TreeNodeAreasEntryList extends BaseClass {
 
 }
 
-TreeNode.registerNodeType("editor-world-area-list", TreeNodeAreasEntryList);
-customElements.define("jse-tree-node-world-area-list", TreeNodeAreasEntryList);
-
+TreeNode.registerNodeType("editor-world-area-entry-list", TreeNodeAreaEntryList);
+customElements.define("jse-tree-node-world-area-entry-list", TreeNodeAreaEntryList);

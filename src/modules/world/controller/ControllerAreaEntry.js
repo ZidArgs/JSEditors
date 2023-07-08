@@ -1,12 +1,12 @@
 import scope from "../data/WorldEditorScope";
 // import AreaEntryModal from "../components/modal/AreaEntryModal.js";
 
-export default class ControllerAreasEntry extends EventTarget {
+export default class ControllerAreaEntry extends EventTarget {
 
     constructor(editorEl, treeEl, detailEditorEl) {
         super();
         // TODO add contextmenus
-        treeEl.addEventListener("areasEntrySelect", (event) => {
+        treeEl.addEventListener("areaEntrySelect", (event) => {
             const {ref} = event.data;
             scope.editPath = [ref];
             if (detailEditorEl != null) {

@@ -10,18 +10,17 @@ const BaseClass = mix(
     ContextMenuManagerMixin
 );
 
-export default class TreeNodeAreasEntryConnectionsItem extends BaseClass {
+export default class TreeNodeAreaEntryMapConfig extends BaseClass {
 
     constructor() {
         super();
         /* --- */
         this.addEventListener("contentclick", (event) => {
             event.stopPropagation();
-            const targetIndex = Array.from(this.parentElement.children).indexOf(this);
-            const ev = new Event("areasEntryConnectionItemSelect", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event("areaEntryMapConfigSelect", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element: this,
-                index: targetIndex
+                ref: this.ref
             };
             this.dispatchEvent(ev);
         });
@@ -35,6 +34,5 @@ export default class TreeNodeAreasEntryConnectionsItem extends BaseClass {
 
 }
 
-TreeNode.registerNodeType("editor-world-area-connection-item", TreeNodeAreasEntryConnectionsItem);
-customElements.define("jse-tree-node-world-area-connectionitem", TreeNodeAreasEntryConnectionsItem);
-
+TreeNode.registerNodeType("editor-world-area-entry-map-config", TreeNodeAreaEntryMapConfig);
+customElements.define("jse-tree-node-world-area-entry-map-config", TreeNodeAreaEntryMapConfig);
