@@ -17,6 +17,7 @@ import ControllerExit from "./controller/ControllerExit.js";
 import ControllerExitEntry from "./controller/ControllerExitEntry.js";
 import ControllerLocation from "./controller/ControllerLocation.js";
 import ControllerLocationEntry from "./controller/ControllerLocationEntry.js";
+import ControllerMainConfig from "./controller/ControllerMainConfig.js";
 import scope from "./data/WorldEditorScope.js";
 import "./components/AreaDetailEditor.js";
 import "./components/AreaConnectionsEntryDetailEditor.js";
@@ -40,6 +41,7 @@ import "./components/tree/nodes/TreeNodeExit.js";
 import "./components/tree/nodes/TreeNodeExitEntry.js";
 import "./components/tree/nodes/TreeNodeLocation.js";
 import "./components/tree/nodes/TreeNodeLocationEntry.js";
+import "./components/tree/nodes/TreeNodeMainConfig.js";
 import TPL from "./WorldEditor.js.html" assert {type: "html"};
 import STYLE from "./WorldEditor.js.css" assert {type: "css"};
 
@@ -87,13 +89,14 @@ class WorldEditor extends CustomElement {
         new ControllerAreaEntryListItem(this, this.#structureEditorTreeEl, this.#detailEditorAreaListEntryEl);
         new ControllerAreaEntryMapConfig(this, this.#structureEditorTreeEl, this.#detailEditorAreaMapConfigEl);
         new ControllerCollection(this, this.#structureEditorTreeEl);
-        new ControllerCollectionEntry(this, this.#structureEditorTreeEl/* , this.#detailEditorAreaEl */);
+        new ControllerCollectionEntry(this, this.#structureEditorTreeEl/* , this.#detailEditorCollectionEl */);
         new ControllerCollectionEntryList(this, this.#structureEditorTreeEl);
-        new ControllerCollectionEntryListItem(this, this.#structureEditorTreeEl/* , this.#detailEditorAreaListEntryEl */);
+        new ControllerCollectionEntryListItem(this, this.#structureEditorTreeEl/* , this.#detailEditorCollectionListEntryEl */);
         new ControllerExit(this, this.#structureEditorTreeEl);
         new ControllerExitEntry(this, this.#structureEditorTreeEl, this.#detailEditorExitEl);
         new ControllerLocation(this, this.#structureEditorTreeEl);
         new ControllerLocationEntry(this, this.#structureEditorTreeEl, this.#detailEditorLocationEl);
+        new ControllerMainConfig(this, this.#structureEditorTreeEl/* , this.#detailEditorMainConfigEl */);
     }
 
     set configDataConverter(value) {
