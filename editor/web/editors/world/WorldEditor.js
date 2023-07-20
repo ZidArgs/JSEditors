@@ -62,20 +62,20 @@ const OPTION_GROUPS = {
         "/images/icons/dungeon.svg": "Dungeon",
         "/images/icons/dungeon_boss.svg": "Boss Dungeon",
         "/images/icons/area_boss.svg": "Boss Area"
+    },
+    "worldEditor_areaContentHints": {
+        "chest": "Chest",
+        "skulltula": "Skulltula",
+        "gossipstone": "Gossipstone",
+        "scrub": "Scrub",
+        "bean": "Bean",
+        "cow": "Cow",
+        "fountain": "Fountain",
+        "rupees": "Rupees"
     }
 };
 
-const TOKEN_GROUPS = {
-    "worldEditor_areaContentHints": [
-        "chest",
-        "skulltula",
-        "gossipstone",
-        "scrub",
-        "cow",
-        "fountain",
-        "rupees"
-    ]
-};
+const TOKEN_GROUPS = {};
 
 const FILTER_CONFIG = {
     "era": [
@@ -111,6 +111,10 @@ const FILTER_CONFIG = {
 export default async function() {
     const editorEl = document.createElement("jse-world-editor");
     editorEl.configDataConverter = new WorldConfigDataConverter();
+    editorEl.addEventListener("change", () => {
+        const config = editorEl.getConfig();
+        console.log("change config:", config);
+    })
 
     // refresh
     async function refreshFn() {

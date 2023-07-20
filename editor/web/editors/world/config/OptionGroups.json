@@ -56,5 +56,15 @@
         "/images/icons/dungeon.svg": "Dungeon",
         "/images/icons/dungeon_boss.svg": "Boss Dungeon",
         "/images/icons/area_boss.svg": "Boss Area"
+    },
+    "worldEditor_areaContentHints": {
+        "chest": "Chest",
+        "skulltula": "Skulltula",
+        "gossipstone": "Gossipstone",
+        "scrub": "Scrub",
+        "bean": "Bean",
+        "cow": "Cow",
+        "fountain": "Fountain",
+        "rupees": "Rupees"
     }
 }

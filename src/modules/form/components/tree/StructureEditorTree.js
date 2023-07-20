@@ -32,31 +32,31 @@ export default class StructureEditorTree extends BaseClass {
         });
         this.setContextMenu("form", StructureTreeContextMenuForm);
         this.addContextMenuHandler("form", "edit", (event) => {
-            const {path} = event.props;
+            const {path} = event.props[0];
             this.selectItemByPath(path);
         });
         this.addContextMenuHandler("form", "addbefore", (event) => {
-            const {path} = event.props;
+            const {path} = event.props[0];
             const ev = new Event("addForm", {bubbles: true, cancelable: true});
             ev.path = path;
             this.dispatchEvent(ev);
         });
         this.addContextMenuHandler("form", "addafter", (event) => {
-            const {path} = event.props;
+            const {path} = event.props[0];
             const ev = new Event("addForm", {bubbles: true, cancelable: true});
             ev.path = [path[0] + 1];
             this.dispatchEvent(ev);
         });
         this.addContextMenuHandler("form", "addelementtop", (event) => {
-            const {path} = event.props;
+            const {path} = event.props[0];
             this.#addElement(path, true);
         });
         this.addContextMenuHandler("form", "addelementbottom", (event) => {
-            const {path} = event.props;
+            const {path} = event.props[0];
             this.#addElement(path, false);
         });
         this.addContextMenuHandler("form", "remove", (event) => {
-            const {path} = event.props;
+            const {path} = event.props[0];
             const ev = new Event("removeForm", {bubbles: true, cancelable: true});
             ev.path = path;
             this.dispatchEvent(ev);
@@ -64,17 +64,17 @@ export default class StructureEditorTree extends BaseClass {
         /* --- */
         this.setContextMenu("element", StructureTreeContextMenuFormElement);
         this.addContextMenuHandler("element", "edit", (event) => {
-            const {path} = event.props;
+            const {path} = event.props[0];
             this.selectItemByPath(path);
         });
         this.addContextMenuHandler("element", "addbefore", (event) => {
-            const {path} = event.props;
+            const {path} = event.props[0];
             const ev = new Event("addElement", {bubbles: true, cancelable: true});
             ev.path = [...path];
             this.dispatchEvent(ev);
         });
         this.addContextMenuHandler("element", "addafter", (event) => {
-            const {path} = event.props;
+            const {path} = event.props[0];
             const newPath = [...path];
             const index = newPath.pop();
             const ev = new Event("addElement", {bubbles: true, cancelable: true});
@@ -82,7 +82,7 @@ export default class StructureEditorTree extends BaseClass {
             this.dispatchEvent(ev);
         });
         this.addContextMenuHandler("element", "remove", (event) => {
-            const {path} = event.props;
+            const {path} = event.props[0];
             const ev = new Event("removeElement", {bubbles: true, cancelable: true});
             ev.path = path;
             this.dispatchEvent(ev);
@@ -90,17 +90,17 @@ export default class StructureEditorTree extends BaseClass {
         /* --- */
         this.setContextMenu("elementWithChild", StructureTreeContextMenuFormElementWithChild);
         this.addContextMenuHandler("elementWithChild", "edit", (event) => {
-            const {path} = event.props;
+            const {path} = event.props[0];
             this.selectItemByPath(path);
         });
         this.addContextMenuHandler("elementWithChild", "addbefore", (event) => {
-            const {path} = event.props;
+            const {path} = event.props[0];
             const ev = new Event("addElement", {bubbles: true, cancelable: true});
             ev.path = [...path];
             this.dispatchEvent(ev);
         });
         this.addContextMenuHandler("elementWithChild", "addafter", (event) => {
-            const {path} = event.props;
+            const {path} = event.props[0];
             const newPath = [...path];
             const index = newPath.pop();
             const ev = new Event("addElement", {bubbles: true, cancelable: true});
@@ -108,15 +108,15 @@ export default class StructureEditorTree extends BaseClass {
             this.dispatchEvent(ev);
         });
         this.addContextMenuHandler("elementWithChild", "addelementtop", (event) => {
-            const {path} = event.props;
+            const {path} = event.props[0];
             this.#addElement(path, true);
         });
         this.addContextMenuHandler("elementWithChild", "addelementbottom", (event) => {
-            const {path} = event.props;
+            const {path} = event.props[0];
             this.#addElement(path, false);
         });
         this.addContextMenuHandler("elementWithChild", "remove", (event) => {
-            const {path} = event.props;
+            const {path} = event.props[0];
             const ev = new Event("removeElement", {bubbles: true, cancelable: true});
             ev.path = path;
             this.dispatchEvent(ev);

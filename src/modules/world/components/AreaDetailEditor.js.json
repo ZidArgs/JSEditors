@@ -27,12 +27,12 @@
         "optiongroup": "worldEditor_areaIcons"
     },
     {
-        "type": "TokenSelect",
+        "type": "OptionAmountListInput",
         "name": "areaContentHints",
         "label": "Area Content Hints (Icons)",
         "multiple": true,
         "chooseonly": true,
-        "tokengroup": "worldEditor_areaContentHints"
+        "optiongroup": "worldEditor_areaContentHints"
     },
     {
         "type": "TokenSelect",
