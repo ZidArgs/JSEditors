@@ -4,7 +4,7 @@ import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
 import EventTargetManager from "/emcJS/util/event/EventTargetManager.js";
 import FormFieldset from "/emcJS/ui/form/FormFieldset.js";
-import FormButtonRow from "/emcJS/ui/form/FormButtonRow.js";
+import FormRow from "/emcJS/ui/form/FormRow.js";
 import ActionButton from "/emcJS/ui/form/button/ActionButton.js";
 import LinkButton from "/emcJS/ui/form/button/LinkButton.js";
 import SubmitButton from "/emcJS/ui/form/button/SubmitButton.js";
@@ -19,7 +19,7 @@ import STYLE from "./FormElementDetailEditor.js.css" assert {type: "css"};
 
 const SPECIAL_FORM_ELEMENTS = {
     "Fieldset": FormFieldset,
-    "ButtonRow": FormButtonRow,
+    "Row": FormRow,
     "ActionButton": ActionButton,
     "LinkButton": LinkButton,
     "SubmitButton": SubmitButton,
