@@ -87,7 +87,7 @@ export default class MapPosInput extends CustomElement {
     });
 
     set value(value) {
-        const {x, y} = value;
+        const {x = 0, y = 0} = value ?? {};
         const xValue = parseInt(x);
         const yValue = parseInt(y);
         if (!isNaN(xValue)) {
