@@ -1,6 +1,6 @@
 import FileSystem from "/emcJS/util/file/FileSystem.js";
-import OptionGroupRegistry from "/emcJS/data/registry/OptionGroupRegistry.js";
-import TokenRegistry from "/emcJS/data/registry/TokenRegistry.js";
+import OptionGroupRegistry from "/emcJS/data/registry/form/OptionGroupRegistry.js";
+import TokenRegistry from "/emcJS/data/registry/form/TokenRegistry.js";
 import "/JSEditors/modules/world/WorldEditor.js";
 import WorldConfigDataConverter from "./util/WorldConfigDataConverter.js";
 
