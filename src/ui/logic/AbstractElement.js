@@ -1,6 +1,8 @@
-import DragDropMemory from "/emcJS/util/DragDropMemory.js";
+import DragDropMemory from "/emcJS/data/DragDropMemory.js";
 import Template from "/emcJS/util/html/Template.js";
-import UGen from "/emcJS/util/UniqueGenerator.js";
+import {
+    appUID
+} from "/emcJS/util/helper/UniqueGenerator.js";
 
 const TPL = new Template(`
     <style>
@@ -106,7 +108,7 @@ export default class AbstractElement extends HTMLElement {
         }
         this.attachShadow({mode: "open"});
         this.shadowRoot.append(TPL.generate());
-        ID.set(this, UGen.appUID("logic-element"));
+        ID.set(this, appUID("logic-element"));
     }
 
     connectedCallback() {

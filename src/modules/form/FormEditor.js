@@ -1,7 +1,9 @@
 import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import EventTargetManager from "/emcJS/util/event/EventTargetManager.js";
 import LogicOperatorRegistry from "/emcJS/data/registry/LogicOperatorRegistry.js";
-import UGen from "/emcJS/util/UniqueGenerator.js";
+import {
+    appUID
+} from "/emcJS/util/helper/UniqueGenerator.js";
 import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
 import {
@@ -123,7 +125,7 @@ class FormEditor extends CustomElement {
                 elements: [],
                 config: {
                     data: {
-                        id: UGen.appUID("form")
+                        id: appUID("form")
                     }
                 }
             };
@@ -155,7 +157,7 @@ class FormEditor extends CustomElement {
             const newElement = {
                 type: "",
                 data: {
-                    id: UGen.appUID("form-element")
+                    id: appUID("form-element")
                 }
             };
             context.splice(calculatedIndex, 0, newElement);

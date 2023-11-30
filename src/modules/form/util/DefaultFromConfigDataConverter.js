@@ -1,4 +1,6 @@
-import UGen from "/emcJS/util/UniqueGenerator.js";
+import {
+    appUID
+} from "/emcJS/util/helper/UniqueGenerator.js";
 import {
     deepClone
 } from "/emcJS/util/helper/DeepClone.js";
@@ -127,7 +129,7 @@ export default class DefaultFromConfigDataConverter {
         } else if (form.config.data == null) {
             form.config.data = {};
         }
-        form.config.data["id"] = UGen.appUID("form");
+        form.config.data["id"] = appUID("form");
         return form;
     }
 
@@ -140,7 +142,7 @@ export default class DefaultFromConfigDataConverter {
         if (element.data == null) {
             element.data = {};
         }
-        element.data["id"] = UGen.appUID("form-element");
+        element.data["id"] = appUID("form-element");
         return element;
     }
 
