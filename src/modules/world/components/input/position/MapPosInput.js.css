@@ -12,6 +12,7 @@
     user-select: none;
 }
 #map {
+    position: absolute;
     display: block;
     width: 0px;
     height: 0px;
