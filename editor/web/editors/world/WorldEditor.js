@@ -2,7 +2,6 @@ import FileSystem from "/emcJS/util/file/FileSystem.js";
 import OptionGroupRegistry from "/emcJS/data/registry/form/OptionGroupRegistry.js";
 import TokenRegistry from "/emcJS/data/registry/form/TokenRegistry.js";
 import "/JSEditors/modules/world/WorldEditor.js";
-import WorldConfigDataConverter from "./util/WorldConfigDataConverter.js";
 
 const OPTION_GROUPS = {
     "worldEditor_locationTypes": {
@@ -110,7 +109,6 @@ const FILTER_CONFIG = {
 
 export default async function() {
     const editorEl = document.createElement("jse-world-editor");
-    editorEl.configDataConverter = new WorldConfigDataConverter();
     editorEl.addEventListener("change", () => {
         const config = editorEl.getConfig();
         console.log("change config:", config);

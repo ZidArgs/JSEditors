@@ -15,25 +15,24 @@ const DEFAULT_CONFIG = {
             postfix: ""
         },
         gateways: {
-            incoming: {
-                prefix: "",
-                postfix: ""
-            },
-            outgoing: {
-                prefix: "",
-                postfix: ""
-            },
+            incomingPrefix: "",
+            incomingPostfix: "",
+            outgoingPrefix: "",
+            outgoingPostfix: "",
             variants: []
         }
     },
-    area: {},
-    location: {},
-    exit: {}
+    locations: {},
+    connections: {},
+    areas: {},
+    exits: {}
 };
 
 class WorldEditorScope extends EventTarget {
 
     #config = deepClone(DEFAULT_CONFIG);
+
+    #treePath = [];
 
     #editPath = [];
 
@@ -50,6 +49,14 @@ class WorldEditorScope extends EventTarget {
 
     get config() {
         return this.#config;
+    }
+
+    set treePath(value) {
+        this.#treePath = [...value];
+    }
+
+    get treePath() {
+        return [...this.#treePath];
     }
 
     set editPath(value) {

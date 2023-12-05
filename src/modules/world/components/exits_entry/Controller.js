@@ -1,0 +1,35 @@
+import scope from "../../data/WorldEditorScope";
+// import ExitEntryModal from "../components/modal/ExitEntryModal.js";
+
+export default class Controller_Exits_Entry {
+
+    constructor(editorEl, treeEl, detailEditorEl) {
+        // TODO add contextmenus
+        treeEl.addEventListener("exitEntrySelect", (event) => {
+            const {ref} = event.data;
+            scope.editPath = [ref];
+            if (detailEditorEl != null) {
+                const data = this.getConfigData(ref);
+                detailEditorEl.setData(data);
+                detailEditorEl.setFilterConfig(scope.filterConfig);
+            }
+            editorEl.switchDetailEditor(detailEditorEl);
+        });
+        /* --- */
+        if (detailEditorEl != null) {
+            detailEditorEl.addEventListener("save", (event) => {
+                const [ref] = scope.editPath;
+                if (ref != null) {
+                    // TODO streamline event data structure
+                    scope.config.exits[ref] = event.data;
+                    editorEl.dispatchEvent(new Event("change"));
+                }
+            });
+        }
+    }
+
+    getConfigData(ref) {
+        return scope.config.exits[ref];
+    }
+
+}

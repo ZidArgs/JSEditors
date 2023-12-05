@@ -18,52 +18,52 @@ export default class DefaultWorldConfigDataConverter {
         if (config == null) {
             return {};
         }
-        const {location, exit, area, collection} = config;
+        const {locations, exits, areas, collections} = config;
         const tree = {
             world: {
-                nodeType: "editor-world-main-config",
+                nodeType: "jse-world::main-config",
                 label: "World Config"
             },
-            location: {
-                nodeType: "editor-world-location",
+            locations: {
+                nodeType: "jse-world::locations",
                 label: "Locations",
                 sorted: true,
                 startCollapsed: true,
-                children: this.extractTreeStructureLocations(location)
+                children: this.extractTreeStructureLocations(locations)
             },
-            exit: {
-                nodeType: "editor-world-exit",
+            exits: {
+                nodeType: "jse-world::exits",
                 label: "Exits",
                 sorted: true,
                 startCollapsed: true,
-                children: this.extractTreeStructureExits(exit)
+                children: this.extractTreeStructureExits(exits)
             },
-            collection: {
-                nodeType: "editor-world-collection",
+            collections: {
+                nodeType: "jse-world::collections",
                 label: "Collections",
                 sorted: true,
                 startCollapsed: true,
-                children: this.extractTreeStructureCollections(collection)
+                children: this.extractTreeStructureCollections(collections)
             },
-            area: {
-                nodeType: "editor-world-area",
+            areas: {
+                nodeType: "jse-world::areas",
                 label: "Areas",
                 sorted: true,
                 startCollapsed: true,
-                children: this.extractTreeStructureAreas(area)
+                children: this.extractTreeStructureAreas(areas)
             }
         };
+        console.log("extracted tree", tree);
         return tree;
     }
 
     extractTreeStructureLocations(locations = {}) {
-        console.log(locations)
         const res = {};
         for (const ref in locations) {
             const data = locations[ref];
             const type = data.type;
             res[ref] = {
-                nodeType: "editor-world-location-entry",
+                nodeType: "jse-world::locations-entry",
                 label: ref,
                 type
             };
@@ -77,7 +77,7 @@ export default class DefaultWorldConfigDataConverter {
             const data = exits[ref];
             const type = data.type;
             res[ref] = {
-                nodeType: "editor-world-exit-entry",
+                nodeType: "jse-world::exits-entry",
                 label: ref,
                 type
             };
@@ -91,53 +91,61 @@ export default class DefaultWorldConfigDataConverter {
             const data = areas[ref];
             const type = data.type;
             res[ref] = {
-                nodeType: "editor-world-area-entry",
+                nodeType: "jse-world::areas-entry",
                 label: ref,
                 type,
                 children: {
                     map: {
-                        nodeType: "editor-world-area-entry-map-config",
+                        nodeType: "jse-world::areas-entry-map-config",
                         label: "Map Config"
                     },
                     connections: {
-                        nodeType: "editor-world-area-entry-connections",
+                        nodeType: "jse-world::areas-entry-connections",
                         label: "Connections",
                         startCollapsed: true,
-                        children: this.extractTreeStructureAreaConnections(data.connections)
+                        children: this.extractTreeStructureAreasConnections(data.connections)
                     },
-                    list: {
-                        nodeType: "editor-world-area-entry-list",
-                        label: "List",
+                    lists: {
+                        nodeType: "jse-world::areas-entry-lists",
+                        label: "Lists",
                         startCollapsed: true,
-                        children: this.extractTreeStructureAreaList(data.list)
+                        children: {}
                     }
                 }
             };
+            for (const [name, list] of Object.entries(data.lists)) {
+                res[ref].children.lists.children[name] = {
+                    nodeType: "jse-world::areas-entry-lists-entry",
+                    label: `List: ${name}`,
+                    startCollapsed: true,
+                    children: this.extractTreeStructureAreasList(list)
+                }
+            }
         }
         return res;
     }
 
-    extractTreeStructureAreaConnections(areaConnectionItems = []) {
+    extractTreeStructureAreasConnections(areaConnectionItems = []) {
         const res = {};
         for (const index in areaConnectionItems) {
             const item = areaConnectionItems[index];
             res[index] = {
-                nodeType: "editor-world-area-entry-connections-item",
+                nodeType: "jse-world::areas-entry-connections-item",
                 label: item.label,
-                type: item.type ?? item.category
+                type: "Connection"
             };
         }
         return res;
     }
 
-    extractTreeStructureAreaList(areaListItems = []) {
+    extractTreeStructureAreasList(areaListItems = []) {
         const res = {};
         for (const index in areaListItems) {
             const item = areaListItems[index];
             res[index] = {
-                nodeType: "editor-world-area-entry-list-item",
-                label: item.id,
-                type: item.type ?? item.category
+                nodeType: "jse-world::areas-entry-lists-entry-item",
+                label: item.ref?.name ?? "",
+                type: item.ref?.type ?? ""
             };
         }
         return res;
@@ -149,15 +157,15 @@ export default class DefaultWorldConfigDataConverter {
             const data = collections[ref];
             const type = data.type;
             res[ref] = {
-                nodeType: "editor-world-collection-entry",
+                nodeType: "jse-world::collections-entry",
                 label: ref,
                 type,
                 children: {
                     list: {
-                        nodeType: "editor-world-collection-entry-list",
+                        nodeType: "jse-world::collections-entry-list",
                         label: "List",
                         startCollapsed: true,
-                        children: this.extractTreeStructureCollectionList(data.list)
+                        children: this.extractTreeStructureCollectionsList(data.list)
                     }
                 }
             };
@@ -165,14 +173,14 @@ export default class DefaultWorldConfigDataConverter {
         return res;
     }
 
-    extractTreeStructureCollectionList(collectionListItems = []) {
+    extractTreeStructureCollectionsList(collectionListItems = []) {
         const res = {};
         for (const index in collectionListItems) {
             const item = collectionListItems[index];
             res[index] = {
-                nodeType: "editor-world-collection-entry-list-item",
-                label: item.id,
-                type: item.type ?? item.category
+                nodeType: "jse-world::collections-entry-list-item",
+                label: item.ref?.name ?? "",
+                type: item.ref?.type ?? ""
             };
         }
         return res;

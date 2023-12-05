@@ -4,6 +4,9 @@ import LogicOperatorRegistry from "/emcJS/data/registry/LogicOperatorRegistry.js
 import {
     appUID
 } from "/emcJS/util/helper/UniqueGenerator.js";
+import {
+    getFromObjectByPath
+} from "/emcJS/util/helper/collection/ObjectContent.js";
 import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
 import {
@@ -111,7 +114,7 @@ class FormEditor extends CustomElement {
                     };
                 }
                 this.#setLogicOperator(event.data);
-                this.#reloadTree();
+                this.#reloadTreeAtPath(path);
                 this.#buildPreview();
                 this.dispatchEvent(new Event("change"));
             }
@@ -131,7 +134,7 @@ class FormEditor extends CustomElement {
             };
             this.#config.forms.splice(calculatedIndex, 0, newElement);
             this.#editPath = [calculatedIndex];
-            this.#reloadTree();
+            this.#reloadTreeAtPath(path);
             this.#buildPreview();
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
             this.dispatchEvent(new Event("change"));
@@ -143,7 +146,7 @@ class FormEditor extends CustomElement {
             const calculatedIndex = this.#normalizeIndex(path, this.#config);
             this.#config.forms.splice(calculatedIndex, 1);
             this.#editPath = [];
-            this.#reloadTree();
+            this.#reloadTreeAtPath(path);
             this.#buildPreview();
             this.#detailEditorFormElementEl.setData({type: ""});
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
@@ -162,7 +165,7 @@ class FormEditor extends CustomElement {
             };
             context.splice(calculatedIndex, 0, newElement);
             this.#editPath = [...path, calculatedIndex];
-            this.#reloadTree();
+            this.#reloadTreeAtPath(path);
             this.#buildPreview();
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
             this.dispatchEvent(new Event("change"));
@@ -178,7 +181,7 @@ class FormEditor extends CustomElement {
             context.splice(calculatedIndex, 1);
             this.#editPath = [];
             this.#detailEditorFormElementEl.setData({type: ""});
-            this.#reloadTree();
+            this.#reloadTreeAtPath(path);
             this.#buildPreview();
             this.dispatchEvent(new Event("change"));
         });
@@ -328,6 +331,12 @@ class FormEditor extends CustomElement {
     #reloadTree() {
         const treeConfig = this.configDataConverter.extractTreeStructure(this.#config);
         this.#structureEditorTreeEl.loadConfig(treeConfig);
+    }
+
+    #reloadTreeAtPath(path) {
+        const treeConfig = this.configDataConverter.extractTreeStructure(this.#config);
+        const subTreeConfig = getFromObjectByPath(treeConfig, path);
+        this.#structureEditorTreeEl.loadConfigAtP(subTreeConfig);
     }
 
     #initLogicOperators() {
