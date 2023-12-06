@@ -22,6 +22,7 @@ import Controller_Locations from "./components/locations/Controller.js";
 import Controller_Locations_Entry from "./components/locations_entry/Controller.js";
 import ControllerMainConfig from "./components/config/Controller.js";
 import scope from "./data/WorldEditorScope.js";
+import "./ui/tree/StructureEditorTree.js";
 import "./components/locations_entry/EditorForm.js";
 import "./components/areas_entry/EditorForm.js";
 import "./components/areas_entry_connections_item/EditorForm.js";
