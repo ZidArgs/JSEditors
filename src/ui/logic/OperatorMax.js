@@ -72,16 +72,16 @@ export default class LogicElement extends AbstractElement {
     }
 
     loadLogic(logic) {
-        if (!!logic && !!logic.el) {
+        if (!!logic && !!logic.content) {
             this.value = parseInt(logic.value) || 0;
             let cl;
-            if (logic.el.category) {
-                cl = AbstractElement.getReference(logic.el.category, logic.el.type);
+            if (logic.content.category) {
+                cl = AbstractElement.getReference(logic.content.category, logic.content.type);
             } else {
-                cl = AbstractElement.getReference(logic.el.type);
+                cl = AbstractElement.getReference(logic.content.type);
             }
             const el = new cl;
-            el.loadLogic(logic.el);
+            el.loadLogic(logic.content);
             this.append(el);
         }
     }
@@ -89,7 +89,7 @@ export default class LogicElement extends AbstractElement {
     toJSON() {
         return {
             type: REFERENCE,
-            el: Array.from(this.children).slice(0, 1).map((e) => e.toJSON())[0],
+            content: Array.from(this.children).slice(0, 1).map((e) => e.toJSON())[0],
             value: parseInt(this.value) || 0
         };
     }

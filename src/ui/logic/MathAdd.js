@@ -54,13 +54,13 @@ export default class LogicElement extends AbstractElement {
     toJSON() {
         return {
             type: REFERENCE,
-            el: Array.from(this.children).map((e) => e.toJSON())
+            content: Array.from(this.children).map((e) => e.toJSON())
         };
     }
 
     loadLogic(logic) {
-        if (!!logic && Array.isArray(logic.el)) {
-            logic.el.forEach((ch) => {
+        if (!!logic && Array.isArray(logic.content)) {
+            logic.content.forEach((ch) => {
                 if (ch) {
                     let cl;
                     if (ch.category) {
