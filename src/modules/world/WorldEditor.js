@@ -1,7 +1,7 @@
 import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import {
-    getFromObjectByPath
-} from "/emcJS/util/helper/collection/ObjectContent.js";
+    getFromTreeConfigByRefPath
+} from "/emcJS/util/helper/TreeConfig.js";
 import {
     areaListEntries, exitListEntries, locationListEntries, collectionListEntries
 } from "./data/EntityRegistries.js";
@@ -147,8 +147,8 @@ class WorldEditor extends CustomElement {
 
     reloadTreeAtPath(path) {
         const treeConfig = this.configDataConverter.extractTreeStructure(scope.config);
-        const subTreeConfig = getFromObjectByPath(treeConfig, path);
-        this.#structureEditorTreeEl.loadConfigAtP(subTreeConfig);
+        const subTreeConfig = getFromTreeConfigByRefPath(treeConfig, path ?? []);
+        this.#structureEditorTreeEl.loadConfigAtRefPath(path ?? [], subTreeConfig);
     }
 
     #extractEntries() {

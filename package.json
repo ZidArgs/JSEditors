@@ -15,6 +15,7 @@
     "emcjs": "git+https://bitbucket.org/zidargs/emcjs.git#0.9.13"
   },
   "devDependencies": {
+    "webservice": "git+https://bitbucket.org/zidargs/webservice.git/@1.4.3",
     "@babel/core": "^7.16.10",
     "@babel/eslint-parser": "^7.16.5",
     "@babel/plugin-syntax-import-assertions": "^7.17.12",
@@ -32,6 +33,6 @@
     "lintfix": "yarn eslint --fix .",
     "build": "gulp build",
     "edit": "gulp build -rebuild && electron ./editor --no-sandbox > ./editor/info.log 2>&1",
-    "serve": "serve ./editor/web -p 15000"
+    "serve": "gulp build -rebuild && node server.js"
   }
 }

@@ -5,8 +5,8 @@ import {
     appUID
 } from "/emcJS/util/helper/UniqueGenerator.js";
 import {
-    getFromObjectByPath
-} from "/emcJS/util/helper/collection/ObjectContent.js";
+    getFromTreeConfigByRefPath
+} from "/emcJS/util/helper/TreeConfig.js";
 import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
 import {
@@ -43,6 +43,8 @@ class FormEditor extends CustomElement {
     #config = deepClone(DEFAULT_CONFIG);
 
     #editPath = [];
+
+    #editRefPath = [];
 
     #detailEditorFormEl;
 
@@ -114,7 +116,7 @@ class FormEditor extends CustomElement {
                     };
                 }
                 this.#setLogicOperator(event.data);
-                this.#reloadTreeAtPath(path);
+                this.#reloadTreeAtPath(this.#editRefPath);
                 this.#buildPreview();
                 this.dispatchEvent(new Event("change"));
             }
@@ -122,7 +124,7 @@ class FormEditor extends CustomElement {
         /* --- */
         this.#structureEditorTreeEl = this.shadowRoot.getElementById("structure-editor-tree");
         this.#structureEditorTreeEl.addEventListener("addForm", (event) => {
-            const {path} = event;
+            const {path, refPath} = event;
             const calculatedIndex = this.#normalizeIndex(path, this.#config);
             const newElement = {
                 elements: [],
@@ -134,7 +136,7 @@ class FormEditor extends CustomElement {
             };
             this.#config.forms.splice(calculatedIndex, 0, newElement);
             this.#editPath = [calculatedIndex];
-            this.#reloadTreeAtPath(path);
+            this.#reloadTreeAtPath(refPath);
             this.#buildPreview();
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
             this.dispatchEvent(new Event("change"));
@@ -142,11 +144,11 @@ class FormEditor extends CustomElement {
         this.#structureEditorTreeEl.addEventListener("removeForm", (event) => {
             this.#detailEditorFormEl.classList.remove("active");
             this.#detailEditorFormElementEl.classList.remove("active");
-            const {path} = event;
+            const {path, refPath} = event;
             const calculatedIndex = this.#normalizeIndex(path, this.#config);
             this.#config.forms.splice(calculatedIndex, 1);
             this.#editPath = [];
-            this.#reloadTreeAtPath(path);
+            this.#reloadTreeAtPath(refPath);
             this.#buildPreview();
             this.#detailEditorFormElementEl.setData({type: ""});
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
@@ -165,7 +167,9 @@ class FormEditor extends CustomElement {
             };
             context.splice(calculatedIndex, 0, newElement);
             this.#editPath = [...path, calculatedIndex];
-            this.#reloadTreeAtPath(path);
+            const refPath = [...event.refPath];
+            refPath.pop();
+            this.#reloadTreeAtPath(refPath);
             this.#buildPreview();
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
             this.dispatchEvent(new Event("change"));
@@ -181,7 +185,9 @@ class FormEditor extends CustomElement {
             context.splice(calculatedIndex, 1);
             this.#editPath = [];
             this.#detailEditorFormElementEl.setData({type: ""});
-            this.#reloadTreeAtPath(path);
+            const refPath = [...event.refPath];
+            refPath.pop();
+            this.#reloadTreeAtPath(refPath);
             this.#buildPreview();
             this.dispatchEvent(new Event("change"));
         });
@@ -333,23 +339,24 @@ class FormEditor extends CustomElement {
         this.#structureEditorTreeEl.loadConfig(treeConfig);
     }
 
-    #reloadTreeAtPath(path) {
+    #reloadTreeAtPath(refPath = []) {
+        this.#editRefPath = [...refPath];
         const treeConfig = this.configDataConverter.extractTreeStructure(this.#config);
-        const subTreeConfig = getFromObjectByPath(treeConfig, path);
-        this.#structureEditorTreeEl.loadConfigAtP(subTreeConfig);
+        const subTreeConfig = getFromTreeConfigByRefPath(treeConfig, refPath);
+        this.#structureEditorTreeEl.loadConfigAtRefPath(refPath, subTreeConfig);
     }
 
     #initLogicOperators() {
         for (const form of this.#config.forms) {
-            this.#loadLogicOperaots(form.elements);
+            this.#loadLogicOperators(form.elements);
         }
     }
 
-    #loadLogicOperaots(elements) {
+    #loadLogicOperators(elements) {
         for (const el of elements) {
             this.#setLogicOperator(el)
             if (el.children != null) {
-                this.#loadLogicOperaots(el.children);
+                this.#loadLogicOperators(el.children);
             }
         }
     }
