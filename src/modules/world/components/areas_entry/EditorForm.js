@@ -2,6 +2,7 @@ import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
 import "/emcJS/ui/form/field/DefaultFormFieldsLoader.js";
+import "/emcJS/ui/i18n/I18nLabel.js";
 import TPL from "./EditorForm.js.html" assert {type: "html"};
 import STYLE from "./EditorForm.js.css" assert {type: "css"};
 import FORM_CONFIG from "./EditorForm.js.json" assert {type: "json"};
@@ -18,6 +19,10 @@ export default class EditorForm_Areas_Entry extends CustomElement {
 
     #detailFormEl;
 
+    #headerNameEl;
+
+    #filterInputEl;
+
     constructor() {
         super();
         this.shadowRoot.append(TPL.generate());
@@ -31,6 +36,7 @@ export default class EditorForm_Areas_Entry extends CustomElement {
             this.dispatchEvent(event);
         });
         /* --- */
+        this.#headerNameEl = this.shadowRoot.getElementById("header-name");
         this.#detailFormEl = this.shadowRoot.getElementById("detail-form");
         this.#formContext.registerForm(this.#detailFormEl);
         this.#prepareForm();
@@ -39,6 +45,8 @@ export default class EditorForm_Areas_Entry extends CustomElement {
         this.#formContext.registerForm(headerFormEl);
         const footerFormEl = this.shadowRoot.getElementById("footer-form");
         this.#formContext.registerForm(footerFormEl);
+        /* --- */
+        this.#filterInputEl = this.shadowRoot.getElementById("filter-input");
     }
 
     #prepareForm() {
@@ -52,6 +60,26 @@ export default class EditorForm_Areas_Entry extends CustomElement {
             visibleLogicEl.addOperatorGroup("filter");
             visibleLogicEl.addOperatorGroup("locations done");
         }
+        /* --- */
+        const mapImageSelectEl = this.#detailFormEl.querySelector("#mapselect");
+        const mapImageWidthEl = this.#detailFormEl.querySelector("#mapwidth");
+        const mapImageHeightEl = this.#detailFormEl.querySelector("#mapheight");
+        mapImageSelectEl.addEventListener("change", () => {
+            const img = new Image();
+            img.onload = () => {
+                mapImageWidthEl.value = img.naturalWidth;
+                mapImageHeightEl.value = img.naturalHeight;
+            };
+            img.onerror = () => {
+                mapImageWidthEl.value = 0;
+                mapImageHeightEl.value = 0;
+            }
+            img.src = mapImageSelectEl.value;
+        });
+    }
+
+    setName(value) {
+        this.#headerNameEl.i18nValue = value;
     }
 
     setData(data) {
@@ -60,6 +88,10 @@ export default class EditorForm_Areas_Entry extends CustomElement {
 
     getData() {
         return this.#formContext.getData();
+    }
+
+    setFilterConfig(config) {
+        this.#filterInputEl.loadFilterConfig(config);
     }
 
 }

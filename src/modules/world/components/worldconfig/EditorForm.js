@@ -49,4 +49,4 @@ export default class EditorForm_WorldConfig extends CustomElement {
 
 }
 
-customElements.define("jse-world-editor-form-world-config", EditorForm_WorldConfig);
+customElements.define("jse-world-form-world-config", EditorForm_WorldConfig);

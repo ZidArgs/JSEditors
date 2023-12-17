@@ -1,5 +1,7 @@
 import scope from "../../data/WorldEditorScope";
 // import CollectionEntryModal from "../components/modal/CollectionEntryModal.js";
+import "./EditorForm.js";
+import "./TreeNode.js";
 
 export default class Controller_Collections_Entry extends EventTarget {
 
@@ -11,6 +13,7 @@ export default class Controller_Collections_Entry extends EventTarget {
             scope.editPath = [ref];
             if (detailEditorEl != null) {
                 const data = this.getConfigData(ref);
+                detailEditorEl.setName(ref);
                 detailEditorEl.setData(data);
             }
             editorEl.switchDetailEditor(detailEditorEl);

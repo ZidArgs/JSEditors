@@ -1,5 +1,7 @@
 import scope from "../../data/WorldEditorScope";
 // import AreaEntryModal from "../components/modal/AreaEntryModal.js";
+import "./EditorForm.js";
+import "./TreeNode.js";
 
 export default class Controller_Areas_Entry extends EventTarget {
 
@@ -11,7 +13,9 @@ export default class Controller_Areas_Entry extends EventTarget {
             scope.editPath = [ref];
             if (detailEditorEl != null) {
                 const data = this.getConfigData(ref);
+                detailEditorEl.setName(ref);
                 detailEditorEl.setData(data);
+                detailEditorEl.setFilterConfig(scope.filterConfig);
             }
             editorEl.switchDetailEditor(detailEditorEl);
         });

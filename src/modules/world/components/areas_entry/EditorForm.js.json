@@ -6,9 +6,26 @@
         "optiongroup": "worldEditor_areaTypes"
     },
     {
+        "type": "StringInput",
+        "name": "category",
+        "label": "Category"
+    },
+    {
         "type": "BoolOrLogicInput",
         "name": "visible",
         "label": "Visible"
+    },
+    {
+        "type": "SwitchInput",
+        "name": "visibleRootOnly",
+        "label": "Visible"
+    },
+    {
+        "type": "FilterInput",
+        "id": "filter-input",
+        "name": "filter",
+        "label": "Filter (hide if any value resolves to false)",
+        "value": {}
     },
     {
         "type": "SwitchInput",
@@ -27,11 +44,60 @@
         "optiongroup": "worldEditor_areaIcons"
     },
     {
+        "type": "SwitchInput",
+        "name": "map.active",
+        "label": "Map - Active"
+    },
+    {
+        "type": "ColorInput",
+        "name": "map.backgroundColor",
+        "label": "Map - Background Color"
+    },
+    {
+        "type": "ImageSelect",
+        "id": "mapselect",
+        "name": "map.backgroundImage",
+        "label": "Map - Background Image",
+        "optiongroup": "worldEditor_areaMapImages"
+    },
+    {
+        "type": "NumberInput",
+        "id": "mapwidth",
+        "name": "map.width",
+        "label": "Map - Width",
+        "readonly": true
+    },
+    {
+        "type": "NumberInput",
+        "id": "mapheight",
+        "name": "map.height",
+        "label": "Map - Height",
+        "readonly": true
+    },
+    {
+        "type": "RangeInput",
+        "name": "map.zoom",
+        "label": "Map - Default Zoom",
+        "min": 10,
+        "max": 200,
+        "scratched": true
+    },
+    {
+        "type": "ConnectionListInput",
+        "name": "connections",
+        "label": "Connections",
+        "value": []
+    },
+    {
+        "type": "MarkerListCollectionInput",
+        "name": "lists",
+        "label": "Lists",
+        "value": {}
+    },
+    {
         "type": "OptionAmountListInput",
         "name": "areaContentHints",
         "label": "Area Content Hints (Icons)",
-        "multiple": true,
-        "chooseonly": true,
         "optiongroup": "worldEditor_areaContentHints"
     },
     {

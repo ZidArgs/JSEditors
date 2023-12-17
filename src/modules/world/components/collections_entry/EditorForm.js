@@ -13,7 +13,7 @@ export default class EditorForm_Collections_Entry extends CustomElement {
 
     #detailFormEl;
 
-    #filterInputEl;
+    #headerNameEl;
 
     constructor() {
         super();
@@ -28,6 +28,7 @@ export default class EditorForm_Collections_Entry extends CustomElement {
             this.dispatchEvent(event);
         });
         /* --- */
+        this.#headerNameEl = this.shadowRoot.getElementById("header-name");
         this.#detailFormEl = this.shadowRoot.getElementById("detail-form");
         this.#formContext.registerForm(this.#detailFormEl);
         this.#prepareForm();
@@ -36,8 +37,6 @@ export default class EditorForm_Collections_Entry extends CustomElement {
         this.#formContext.registerForm(headerFormEl);
         const footerFormEl = this.shadowRoot.getElementById("footer-form");
         this.#formContext.registerForm(footerFormEl);
-        /* --- */
-        this.#filterInputEl = this.shadowRoot.getElementById("filter-input");
     }
 
     #prepareForm() {
@@ -53,6 +52,10 @@ export default class EditorForm_Collections_Entry extends CustomElement {
         }
     }
 
+    setName(value) {
+        this.#headerNameEl.i18nValue = value;
+    }
+
     setData(data) {
         this.#formContext.loadData(data);
     }
@@ -61,10 +64,6 @@ export default class EditorForm_Collections_Entry extends CustomElement {
         return this.#formContext.getData();
     }
 
-    setFilterConfig(config) {
-        this.#filterInputEl.loadFilterConfig(config);
-    }
-
 }
 
-customElements.define("jse-world-editor-detail-collection-list-entry", EditorForm_Collections_Entry);
+customElements.define("jse-world-form-collections-entry", EditorForm_Collections_Entry);

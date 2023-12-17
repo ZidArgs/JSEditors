@@ -18,6 +18,11 @@
         "value": true
     },
     {
+        "type": "SwitchInput",
+        "name": "visibleRootOnly",
+        "label": "Visible on root only"
+    },
+    {
         "type": "FilterInput",
         "id": "filter-input",
         "name": "filter",

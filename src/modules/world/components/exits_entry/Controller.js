@@ -1,5 +1,7 @@
 import scope from "../../data/WorldEditorScope";
 // import ExitEntryModal from "../components/modal/ExitEntryModal.js";
+import "./EditorForm.js";
+import "./TreeNode.js";
 
 export default class Controller_Exits_Entry {
 
@@ -10,6 +12,7 @@ export default class Controller_Exits_Entry {
             scope.editPath = [ref];
             if (detailEditorEl != null) {
                 const data = this.getConfigData(ref);
+                detailEditorEl.setName(ref);
                 detailEditorEl.setData(data);
                 detailEditorEl.setFilterConfig(scope.filterConfig);
             }

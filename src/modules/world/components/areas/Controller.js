@@ -1,4 +1,6 @@
 import scope from "../../data/WorldEditorScope.js";
+// import "./EditorForm.js";
+import "./TreeNode.js";
 
 export default class Controller_Areas extends EventTarget {
 

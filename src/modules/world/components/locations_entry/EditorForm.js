@@ -2,6 +2,7 @@ import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
 import "/emcJS/ui/form/field/DefaultFormFieldsLoader.js";
+import "/emcJS/ui/i18n/I18nLabel.js";
 import "../../components/field/FilterInput.js";
 import TPL from "./EditorForm.js.html" assert {type: "html"};
 import STYLE from "./EditorForm.js.css" assert {type: "css"};
@@ -12,6 +13,8 @@ export default class EditorForm_Locations_Entry extends CustomElement {
     #formContext = new FormContext();
 
     #detailFormEl;
+
+    #headerNameEl;
 
     #filterInputEl;
 
@@ -28,6 +31,7 @@ export default class EditorForm_Locations_Entry extends CustomElement {
             this.dispatchEvent(event);
         });
         /* --- */
+        this.#headerNameEl = this.shadowRoot.getElementById("header-name");
         this.#detailFormEl = this.shadowRoot.getElementById("detail-form");
         this.#formContext.registerForm(this.#detailFormEl);
         this.#prepareForm();
@@ -53,6 +57,10 @@ export default class EditorForm_Locations_Entry extends CustomElement {
         }
     }
 
+    setName(value) {
+        this.#headerNameEl.i18nValue = value;
+    }
+
     setData(data) {
         this.#formContext.loadData(data);
     }
@@ -67,4 +75,4 @@ export default class EditorForm_Locations_Entry extends CustomElement {
 
 }
 
-customElements.define("jse-world-editor-detail-location", EditorForm_Locations_Entry);
+customElements.define("jse-world-form-locations-entry", EditorForm_Locations_Entry);

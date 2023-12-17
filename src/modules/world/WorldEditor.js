@@ -8,14 +8,8 @@ import {
 import DefaultWorldConfigDataConverter from "./util/DefaultWorldConfigDataConverter.js";
 import Controller_Areas from "./components/areas/Controller.js";
 import Controller_Areas_Entry from "./components/areas_entry/Controller.js";
-import Controller_Areas_Entry_Connections_Item from "./components/areas_entry_connections_item/Controller.js";
-import Controller_Areas_Entry_Lists_List from "./components/areas_entry_lists_list/Controller.js";
-import Controller_Areas_Entry_Lists_List_Item from "./components/areas_entry_lists_list_item/Controller.js";
-import Controller_Areas_Entry_MapConfig from "./components/areas_entry_mapconfig/Controller.js";
 import Controller_Collections from "./components/collections/Controller.js";
 import Controller_Collections_Entry from "./components/collections_entry/Controller.js";
-import ControllerCollectionEntryList from "./components/collections_entry_list/Controller.js";
-import Controller_Collections_Entry_List_Item from "./components/collections_entry_list_item/Controller.js";
 import Controller_Exits from "./components/exits/Controller.js";
 import Controller_Exits_Entry from "./components/exits_entry/Controller.js";
 import Controller_Locations from "./components/locations/Controller.js";
@@ -23,27 +17,6 @@ import Controller_Locations_Entry from "./components/locations_entry/Controller.
 import Controller_WorldConfig from "./components/worldconfig/Controller.js";
 import scope from "./data/WorldEditorScope.js";
 import "./ui/tree/StructureEditorTree.js";
-import "./components/locations_entry/EditorForm.js";
-import "./components/areas_entry/EditorForm.js";
-import "./components/areas_entry_connections_item/EditorForm.js";
-import "./components/areas_entry_lists_list_item/EditorForm.js";
-import "./components/areas_entry_mapconfig/EditorForm.js";
-import "./components/exits_entry/EditorForm.js";
-import "./components/areas/TreeNode.js";
-import "./components/areas_entry/TreeNode.js";
-import "./components/areas_entry_connections/TreeNode.js";
-import "./components/areas_entry_connections_item/TreeNode.js";
-import "./components/areas_entry_lists_list/TreeNode.js";
-import "./components/areas_entry_lists_list_item/TreeNode.js";
-import "./components/areas_entry_mapconfig/TreeNode.js";
-import "./components/collections/TreeNode.js";
-import "./components/collections_entry/TreeNode.js";
-import "./components/collections_entry_list/TreeNode.js";
-import "./components/collections_entry_list_item/TreeNode.js";
-import "./components/exits/TreeNode.js";
-import "./components/exits_entry/TreeNode.js";
-import "./components/locations/TreeNode.js";
-import "./components/locations_entry/TreeNode.js";
 import TPL from "./WorldEditor.js.html" assert {type: "html"};
 import STYLE from "./WorldEditor.js.css" assert {type: "css"};
 
@@ -55,19 +28,15 @@ class WorldEditor extends CustomElement {
 
     #configDataConverter;
 
-    #editorFormEl_WorldConfig;
+    #formEl_WorldConfig;
 
-    #detailEditorAreaEl;
+    #formEl_LocationsEntry;
 
-    #detailEditorAreaMapConfigEl;
+    #formEl_CollectionsEntry;
 
-    #detailEditorAreaConnectionsEntryEl;
+    #formEl_AreasEntry;
 
-    #detailEditorAreaListEntryEl;
-
-    #detailEditorExitEl;
-
-    #detailEditorLocationEl;
+    #formEl_ExitsEntry;
 
     #structureEditorTreeEl;
 
@@ -76,33 +45,24 @@ class WorldEditor extends CustomElement {
         this.shadowRoot.append(TPL.generate());
         STYLE.apply(this.shadowRoot);
         /* --- */
-        this.#editorFormEl_WorldConfig = this.shadowRoot.getElementById("editor-form-world-config");
-        /* --- */
-        this.#detailEditorAreaEl = this.shadowRoot.getElementById("detail-editor-area");
-        this.#detailEditorAreaMapConfigEl = this.shadowRoot.getElementById("detail-editor-area-map-config");
-        this.#detailEditorAreaConnectionsEntryEl = this.shadowRoot.getElementById("detail-editor-area-connections-entry");
-        this.#detailEditorAreaListEntryEl = this.shadowRoot.getElementById("detail-editor-area-list-entry");
-        this.#detailEditorExitEl = this.shadowRoot.getElementById("detail-editor-exit");
-        this.#detailEditorLocationEl = this.shadowRoot.getElementById("detail-editor-location");
+        this.#formEl_WorldConfig = this.shadowRoot.getElementById("form-world-config");
+        this.#formEl_LocationsEntry = this.shadowRoot.getElementById("form-locations-entry");
+        this.#formEl_CollectionsEntry = this.shadowRoot.getElementById("form-collections-entry");
+        this.#formEl_AreasEntry = this.shadowRoot.getElementById("form-areas-entry");
+        this.#formEl_ExitsEntry = this.shadowRoot.getElementById("form-exits-entry");
         /* --- */
         this.#structureEditorTreeEl = this.shadowRoot.getElementById("structure-editor-tree");
         this.#reloadTree();
         /* --- */
-        new Controller_Areas(this, this.#structureEditorTreeEl);
-        new Controller_Areas_Entry(this, this.#structureEditorTreeEl, this.#detailEditorAreaEl);
-        new Controller_Areas_Entry_Connections_Item(this, this.#structureEditorTreeEl, this.#detailEditorAreaConnectionsEntryEl);
-        new Controller_Areas_Entry_Lists_List(this, this.#structureEditorTreeEl);
-        new Controller_Areas_Entry_Lists_List_Item(this, this.#structureEditorTreeEl, this.#detailEditorAreaListEntryEl);
-        new Controller_Areas_Entry_MapConfig(this, this.#structureEditorTreeEl, this.#detailEditorAreaMapConfigEl);
-        new Controller_Collections(this, this.#structureEditorTreeEl);
-        new Controller_Collections_Entry(this, this.#structureEditorTreeEl/* , this.#detailEditorCollectionEl */);
-        new ControllerCollectionEntryList(this, this.#structureEditorTreeEl);
-        new Controller_Collections_Entry_List_Item(this, this.#structureEditorTreeEl/* , this.#detailEditorCollectionListEntryEl */);
-        new Controller_Exits(this, this.#structureEditorTreeEl);
-        new Controller_Exits_Entry(this, this.#structureEditorTreeEl, this.#detailEditorExitEl);
+        new Controller_WorldConfig(this, this.#structureEditorTreeEl, this.#formEl_WorldConfig);
         new Controller_Locations(this, this.#structureEditorTreeEl);
-        new Controller_Locations_Entry(this, this.#structureEditorTreeEl, this.#detailEditorLocationEl);
-        new Controller_WorldConfig(this, this.#structureEditorTreeEl, this.#editorFormEl_WorldConfig);
+        new Controller_Locations_Entry(this, this.#structureEditorTreeEl, this.#formEl_LocationsEntry);
+        new Controller_Collections(this, this.#structureEditorTreeEl);
+        new Controller_Collections_Entry(this, this.#structureEditorTreeEl, this.#formEl_CollectionsEntry);
+        new Controller_Areas(this, this.#structureEditorTreeEl);
+        new Controller_Areas_Entry(this, this.#structureEditorTreeEl, this.#formEl_AreasEntry);
+        new Controller_Exits(this, this.#structureEditorTreeEl);
+        new Controller_Exits_Entry(this, this.#structureEditorTreeEl, this.#formEl_ExitsEntry);
     }
 
     set configDataConverter(value) {

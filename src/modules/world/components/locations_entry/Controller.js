@@ -1,5 +1,7 @@
 import scope from "../../data/WorldEditorScope";
 // import LocationEntryModal from "../components/modal/LocationEntryModal.js";
+import "./EditorForm.js";
+import "./TreeNode.js";
 
 export default class Controller_Locations_Entry {
 
@@ -10,6 +12,7 @@ export default class Controller_Locations_Entry {
             scope.editPath = [ref];
             if (detailEditorEl != null) {
                 const data = this.getConfigData(ref);
+                detailEditorEl.setName(ref);
                 detailEditorEl.setData(data);
                 detailEditorEl.setFilterConfig(scope.filterConfig);
             }

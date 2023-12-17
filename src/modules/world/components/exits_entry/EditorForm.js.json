@@ -6,9 +6,13 @@
         "optiongroup": "worldEditor_exitTypes"
     },
     {
-        "type": "StringInput",
+        "type": "RelationSelect",
         "name": "target",
-        "label": "Default target entrance"
+        "label": "Default target entrance",
+        "types": [
+            "Exit"
+        ],
+        "placeholder": "Select exit..."
     },
     {
         "type": "StringInput",
@@ -16,10 +20,13 @@
         "label": "Logic access reference"
     },
     {
-        "type": "SearchSelect",
+        "type": "RelationSelect",
         "name": "area",
         "label": "Area",
-        "optiongroup": "worldEditor_areas"
+        "types": [
+            "Area"
+        ],
+        "placeholder": "Select area..."
     },
     {
         "type": "BoolOrLogicInput",
@@ -28,16 +35,16 @@
         "value": true
     },
     {
+        "type": "SwitchInput",
+        "name": "visibleRootOnly",
+        "label": "Visible on root only"
+    },
+    {
         "type": "FilterInput",
         "id": "filter-input",
         "name": "filter",
         "label": "Filter (hide if any value resolves to false)",
         "value": {}
-    },
-    {
-        "type": "SwitchInput",
-        "name": "visibleRootOnly",
-        "label": "Visible on root only"
     },
     {
         "type": "ImageSelect",
@@ -50,6 +57,11 @@
         "name": "bindsTo",
         "label": "Binds to types",
         "optiongroup": "worldEditor_exitTypes"
+    },
+    {
+        "type": "SwitchInput",
+        "name": "unbindable",
+        "label": "Make entrance impossible to be bound"
     },
     {
         "type": "SwitchInput",
@@ -71,6 +83,12 @@
         "type": "SwitchInput",
         "name": "isBiDir",
         "label": "Bidirectional entrance",
+        "value": true
+    },
+    {
+        "type": "SwitchInput",
+        "name": "ignoreMixedEntrances",
+        "label": "Ignore in mixed entrances",
         "value": true
     },
     {

@@ -1,36 +1,47 @@
 [
     {
-        "type": "SimpleSelect",
-        "name": "type",
-        "label": "Entry Type",
-        "options": {
-            "location": "Location",
-            "area": "Area",
-            "exit": "Exit"
-        },
-        "value": "location"
+        "type": "SwitchInput",
+        "name": "map.active",
+        "label": "Map - Active"
     },
     {
-        "type": "StringInput",
-        "name": "label",
-        "label": "Collection Label"
+        "type": "ColorInput",
+        "name": "map.backgroundColor",
+        "label": "Map - Background Color"
     },
     {
-        "type": "CoordInput",
-        "name": "pos",
-        "label": "Position on Map"
+        "type": "ImageSelect",
+        "id": "mapselect",
+        "name": "map.backgroundImage",
+        "label": "Map - Background Image",
+        "optiongroup": "worldEditor_areaMapImages"
     },
     {
-        "type": "BoolOrLogicInput",
-        "name": "visible",
-        "label": "Visible",
-        "value": true
+        "type": "NumberInput",
+        "id": "mapwidth",
+        "name": "map.width",
+        "label": "Map - Width",
+        "readonly": true
     },
     {
-        "type": "FilterInput",
-        "id": "filter-input",
-        "name": "filter",
-        "label": "Filter (hide if any value resolves to false)",
+        "type": "NumberInput",
+        "id": "mapheight",
+        "name": "map.height",
+        "label": "Map - Height",
+        "readonly": true
+    },
+    {
+        "type": "RangeInput",
+        "name": "map.zoom",
+        "label": "Map - Default Zoom",
+        "min": 10,
+        "max": 200,
+        "scratched": true
+    },
+    {
+        "type": "MarkerListInput",
+        "name": "list",
+        "label": "List",
         "value": {}
     }
 ]

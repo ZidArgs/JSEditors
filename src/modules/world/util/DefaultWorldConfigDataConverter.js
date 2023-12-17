@@ -93,59 +93,7 @@ export default class DefaultWorldConfigDataConverter {
             res[ref] = {
                 nodeType: "jse-world::areas-entry",
                 label: ref,
-                type,
-                children: {
-                    map: {
-                        nodeType: "jse-world::areas-entry-map-config",
-                        label: "Map Config"
-                    },
-                    connections: {
-                        nodeType: "jse-world::areas-entry-connections",
-                        label: "Connections",
-                        startCollapsed: true,
-                        children: this.extractTreeStructureAreasConnections(data.connections)
-                    },
-                    lists: {
-                        nodeType: "jse-world::areas-entry-lists",
-                        label: "Lists",
-                        startCollapsed: true,
-                        children: {}
-                    }
-                }
-            };
-            for (const [name, list] of Object.entries(data.lists)) {
-                res[ref].children.lists.children[name] = {
-                    nodeType: "jse-world::areas-entry-lists-entry",
-                    label: `List: ${name}`,
-                    startCollapsed: true,
-                    children: this.extractTreeStructureAreasList(list)
-                }
-            }
-        }
-        return res;
-    }
-
-    extractTreeStructureAreasConnections(areaConnectionItems = []) {
-        const res = {};
-        for (const index in areaConnectionItems) {
-            const item = areaConnectionItems[index];
-            res[index] = {
-                nodeType: "jse-world::areas-entry-connections-item",
-                label: item.label,
-                type: "Connection"
-            };
-        }
-        return res;
-    }
-
-    extractTreeStructureAreasList(areaListItems = []) {
-        const res = {};
-        for (const index in areaListItems) {
-            const item = areaListItems[index];
-            res[index] = {
-                nodeType: "jse-world::areas-entry-lists-entry-item",
-                label: item.ref?.name ?? "",
-                type: item.ref?.type ?? ""
+                type
             };
         }
         return res;
@@ -159,28 +107,7 @@ export default class DefaultWorldConfigDataConverter {
             res[ref] = {
                 nodeType: "jse-world::collections-entry",
                 label: ref,
-                type,
-                children: {
-                    list: {
-                        nodeType: "jse-world::collections-entry-list",
-                        label: "List",
-                        startCollapsed: true,
-                        children: this.extractTreeStructureCollectionsList(data.list)
-                    }
-                }
-            };
-        }
-        return res;
-    }
-
-    extractTreeStructureCollectionsList(collectionListItems = []) {
-        const res = {};
-        for (const index in collectionListItems) {
-            const item = collectionListItems[index];
-            res[index] = {
-                nodeType: "jse-world::collections-entry-list-item",
-                label: item.ref?.name ?? "",
-                type: item.ref?.type ?? ""
+                type
             };
         }
         return res;
