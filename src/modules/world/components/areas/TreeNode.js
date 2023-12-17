@@ -26,12 +26,12 @@ export default class TreeNode_Areas extends BaseClass {
             const ev = new Event("select", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 ...event.data,
+                path: [
+                    targetIndex,
+                    ...event.data.path
+                ],
                 area: this.ref
             };
-            ev.treePath = [
-                targetIndex,
-                ...event.treePath
-            ];
             this.dispatchEvent(ev);
         });
     }

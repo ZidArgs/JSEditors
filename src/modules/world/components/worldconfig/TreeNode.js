@@ -17,7 +17,7 @@ export default class TreeNode_Config extends BaseClass {
         /* --- */
         this.addEventListener("contentclick", (event) => {
             event.stopPropagation();
-            const ev = new Event("mainConfigSelect", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event("worldConfigSelect", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element: this
             };
@@ -33,5 +33,5 @@ export default class TreeNode_Config extends BaseClass {
 
 }
 
-TreeNode.registerNodeType("jse-world::config", TreeNode_Config);
+TreeNode.registerNodeType("jse-world::world-config", TreeNode_Config);
 customElements.define("jse-world-tree-node-config", TreeNode_Config);

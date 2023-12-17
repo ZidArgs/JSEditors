@@ -20,7 +20,7 @@ import Controller_Exits from "./components/exits/Controller.js";
 import Controller_Exits_Entry from "./components/exits_entry/Controller.js";
 import Controller_Locations from "./components/locations/Controller.js";
 import Controller_Locations_Entry from "./components/locations_entry/Controller.js";
-import ControllerMainConfig from "./components/config/Controller.js";
+import Controller_WorldConfig from "./components/worldconfig/Controller.js";
 import scope from "./data/WorldEditorScope.js";
 import "./ui/tree/StructureEditorTree.js";
 import "./components/locations_entry/EditorForm.js";
@@ -44,7 +44,6 @@ import "./components/exits/TreeNode.js";
 import "./components/exits_entry/TreeNode.js";
 import "./components/locations/TreeNode.js";
 import "./components/locations_entry/TreeNode.js";
-import "./components/config/TreeNode.js";
 import TPL from "./WorldEditor.js.html" assert {type: "html"};
 import STYLE from "./WorldEditor.js.css" assert {type: "css"};
 
@@ -55,6 +54,8 @@ const DEFAULT_CONFIG_DATA_CONVERTER = new DefaultWorldConfigDataConverter();
 class WorldEditor extends CustomElement {
 
     #configDataConverter;
+
+    #editorFormEl_WorldConfig;
 
     #detailEditorAreaEl;
 
@@ -74,6 +75,8 @@ class WorldEditor extends CustomElement {
         super();
         this.shadowRoot.append(TPL.generate());
         STYLE.apply(this.shadowRoot);
+        /* --- */
+        this.#editorFormEl_WorldConfig = this.shadowRoot.getElementById("editor-form-world-config");
         /* --- */
         this.#detailEditorAreaEl = this.shadowRoot.getElementById("detail-editor-area");
         this.#detailEditorAreaMapConfigEl = this.shadowRoot.getElementById("detail-editor-area-map-config");
@@ -99,7 +102,7 @@ class WorldEditor extends CustomElement {
         new Controller_Exits_Entry(this, this.#structureEditorTreeEl, this.#detailEditorExitEl);
         new Controller_Locations(this, this.#structureEditorTreeEl);
         new Controller_Locations_Entry(this, this.#structureEditorTreeEl, this.#detailEditorLocationEl);
-        new ControllerMainConfig(this, this.#structureEditorTreeEl/* , this.#detailEditorMainConfigEl */);
+        new Controller_WorldConfig(this, this.#structureEditorTreeEl, this.#editorFormEl_WorldConfig);
     }
 
     set configDataConverter(value) {

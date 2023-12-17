@@ -21,7 +21,7 @@ export default class DefaultWorldConfigDataConverter {
         const {locations, exits, areas, collections} = config;
         const tree = {
             world: {
-                nodeType: "jse-world::main-config",
+                nodeType: "jse-world::world-config",
                 label: "World Config"
             },
             locations: {
