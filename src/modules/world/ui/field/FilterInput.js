@@ -9,10 +9,6 @@ import STYLE from "./FilterInput.js.css" assert {type: "css"};
 
 export default class FilterInput extends AbstractFormInput {
 
-    static get suppressScrollIntoView() {
-        return true;
-    }
-
     #inputEl;
 
     constructor() {
