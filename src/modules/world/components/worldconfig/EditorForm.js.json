@@ -10,7 +10,7 @@
         "sorted": true
     },
     {
-        "type": "AreaContentHintCountingInput",
+        "type": "AreaHintList",
         "name": "areaContentHints",
         "label": "Area Content Hint Counting"
     },
