@@ -1,3 +1,10 @@
-<fieldset id="fieldset">
-    <slot id="contents"></slot>
-</fieldset>
+<div class="header">
+    <emc-input-search id="search"></emc-input-search>
+</div>
+<emc-grid-datagrid id="grid">
+    <emc-grid-column name="category" label="Category" type="string" width="300"></emc-grid-column>
+    <emc-grid-column name="key" label="Setting" type="string" width="100%"></emc-grid-column>
+    <emc-grid-column name="value" label="Value" type="boolorlogic" width="100" action="editValue" editable></emc-grid-column>
+</emc-grid-datagrid>
+<emc-form-row class="footer" align="end">
+</emc-form-row>

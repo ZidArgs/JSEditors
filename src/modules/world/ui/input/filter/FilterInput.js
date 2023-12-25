@@ -8,32 +8,63 @@ import {
 import {
     debounce
 } from "/emcJS/util/Debouncer.js";
-import EventMultiTargetManager from "/emcJS/util/event/EventMultiTargetManager.js";
-import "./components/FilterInputGroup.js";
+import SimpleDataProvider from "/emcJS/util/grid/provider/SimpleDataProvider.js";
+import CharacterSearch from "/emcJS/util/search/CharacterSearch.js";
+import "/emcJS/ui/grid/DataGrid.js";
 import TPL from "./FilterInput.js.html" assert {type: "html"};
 import STYLE from "./FilterInput.js.css" assert {type: "css"};
+
+// TODO on value change
 
 export default class FilterInput extends CustomFormElementDelegating {
 
     #value = {};
 
-    #eventTargetManager = new EventMultiTargetManager();
+    #filterConfig = [];
+
+    #searchEl;
+
+    #gridEl;
+
+    #dataManager;
 
     constructor() {
         super();
         this.shadowRoot.append(TPL.generate());
         STYLE.apply(this.shadowRoot);
         /* --- */
-        this.#eventTargetManager.set("change", (event) => {
+        this.#gridEl = this.shadowRoot.getElementById("grid");
+        this.#gridEl.addEventListener("editValue", debounce((event) => {
             event.stopPropagation();
-            const valueEl = event.target;
-            const valueName = valueEl.dataset.name;
-            const value = event.value;
-            this.value = {
-                ...this.#value,
-                [valueName]: value
-            };
-        });
+            event.preventDefault();
+            const {value, rowName} = event.data;
+            const currentValue = deepClone(this.#value);
+            const [category, key] = rowName.split("/");
+            if (this.#hasInConfig(category, key)) {
+                if (category in currentValue) {
+                    currentValue[category][key] = value;
+                } else {
+                    currentValue[category] = {
+                        [key]: value
+                    };
+                }
+            }
+            this.value = currentValue;
+        }, 300));
+        /* --- */
+        this.#dataManager = new SimpleDataProvider(this.#gridEl);
+        /* --- */
+        this.#searchEl = this.shadowRoot.getElementById("search");
+        this.#searchEl.addEventListener("change", () => {
+            const options = {filterFunction: false};
+            if (this.#searchEl.value != "") {
+                const searchValue = new CharacterSearch(this.#searchEl.value)
+                options.filterFunction = (record) => {
+                    return searchValue.test(record.category) || searchValue.test(record.key);
+                };
+            }
+            this.#dataManager.updateOptions(options);
+        }, true);
     }
 
     formDisabledCallback(disabled) {
@@ -56,30 +87,21 @@ export default class FilterInput extends CustomFormElementDelegating {
     }
 
     loadFilterConfig(config) {
-        this.innerHTML = "";
-        this.#eventTargetManager.clearTargets();
-        for (const filterName in config) {
-            const filterEl = document.createElement("jse-world-editor-input-filter-group");
-            filterEl.dataset.name = filterName;
-            filterEl.label = filterName;
-            const filterValues = config[filterName];
-            filterEl.loadFilterValues(filterValues);
-            const currValue = this.#value?.[filterName];
-            filterEl.value = currValue;
-            this.append(filterEl);
-            this.#eventTargetManager.addTarget(filterEl);
+        this.#filterConfig = [];
+        for (const category in config) {
+            for (const key of config[category]) {
+                this.#filterConfig.push({
+                    category,
+                    key
+                });
+            }
+            this.#applyValue();
         }
     }
 
     set value(value) {
         if (!isEqual(this.#value, value)) {
             this.#value = deepClone(value);
-            const valueEls = this.querySelectorAll("jse-world-editor-input-filter-group");
-            for (const valueEl of valueEls) {
-                const valueName = valueEl.dataset.name;
-                const currValue = this.#value?.[valueName];
-                valueEl.value = currValue;
-            }
             this.#notifyValueChange();
         }
     }
@@ -88,11 +110,33 @@ export default class FilterInput extends CustomFormElementDelegating {
         return this.#value;
     }
 
+    #applyValue() {
+        const curValue = this.#value;
+        const filterConfig = this.#filterConfig;
+        const data = [];
+        for (const {category, key} of filterConfig) {
+            data.push({
+                category,
+                key,
+                name: `${category}/${key}`,
+                value: curValue?.[category]?.[key] ?? true
+            });
+        }
+        this.#dataManager.setSource(data);
+    }
+
     #notifyValueChange = debounce(() => {
+        this.#applyValue();
         const ev = new Event("change", {bubbles: true, cancelable: true});
         ev.value = this.#value;
         this.dispatchEvent(ev);
     });
+
+    #hasInConfig(category, key) {
+        return this.#filterConfig.some((entry) => {
+            return entry.category === category && entry.key === key;
+        });
+    }
 
 }
 
