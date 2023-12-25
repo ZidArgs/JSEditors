@@ -17,7 +17,7 @@ export default class TreeNode_Exits_Entry extends BaseClass {
         /* --- */
         this.addEventListener("contentclick", (event) => {
             event.stopPropagation();
-            const ev = new Event("collectionEntrySelect", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event("exitEntrySelect", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element: this,
                 ref: this.ref

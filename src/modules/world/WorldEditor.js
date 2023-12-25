@@ -1,7 +1,10 @@
 import CustomElement from "/emcJS/ui/element/CustomElement.js";
+import TypeValidator from "/emcJS/util/type/TypeValidator.js";
 import {
     getFromTreeConfigByRefPath
 } from "/emcJS/util/helper/TreeConfig.js";
+import "/emcJS/ui/container/CaptionPanel.js";
+import "/emcJS/ui/container/CollapsePanel.js";
 import {
     areaListEntries, exitListEntries, locationListEntries, collectionListEntries
 } from "./data/EntityRegistries.js";
@@ -17,6 +20,7 @@ import Controller_Locations_Entry from "./components/locations_entry/Controller.
 import Controller_WorldConfig from "./components/worldconfig/Controller.js";
 import scope from "./data/WorldEditorScope.js";
 import "./ui/tree/StructureEditorTree.js";
+import "./TypeLoader.js";
 import TPL from "./WorldEditor.js.html" assert {type: "html"};
 import STYLE from "./WorldEditor.js.css" assert {type: "css"};
 
@@ -78,9 +82,12 @@ class WorldEditor extends CustomElement {
     }
 
     setConfig(config) {
+        TypeValidator.validate("World", config, {throwErrors: true});
+        scope.setData(config);
         scope.config = this.configDataConverter.translateSetConfig(config);
         this.#reloadTree();
         this.#extractEntries();
+        // reload form of current controller
     }
 
     getConfig() {

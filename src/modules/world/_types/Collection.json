@@ -1,0 +1,14 @@
+{
+    "map": {
+        "@type": "MapConfig",
+        "optional": false
+    },
+    "list": {
+        "@type": "List",
+        "optional": false,
+        "children": {
+            "@type": "MarkerListEntry",
+            "optional": true
+        }
+    }
+}

@@ -1,6 +1,7 @@
 import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
+import "/emcJS/ui/form/FormContainer.js";
 import "/emcJS/ui/form/field/DefaultFormFieldsLoader.js";
 import "/emcJS/ui/i18n/I18nLabel.js";
 import "../../ui/field/FilterInput.js";

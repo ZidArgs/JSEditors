@@ -1,0 +1,12 @@
+{
+    "icon": {
+        "@type": "Image",
+        "optional": false,
+        "default": ""
+    },
+    "counting": {
+        "@type": "Boolean",
+        "optional": false,
+        "default": false
+    }
+}
