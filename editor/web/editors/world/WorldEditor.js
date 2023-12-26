@@ -2,17 +2,35 @@ import FileSystem from "/emcJS/util/file/FileSystem.js";
 import OptionGroupRegistry from "/emcJS/data/registry/form/OptionGroupRegistry.js";
 import TokenRegistry from "/emcJS/data/registry/form/TokenRegistry.js";
 import "/JSEditors/modules/world/WorldEditor.js";
-import ListGroupRegistry from "/emcJS/data/registry/form/ListGroupRegistry.js";
 
 const OPTION_GROUPS = {
-    "worldEditor_locationTypes": {
-        "chest": "Chest",
-        "skulltula": "Skulltula",
-        "gossipstone": "Gossipstone",
-        "scrub": "Scrub",
-        "bean": "Bean",
-        "cow": "Cow"
-    },
+    "worldEditor_locationTypes": [
+        "chest",
+        "skulltula",
+        "gossipstone",
+        "scrub",
+        "bean",
+        "cow"
+    ],
+    "worldEditor_areaTypes": [
+        "overworld",
+        "area",
+        "dungeon",
+        "interior"
+    ],
+    "worldEditor_exitTypes": [
+        "overworld",
+        "dungeon_inner",
+        "dungeon_outer",
+        "interior_outer",
+        "interior_inner",
+        "grotto_outer",
+        "grotto_inner",
+        "flight",
+        "spawn",
+        "warp",
+        "voided"
+    ],
     "worldEditor_locationIcons": {
         "": "",
         "/images/icons/chest.svg": "Chest",
@@ -21,12 +39,6 @@ const OPTION_GROUPS = {
         "/images/icons/scrub.svg": "Scrub",
         "/images/icons/bean.svg": "Bean",
         "/images/icons/cow.svg": "Cow"
-    },
-    "worldEditor_areaTypes": {
-        "overworld": "Overworld",
-        "area": "Area",
-        "dungeon": "Dungeon",
-        "interior": "Interior"
     },
     "worldEditor_areaIcons": {
         "": "",
@@ -43,19 +55,6 @@ const OPTION_GROUPS = {
         "/images/maps/dungeon/dodongo.png": "Dodongos Cavern",
         "/images/maps/dungeon/jabu.png": "Jabu Jabu"
     },
-    "worldEditor_exitTypes": {
-        "overworld": "Overworld",
-        "dungeon_inner": "Dungeon Inner",
-        "dungeon_outer": "Dungeon Outer",
-        "interior_outer": "Interior Outer",
-        "interior_inner": "Interior Outer",
-        "grotto_outer": "Grotto Outer",
-        "grotto_inner": "Grotto Outer",
-        "flight": "Flight",
-        "spawn": "Spawn",
-        "warp": "Warp",
-        "voided": "Voided"
-    },
     "worldEditor_exitIcons": {
         "": "",
         "/images/icons/entrance.svg": "Entrance",
@@ -66,8 +65,6 @@ const OPTION_GROUPS = {
 };
 
 const TOKEN_GROUPS = {};
-
-const LIST_GROUPS = {};
 
 const FILTER_CONFIG = {
     "era": [
@@ -111,7 +108,6 @@ export default async function() {
     async function refreshFn() {
         OptionGroupRegistry.load(OPTION_GROUPS);
         TokenRegistry.load(TOKEN_GROUPS);
-        ListGroupRegistry.load(LIST_GROUPS);
         editorEl.setFilterConfig(FILTER_CONFIG);
     }
 

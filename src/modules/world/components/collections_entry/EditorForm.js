@@ -36,25 +36,17 @@ export default class EditorForm_Collections_Entry extends CustomElement {
         this.#headerNameEl = this.shadowRoot.getElementById("header-name");
         this.#detailFormEl = this.shadowRoot.getElementById("detail-form");
         this.#formContext.registerForm(this.#detailFormEl);
-        this.#prepareForm();
         /* --- */
         const headerFormEl = this.shadowRoot.getElementById("header-form");
         this.#formContext.registerForm(headerFormEl);
         const footerFormEl = this.shadowRoot.getElementById("footer-form");
         this.#formContext.registerForm(footerFormEl);
+        /* --- */
+        this.#prepareForm();
     }
 
     #prepareForm() {
-        FormBuilder.replaceForm(this.#detailFormEl, FORM_CONFIG);
-        const visibleLogicEl = this.#detailFormEl.querySelector("[name=\"visible\"]");
-        if (visibleLogicEl != null) {
-            visibleLogicEl.addOperatorGroup("special");
-            visibleLogicEl.addOperatorGroup("items");
-            visibleLogicEl.addOperatorGroup("options");
-            visibleLogicEl.addOperatorGroup("settings");
-            visibleLogicEl.addOperatorGroup("filter");
-            visibleLogicEl.addOperatorGroup("locations done");
-        }
+        FormBuilder.replaceForm(this.#detailFormEl, FORM_CONFIG, null, null, "collections_entry");
     }
 
     resetScroll() {

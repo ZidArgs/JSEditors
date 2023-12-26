@@ -1,4 +1,5 @@
-import ListGroupRegistry from "/emcJS/data/registry/form/ListGroupRegistry.js";
+import OptionGroupRegistry from "/emcJS/data/registry/form/OptionGroupRegistry.js";
+import LogicOperatorRegistry from "/emcJS/data/registry/LogicOperatorRegistry.js";
 import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import TypeValidator from "/emcJS/util/type/TypeValidator.js";
 import "/emcJS/ui/container/CaptionPanel.js";
@@ -34,7 +35,7 @@ class WorldEditor extends CustomElement {
 
     #structureEditorTreeEl;
 
-    #optionGroupRegistry = new ListGroupRegistry("worldEditor_areaContentHints");
+    #optionGroupRegistry = new OptionGroupRegistry("worldEditor_areaContentHints");
 
     constructor() {
         super();
@@ -64,8 +65,24 @@ class WorldEditor extends CustomElement {
         new Controller_Exits_Entry(this, this.#structureEditorTreeEl, this.#formEl_ExitsEntry);
         /* --- */
         DataManager.addEventListener("change", (event) => {
-            const {type} = event.data;
+            const {type, changes} = event.data;
             this.#structureEditorTreeEl.refresh(type);
+            /* --- */
+            if (type === "Location") {
+                for (const name in changes) {
+                    const {oldValue, newValue} = changes[name];
+                    if (oldValue == null) {
+                        LogicOperatorRegistry.setOperator("locations done", `location[${name}]`, {
+                            type: "value"
+                        });
+                    } else if (newValue == null) {
+                        LogicOperatorRegistry.deleteOperator("locations done", `location[${name}]`);
+                    }
+                }
+            }
+        });
+        LogicOperatorRegistry.setOperator("special", "$IS_DONE", {
+            type: "value"
         });
     }
 
@@ -106,10 +123,56 @@ class WorldEditor extends CustomElement {
         }
     }
 
-    setFilterConfig(config) {
-        scope.filterConfig = config;
+    setFilterConfig(data) {
+        scope.filterConfig = data;
         if (this.#activeDetailEditor != null) {
-            this.#activeDetailEditor.setFilterConfig(config);
+            this.#activeDetailEditor.setFilterConfig(data);
+        }
+        // TODO add filter to LogicOperatorRegistry
+    }
+
+    setItems(data) {
+        LogicOperatorRegistry.clearGroup("items");
+        for (const name in data) {
+            LogicOperatorRegistry.setOperator("items", `item[${name}]`, {
+                type: "value"
+            });
+        }
+    }
+
+    setOptions(data) {
+        LogicOperatorRegistry.clearGroup("options");
+        for (const name in data) {
+            const entry = data[name];
+            if (entry.values) {
+                LogicOperatorRegistry.setOperator("options", `option[${name}]`, {
+                    type: "state",
+                    options: entry.values,
+                    value: Object.keys(entry.values)[0]
+                });
+            } else {
+                LogicOperatorRegistry.setOperator("options", `option[${name}]`, {
+                    type: "value"
+                });
+            }
+        }
+    }
+
+    setSettings(data) {
+        LogicOperatorRegistry.clearGroup("settings");
+        for (const name in data) {
+            const entry = data[name];
+            if (entry.values) {
+                LogicOperatorRegistry.setOperator("settings", `setting[${name}]`, {
+                    type: "state",
+                    options: entry.values,
+                    value: Object.keys(entry.values)[0]
+                });
+            } else {
+                LogicOperatorRegistry.setOperator("settings", `setting[${name}]`, {
+                    type: "value"
+                });
+            }
         }
     }
 

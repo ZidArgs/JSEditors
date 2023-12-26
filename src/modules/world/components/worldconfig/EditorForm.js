@@ -1,4 +1,4 @@
-import ListGroupRegistry from "/emcJS/data/registry/form/ListGroupRegistry.js";
+import OptionGroupRegistry from "/emcJS/data/registry/form/OptionGroupRegistry.js";
 import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
@@ -21,7 +21,7 @@ export default class EditorForm_WorldConfig extends CustomElement {
 
     #areaHintEl;
 
-    #optionGroupRegistry = new ListGroupRegistry("worldEditor_areaContentHints");
+    #optionGroupRegistry = new OptionGroupRegistry("worldEditor_areaContentHints");
 
     constructor() {
         super();

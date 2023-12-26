@@ -23,6 +23,7 @@ export default class Controller_Exits extends ComponentController {
                 }
             }
             DataManager.writeEntity("Exit", newName, {});
+            treeEl.selectItemByPathRef(["exits", newName]);
         });
     }
 

@@ -37,98 +37,124 @@ class DataManager extends EventTarget {
     constructor() {
         super();
         /* --- */
-        this.#config.addEventListener("change", () => {
+        this.#config.addEventListener("change", (event) => {
+            const {changes} = event;
             const ev = new Event("change", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
-                type: "WorldConfig"
+                type: "WorldConfig",
+                changes
             };
             this.dispatchEvent(ev);
         });
         /* --- */
         this.#locationStorage.addEventListener("change", () => {
+            const {changes} = event;
             const ev = new Event("change", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
-                type: "Location"
+                type: "Location",
+                changes
             };
             this.dispatchEvent(ev);
         });
         this.#locationStorage.addEventListener("clear", () => {
+            const {changes} = event;
             const ev = new Event("change", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
-                type: "Location"
+                type: "Location",
+                changes
             };
             this.dispatchEvent(ev);
         });
         this.#locationStorage.addEventListener("load", () => {
+            const {changes} = event;
             const ev = new Event("change", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
-                type: "Location"
+                type: "Location",
+                changes
             };
             this.dispatchEvent(ev);
         });
         /* --- */
         this.#collectionStorage.addEventListener("change", () => {
+            const {changes} = event;
             const ev = new Event("change", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
-                type: "Collection"
+                type: "Collection",
+                changes
             };
             this.dispatchEvent(ev);
         });
         this.#collectionStorage.addEventListener("clear", () => {
+            const {changes} = event;
             const ev = new Event("change", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
-                type: "Collection"
+                type: "Collection",
+                changes
             };
             this.dispatchEvent(ev);
         });
         this.#collectionStorage.addEventListener("load", () => {
+            const {changes} = event;
             const ev = new Event("change", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
-                type: "Collection"
+                type: "Collection",
+                changes
             };
             this.dispatchEvent(ev);
         });
         /* --- */
         this.#areaStorage.addEventListener("change", () => {
+            const {changes} = event;
             const ev = new Event("change", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
-                type: "Area"
+                type: "Area",
+                changes
             };
             this.dispatchEvent(ev);
         });
         this.#areaStorage.addEventListener("clear", () => {
+            const {changes} = event;
             const ev = new Event("change", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
-                type: "Area"
+                type: "Area",
+                changes
             };
             this.dispatchEvent(ev);
         });
         this.#areaStorage.addEventListener("load", () => {
+            const {changes} = event;
             const ev = new Event("change", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
-                type: "Area"
+                type: "Area",
+                changes
             };
             this.dispatchEvent(ev);
         });
         /* --- */
         this.#exitStorage.addEventListener("change", () => {
+            const {changes} = event;
             const ev = new Event("change", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
-                type: "Exit"
+                type: "Exit",
+                changes
             };
             this.dispatchEvent(ev);
         });
         this.#exitStorage.addEventListener("clear", () => {
+            const {changes} = event;
             const ev = new Event("change", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
-                type: "Exit"
+                type: "Exit",
+                changes
             };
             this.dispatchEvent(ev);
         });
         this.#exitStorage.addEventListener("load", () => {
+            const {changes} = event;
             const ev = new Event("change", {bubbles: true, cancelable: true, composed: true});
             ev.data = {
-                type: "Exit"
+                type: "Exit",
+                changes
             };
             this.dispatchEvent(ev);
         });

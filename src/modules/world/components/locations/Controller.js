@@ -23,6 +23,7 @@ export default class Controller_Locations extends ComponentController {
                 }
             }
             DataManager.writeEntity("Location", newName, {});
+            treeEl.selectItemByPathRef(["locations", newName]);
         });
     }
 

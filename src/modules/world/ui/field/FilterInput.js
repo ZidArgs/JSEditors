@@ -41,6 +41,18 @@ export default class FilterInput extends AbstractFormInput {
         this.#inputEl.focus(options);
     }
 
+    addOperatorGroup(...groupList) {
+        this.#inputEl.addOperatorGroup(...groupList);
+    }
+
+    removeOperatorGroup(...groupList) {
+        this.#inputEl.removeOperatorGroup(...groupList);
+    }
+
+    loadFilterConfig(config) {
+        this.#inputEl.loadFilterConfig(config);
+    }
+
     set value(value) {
         this.#inputEl.value = value ?? this.defaultValue;
         super.value = value;
@@ -72,10 +84,6 @@ export default class FilterInput extends AbstractFormInput {
                 }
             } break;
         }
-    }
-
-    loadFilterConfig(config) {
-        this.#inputEl.loadFilterConfig(config);
     }
 
 }

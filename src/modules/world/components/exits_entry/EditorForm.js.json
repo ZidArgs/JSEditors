@@ -30,6 +30,7 @@
     },
     {
         "type": "BoolOrLogicInput",
+        "id": "visible-input",
         "name": "visible",
         "label": "Visible",
         "value": true
@@ -53,10 +54,10 @@
         "optiongroup": "worldEditor_exitIcons"
     },
     {
-        "type": "TokenBoolOrLogicList",
+        "type": "BoolOrLogicListInput",
         "name": "bindsTo",
         "label": "Binds to types",
-        "optiongroup": "worldEditor_exitTypes"
+        "listgroup": "worldEditor_exitTypes"
     },
     {
         "type": "SwitchInput",

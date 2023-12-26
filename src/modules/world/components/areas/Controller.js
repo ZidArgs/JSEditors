@@ -23,6 +23,7 @@ export default class Controller_Areas extends ComponentController {
                 }
             }
             DataManager.writeEntity("Area", newName, {});
+            treeEl.selectItemByPathRef(["areas", newName]);
         });
     }
 

@@ -9,6 +9,15 @@ import TPL from "./EditorForm.js.html" assert {type: "html"};
 import STYLE from "./EditorForm.js.css" assert {type: "css"};
 import FORM_CONFIG from "./EditorForm.js.json" assert {type: "json"};
 
+const LOGIC_OPERATOR_GROUPS = [
+    "special",
+    "items",
+    "options",
+    "settings",
+    "filter",
+    "locations done"
+];
+
 // TODO outsource main functionality
 export default class EditorForm_Areas_Entry extends CustomElement {
 
@@ -21,6 +30,8 @@ export default class EditorForm_Areas_Entry extends CustomElement {
     #headerNameEl;
 
     #filterInputEl;
+
+    #visibleInputEl;
 
     constructor() {
         super();
@@ -39,27 +50,23 @@ export default class EditorForm_Areas_Entry extends CustomElement {
         this.#headerNameEl = this.shadowRoot.getElementById("header-name");
         this.#detailFormEl = this.shadowRoot.getElementById("detail-form");
         this.#formContext.registerForm(this.#detailFormEl);
-        this.#prepareForm();
         /* --- */
         const headerFormEl = this.shadowRoot.getElementById("header-form");
         this.#formContext.registerForm(headerFormEl);
         const footerFormEl = this.shadowRoot.getElementById("footer-form");
         this.#formContext.registerForm(footerFormEl);
         /* --- */
-        this.#filterInputEl = this.shadowRoot.getElementById("filter-input");
+        this.#prepareForm();
     }
 
     #prepareForm() {
-        FormBuilder.replaceForm(this.#detailFormEl, FORM_CONFIG);
-        const visibleLogicEl = this.#detailFormEl.querySelector("[name=\"visible\"]");
-        if (visibleLogicEl != null) {
-            visibleLogicEl.addOperatorGroup("special");
-            visibleLogicEl.addOperatorGroup("items");
-            visibleLogicEl.addOperatorGroup("options");
-            visibleLogicEl.addOperatorGroup("settings");
-            visibleLogicEl.addOperatorGroup("filter");
-            visibleLogicEl.addOperatorGroup("locations done");
-        }
+        FormBuilder.replaceForm(this.#detailFormEl, FORM_CONFIG, null, null, "areas_entry");
+        /* --- */
+        this.#filterInputEl = this.shadowRoot.getElementById("filter-input");
+        this.#visibleInputEl = this.shadowRoot.getElementById("visible-input");
+        /* --- */
+        this.#filterInputEl.addOperatorGroup(...LOGIC_OPERATOR_GROUPS);
+        this.#visibleInputEl.addOperatorGroup(...LOGIC_OPERATOR_GROUPS);
         /* --- */
         const mapImageSelectEl = this.#detailFormEl.querySelector("#mapselect");
         const mapImageWidthEl = this.#detailFormEl.querySelector("#mapwidth");

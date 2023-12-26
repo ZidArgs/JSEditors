@@ -22,6 +22,8 @@ export default class FilterInput extends CustomFormElementDelegating {
 
     #filterConfig = [];
 
+    #operatorGroups = new Set();
+
     #searchEl;
 
     #gridEl;
@@ -51,6 +53,12 @@ export default class FilterInput extends CustomFormElementDelegating {
             }
             this.value = currentValue;
         }, 300));
+        this.#gridEl.addEventListener("rows-updated", () => {
+            const logicEls = this.#gridEl.getAllCellsForColumn("value");
+            for (const logicEl of logicEls) {
+                logicEl.addOperatorGroup(...this.#operatorGroups);
+            }
+        });
         /* --- */
         this.#dataManager = new SimpleDataProvider(this.#gridEl);
         /* --- */
@@ -83,6 +91,46 @@ export default class FilterInput extends CustomFormElementDelegating {
             const valueName = valueEl.dataset.name;
             const value = this.#value[valueName];
             valueEl.value = value ?? {};
+        }
+    }
+
+    addOperatorGroup(...groupList) {
+        let changes = false;
+        for (const group of groupList) {
+            if (!(typeof group === "string") || group === "") {
+                continue;
+            }
+            if (!this.#operatorGroups.has(group)) {
+                this.#operatorGroups.add(group);
+                changes = true;
+            }
+        }
+        /* --- */
+        if (changes) {
+            const logicEls = this.#gridEl.getAllCellsForColumn("value");
+            for (const logicEl of logicEls) {
+                logicEl.addOperatorGroup(...groupList);
+            }
+        }
+    }
+
+    removeOperatorGroup(...groupList) {
+        let changes = false;
+        for (const group of groupList) {
+            if (!(typeof group === "string") || group === "") {
+                continue;
+            }
+            if (this.#operatorGroups.has(group)) {
+                this.#operatorGroups.delete(group);
+                changes = true;
+            }
+        }
+        /* --- */
+        if (changes) {
+            const logicEls = this.#gridEl.getAllCellsForColumn("value");
+            for (const logicEl of logicEls) {
+                logicEl.removeOperatorGroup(...groupList);
+            }
         }
     }
 

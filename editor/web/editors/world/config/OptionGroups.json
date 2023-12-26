@@ -1,12 +1,31 @@
 {
-    "worldEditor_locationTypes": {
-        "chest": "Chest",
-        "skulltula": "Skulltula",
-        "gossipstone": "Gossipstone",
-        "scrub": "Scrub",
-        "bean": "Bean",
-        "cow": "Cow"
-    },
+    "worldEditor_locationTypes": [
+        "chest",
+        "skulltula",
+        "gossipstone",
+        "scrub",
+        "bean",
+        "cow"
+    ],
+    "worldEditor_areaTypes": [
+        "overworld",
+        "area",
+        "dungeon",
+        "interior"
+    ],
+    "worldEditor_exitTypes": [
+        "overworld",
+        "dungeon_inner",
+        "dungeon_outer",
+        "interior_outer",
+        "interior_inner",
+        "grotto_outer",
+        "grotto_inner",
+        "flight",
+        "spawn",
+        "warp",
+        "voided"
+    ],
     "worldEditor_locationIcons": {
         "": "",
         "/images/icons/chest.svg": "Chest",
@@ -15,12 +34,6 @@
         "/images/icons/scrub.svg": "Scrub",
         "/images/icons/bean.svg": "Bean",
         "/images/icons/cow.svg": "Cow"
-    },
-    "worldEditor_areaTypes": {
-        "overworld": "Overworld",
-        "area": "Area",
-        "dungeon": "Dungeon",
-        "interior": "Interior"
     },
     "worldEditor_areaIcons": {
         "": "",
@@ -36,19 +49,6 @@
         "/images/maps/dungeon/deku.png": "Deku Tree",
         "/images/maps/dungeon/dodongo.png": "Dodongos Cavern",
         "/images/maps/dungeon/jabu.png": "Jabu Jabu"
-    },
-    "worldEditor_exitTypes": {
-        "overworld": "Overworld",
-        "dungeon_inner": "Dungeon Inner",
-        "dungeon_outer": "Dungeon Outer",
-        "interior_outer": "Interior Outer",
-        "interior_inner": "Interior Outer",
-        "grotto_outer": "Grotto Outer",
-        "grotto_inner": "Grotto Outer",
-        "flight": "Flight",
-        "spawn": "Spawn",
-        "warp": "Warp",
-        "voided": "Voided"
     },
     "worldEditor_exitIcons": {
         "": "",

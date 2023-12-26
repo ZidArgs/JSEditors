@@ -12,6 +12,7 @@
     },
     {
         "type": "BoolOrLogicInput",
+        "id": "visible-input",
         "name": "visible",
         "label": "Visible"
     },

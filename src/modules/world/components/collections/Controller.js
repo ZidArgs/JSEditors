@@ -23,6 +23,7 @@ export default class Controller_Collections extends ComponentController {
                 }
             }
             DataManager.writeEntity("Collection", newName, {});
+            treeEl.selectItemByPathRef(["collections", newName]);
         });
     }
 
