@@ -36,7 +36,7 @@ export default class FilterInput extends CustomFormElementDelegating {
         STYLE.apply(this.shadowRoot);
         /* --- */
         this.#gridEl = this.shadowRoot.getElementById("grid");
-        this.#gridEl.addEventListener("editValue", debounce((event) => {
+        this.#gridEl.addEventListener("edit::value", debounce((event) => {
             event.stopPropagation();
             event.preventDefault();
             const {value, rowName} = event.data;

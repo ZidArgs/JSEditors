@@ -38,7 +38,7 @@ export default class AreaHintListInput extends CustomFormElementDelegating {
         });
         /* --- */
         this.#gridEl = this.shadowRoot.getElementById("grid");
-        this.#gridEl.addEventListener("delete", (event) => {
+        this.#gridEl.addEventListener("action::delete", (event) => {
             event.stopPropagation();
             event.preventDefault();
             const {rowName} = event.data;
@@ -48,7 +48,7 @@ export default class AreaHintListInput extends CustomFormElementDelegating {
                 this.value = currentValue;
             }
         });
-        this.#gridEl.addEventListener("editIcon", debounce((event) => {
+        this.#gridEl.addEventListener("edit::icon", debounce((event) => {
             event.stopPropagation();
             event.preventDefault();
             const {value, rowName} = event.data;
@@ -58,7 +58,7 @@ export default class AreaHintListInput extends CustomFormElementDelegating {
             }
             this.value = currentValue;
         }));
-        this.#gridEl.addEventListener("editCounting", debounce((event) => {
+        this.#gridEl.addEventListener("edit::counting", debounce((event) => {
             event.stopPropagation();
             event.preventDefault();
             const {value, rowName} = event.data;
@@ -72,19 +72,24 @@ export default class AreaHintListInput extends CustomFormElementDelegating {
         this.#addEl = this.shadowRoot.getElementById("add");
         this.#addEl.addEventListener("click", async () => {
             let rowName = null;
-            const currentValue = {...this.#value};
+            const currentValue = this.value ?? {};
             while (rowName == null) {
                 rowName = await ModalDialog.prompt("Add item", "Please enter a new key");
                 if (typeof rowName !== "string") {
                     return;
                 }
-                if (rowName in currentValue) {
+                if (rowName in this.value) {
                     await ModalDialog.alert("Key already exists", `The key "${rowName}" does already exist. Please enter another one!`);
                     rowName = null;
                 }
             }
-            currentValue[rowName] = {icon: "", counting: false};
-            this.value = currentValue;
+            this.value = {
+                ...currentValue,
+                [rowName]: {
+                    icon: "",
+                    counting: false
+                }
+            };
         });
         /* --- */
         this.#dataManager = new SimpleDataProvider(this.#gridEl);
