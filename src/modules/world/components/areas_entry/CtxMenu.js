@@ -4,9 +4,8 @@ export default class CtxMenu_Areas_Entry extends ContextMenu {
 
     initItems() {
         super.setItems([
-            {menuAction: "edit", content: "Edit"},
-            "splitter",
-            {menuAction: "remove", content: "Remove"}
+            {menuAction: "copyName", content: "Copy name to clipboard"},
+            {menuAction: "delete", content: "Delete"}
         ]);
     }
 

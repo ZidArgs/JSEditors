@@ -1,42 +1,27 @@
-import scope from "../../data/WorldEditorScope";
+import ModalDialog from "/emcJS/ui/modal/ModalDialog.js";
+import DataManager from "../../data/DataManager.js";
+import ComponentController from "../../util/ComponentController.js";
 // import CollectionEntryModal from "../components/modal/CollectionEntryModal.js";
 import "./EditorForm.js";
 import "./TreeNode.js";
 
-export default class Controller_Collections_Entry extends EventTarget {
+export default class Controller_Collections_Entry extends ComponentController {
 
-    constructor(editorEl, treeEl, detailEditorEl) {
-        super();
-        // TODO add contextmenus
-        treeEl.addEventListener("collectionEntrySelect", (event) => {
-            const {ref} = event.data;
-            scope.editPath = [ref];
-            if (detailEditorEl != null) {
-                const data = this.getConfigData(ref);
-                detailEditorEl.setName(ref);
-                detailEditorEl.setData(data);
-            }
-            editorEl.switchDetailEditor(detailEditorEl);
-        });
+    constructor(containerEl, treeEl, editorEl) {
+        super("Collection", containerEl, treeEl, editorEl);
         /* --- */
-        if (detailEditorEl != null) {
-            detailEditorEl.addEventListener("save", (event) => {
-                const [ref] = scope.editPath;
-                if (ref != null) {
-                    // TODO streamline event data structure
-                    const collectionConfig = scope.config.collections[ref];
-                    scope.config.collections[ref] = {
-                        ...collectionConfig,
-                        ...event.data
-                    };
-                    editorEl.dispatchEvent(new Event("change"));
-                }
-            });
-        }
+        treeEl.addEventListener(`deleteEntity[${this.type}]`, async (event) => {
+            event.stopPropagation();
+            const {ref} = event.data;
+            const confirmation = await ModalDialog.confirm("Delete collection?", `Do you really want to delete the collection "${ref}"?`);
+            if (confirmation === true) {
+                DataManager.deleteEntity("Collection", ref);
+            }
+        });
     }
 
-    getConfigData(ref) {
-        return scope.config.collections[ref];
+    get type() {
+        return "collections_entry";
     }
 
 }

@@ -2,6 +2,7 @@ import FileSystem from "/emcJS/util/file/FileSystem.js";
 import OptionGroupRegistry from "/emcJS/data/registry/form/OptionGroupRegistry.js";
 import TokenRegistry from "/emcJS/data/registry/form/TokenRegistry.js";
 import "/JSEditors/modules/world/WorldEditor.js";
+import ListGroupRegistry from "/emcJS/data/registry/form/ListGroupRegistry.js";
 
 const OPTION_GROUPS = {
     "worldEditor_locationTypes": {
@@ -61,20 +62,12 @@ const OPTION_GROUPS = {
         "/images/icons/dungeon.svg": "Dungeon",
         "/images/icons/dungeon_boss.svg": "Boss Dungeon",
         "/images/icons/area_boss.svg": "Boss Area"
-    },
-    "worldEditor_areaContentHints": {
-        "chest": "Chest",
-        "skulltula": "Skulltula",
-        "gossipstone": "Gossipstone",
-        "scrub": "Scrub",
-        "bean": "Bean",
-        "cow": "Cow",
-        "fountain": "Fountain",
-        "rupees": "Rupees"
     }
 };
 
 const TOKEN_GROUPS = {};
+
+const LIST_GROUPS = {};
 
 const FILTER_CONFIG = {
     "era": [
@@ -118,6 +111,7 @@ export default async function() {
     async function refreshFn() {
         OptionGroupRegistry.load(OPTION_GROUPS);
         TokenRegistry.load(TOKEN_GROUPS);
+        ListGroupRegistry.load(LIST_GROUPS);
         editorEl.setFilterConfig(FILTER_CONFIG);
     }
 
@@ -127,7 +121,7 @@ export default async function() {
         "submenu": [{
             "content": "SAVE",
             "handler": async () => {
-                const config = editorEl.getConfig();
+                const config = editorEl.getWorldData();
                 FileSystem.save(JSON.stringify(config, " ", 4), `world_${(new Date()).getTime()}.json`);
             }
         }, {
@@ -137,7 +131,7 @@ export default async function() {
                 if (res != null) {
                     const {data} = res;
                     if (data != null) {
-                        editorEl.setConfig(data);
+                        editorEl.setWorldData(data);
                     }
                 }
             }

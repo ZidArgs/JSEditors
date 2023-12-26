@@ -1,56 +1,26 @@
-import ContextMenuManagerMixin from "/emcJS/ui/mixin/ContextMenuManagerMixin.js";
 import TreeNode from "/emcJS/ui/tree/components/TreeNode.js";
-import {
-    mix
-} from "/emcJS/util/Mixin.js";
+import WorldEditorTreeNode from "../../ui/tree/WorldEditorTreeNode.js";
+import CtxMenu from "./CtxMenu.js";
 
-const BaseClass = mix(
-    TreeNode
-).with(
-    ContextMenuManagerMixin
-);
-
-export default class TreeNode_Areas extends BaseClass {
+export default class TreeNode_Areas extends WorldEditorTreeNode {
 
     constructor() {
         super();
         /* --- */
-        this.addEventListener("contentclick", (event) => this.#select(event));
-        this.addEventListener("contentcontextmenu", (event) => this.#contextMenu(event));
-        /* --- */
-        const subTreeEl = this.shadowRoot.getElementById("tree");
-        subTreeEl.addEventListener("select", (event) => {
+        this.setDefaultContextMenu(CtxMenu);
+        this.addDefaultContextMenuHandler("add", (event) => {
             event.stopPropagation();
-            event.preventDefault();
-            const targetIndex = Array.from(this.parentElement.children).indexOf(this);
-            const ev = new Event("select", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event(`addEntity[${this.type}]`, {bubbles: true, cancelable: true, composed: true});
             ev.data = {
-                ...event.data,
-                path: [
-                    targetIndex,
-                    ...event.data.path
-                ],
-                area: this.ref
+                element: this,
+                ref: this.ref
             };
             this.dispatchEvent(ev);
         });
     }
 
-    #select(event) {
-        event.stopPropagation();
-        const targetIndex = Array.from(this.parentElement.children).indexOf(this);
-        const ev = new Event("select_Areas", {bubbles: true, cancelable: true, composed: true});
-        ev.data = {
-            element: this,
-            index: targetIndex
-        };
-        this.dispatchEvent(ev);
-    }
-
-    #contextMenu(event) {
-        event.stopPropagation();
-        this.showDefaultContextMenu(event);
-        return false;
+    get type() {
+        return "areas";
     }
 
 }

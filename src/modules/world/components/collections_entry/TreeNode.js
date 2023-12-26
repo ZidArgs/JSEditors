@@ -1,97 +1,30 @@
-import ContextMenuManagerMixin from "/emcJS/ui/mixin/ContextMenuManagerMixin.js";
 import TreeNode from "/emcJS/ui/tree/components/TreeNode.js";
-import {
-    mix
-} from "/emcJS/util/Mixin.js";
-import {
-    addEventListenerForMultiType
-} from "/emcJS/util/helper/Event.js";
+import WorldEditorTreeNode from "../../ui/tree/WorldEditorTreeNode.js";
+import CtxMenu from "./CtxMenu.js";
 
-const BaseClass = mix(
-    TreeNode
-).with(
-    ContextMenuManagerMixin
-);
-
-export default class TreeNode_Collections_Entry extends BaseClass {
+export default class TreeNode_Collections_Entry extends WorldEditorTreeNode {
 
     constructor() {
         super();
         /* --- */
-        this.addEventListener("contentclick", (event) => {
+        this.setDefaultContextMenu(CtxMenu);
+        this.addDefaultContextMenuHandler("delete", (event) => {
             event.stopPropagation();
-            const ev = new Event("collectionEntrySelect", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event(`deleteEntity[${this.type}]`, {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element: this,
                 ref: this.ref
             };
             this.dispatchEvent(ev);
         });
-        this.addEventListener("contentcontextmenu", (event) => {
+        this.addDefaultContextMenuHandler("copyName", (event) => {
             event.stopPropagation();
-            this.showDefaultContextMenu(event);
-            return false;
+            navigator.clipboard.writeText(this.ref);
         });
-        /* --- */
-        const subTreeEl = this.shadowRoot.getElementById("tree");
-        subTreeEl.addEventListener("collectionEntryConnectionsItemSelect", (event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            const {element, index} = event.data;
-            const ev = new Event("collectionEntryConnectionsItemSelect", {bubbles: true, cancelable: true, composed: true});
-            ev.data = {
-                element,
-                index,
-                collection: this.ref
-            };
-            this.dispatchEvent(ev);
-        });
-        subTreeEl.addEventListener("collectionEntryListItemSelect", (event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            const {element, index, list} = event.data;
-            const ev = new Event("collectionEntryListItemSelect", {bubbles: true, cancelable: true, composed: true});
-            ev.data = {
-                element,
-                index,
-                list,
-                collection: this.ref
-            };
-            this.dispatchEvent(ev);
-        });
-        subTreeEl.addEventListener("collectionEntryMapConfigSelect", (event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            const {element} = event.data;
-            const ev = new Event("collectionEntryMapConfigSelect", {bubbles: true, cancelable: true, composed: true});
-            ev.data = {
-                element,
-                collection: this.ref
-            };
-            this.dispatchEvent(ev);
-        });
-        /* --- */
-        addEventListenerForMultiType(subTreeEl, [
-            "collectionListAddElementTop",
-            "collectionListAddElementBottom",
-            "collectionListAddElementBefore",
-            "collectionListAddElementAfter",
-            "collectionListRemoveElement"
-        ], (event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            const {element, index, type, ref, list} = event.data;
-            const ev = new Event(event.type, {bubbles: true, cancelable: true, composed: true});
-            ev.data = {
-                element,
-                index,
-                type,
-                ref,
-                list,
-                collection: this.ref
-            };
-            this.dispatchEvent(ev);
-        });
+    }
+
+    get type() {
+        return "collections_entry";
     }
 
 }

@@ -1,34 +1,17 @@
-import scope from "../../data/WorldEditorScope.js";
+import ComponentController from "../../util/ComponentController.js";
+// import WorldConfigEntryModal from "../components/modal/WorldConfigEntryModal.js";
 import "./EditorForm.js";
 import "./TreeNode.js";
 
-export default class Controller_WorldConfig extends EventTarget {
+// TODO add contextmenus
+export default class Controller_WorldConfig extends ComponentController {
 
-    constructor(editorEl, treeEl, detailEditorEl) {
-        super();
-        treeEl.addEventListener("worldConfigSelect", () => {
-            scope.editPath = [];
-            if (detailEditorEl != null) {
-                const data = this.getConfigData();
-                detailEditorEl.setData(data);
-            }
-            editorEl.switchDetailEditor(detailEditorEl);
-        });
-        /* --- */
-        if (detailEditorEl != null) {
-            detailEditorEl.addEventListener("save", (event) => {
-                const mainConfig = scope.config.config;
-                scope.config.config = {
-                    ...mainConfig,
-                    ...event.data
-                };
-                editorEl.dispatchEvent(new Event("change"));
-            });
-        }
+    constructor(containerEl, treeEl, editorEl) {
+        super("WorldConfig", containerEl, treeEl, editorEl);
     }
 
-    getConfigData() {
-        return scope.config.config;
+    get type() {
+        return "worldconfig";
     }
 
 }

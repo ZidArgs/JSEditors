@@ -1,35 +1,30 @@
-import ContextMenuManagerMixin from "/emcJS/ui/mixin/ContextMenuManagerMixin.js";
 import TreeNode from "/emcJS/ui/tree/components/TreeNode.js";
-import {
-    mix
-} from "/emcJS/util/Mixin.js";
+import WorldEditorTreeNode from "../../ui/tree/WorldEditorTreeNode.js";
+import CtxMenu from "./CtxMenu.js";
 
-const BaseClass = mix(
-    TreeNode
-).with(
-    ContextMenuManagerMixin
-);
-
-export default class TreeNode_Exits_Entry extends BaseClass {
+export default class TreeNode_Exits_Entry extends WorldEditorTreeNode {
 
     constructor() {
         super();
         /* --- */
-        this.addEventListener("contentclick", (event) => {
+        this.setDefaultContextMenu(CtxMenu);
+        this.addDefaultContextMenuHandler("delete", (event) => {
             event.stopPropagation();
-            const ev = new Event("exitEntrySelect", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event(`deleteEntity[${this.type}]`, {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element: this,
                 ref: this.ref
             };
             this.dispatchEvent(ev);
         });
-        this.addEventListener("contentcontextmenu", (event) => {
+        this.addDefaultContextMenuHandler("copyName", (event) => {
             event.stopPropagation();
-            this.showDefaultContextMenu(event);
-            return false;
+            navigator.clipboard.writeText(this.ref);
         });
-        /* --- */
+    }
+
+    get type() {
+        return "exits_entry";
     }
 
 }

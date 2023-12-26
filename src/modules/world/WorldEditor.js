@@ -1,14 +1,8 @@
+import ListGroupRegistry from "/emcJS/data/registry/form/ListGroupRegistry.js";
 import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import TypeValidator from "/emcJS/util/type/TypeValidator.js";
-import {
-    getFromTreeConfigByRefPath
-} from "/emcJS/util/helper/TreeConfig.js";
 import "/emcJS/ui/container/CaptionPanel.js";
 import "/emcJS/ui/container/CollapsePanel.js";
-import {
-    areaListEntries, exitListEntries, locationListEntries, collectionListEntries
-} from "./data/EntityRegistries.js";
-import DefaultWorldConfigDataConverter from "./util/DefaultWorldConfigDataConverter.js";
 import Controller_Areas from "./components/areas/Controller.js";
 import Controller_Areas_Entry from "./components/areas_entry/Controller.js";
 import Controller_Collections from "./components/collections/Controller.js";
@@ -19,18 +13,14 @@ import Controller_Locations from "./components/locations/Controller.js";
 import Controller_Locations_Entry from "./components/locations_entry/Controller.js";
 import Controller_WorldConfig from "./components/worldconfig/Controller.js";
 import scope from "./data/WorldEditorScope.js";
+import DataManager from "./data/DataManager.js";
 import "./ui/tree/StructureEditorTree.js";
-import "./TypeLoader.js";
 import TPL from "./WorldEditor.js.html" assert {type: "html"};
 import STYLE from "./WorldEditor.js.css" assert {type: "css"};
 
-const DEFAULT_CONFIG_DATA_CONVERTER = new DefaultWorldConfigDataConverter();
-
-/* TODO add empty detail editor for non-editable tree entries */
-
 class WorldEditor extends CustomElement {
 
-    #configDataConverter;
+    #activeDetailEditor;
 
     #formEl_WorldConfig;
 
@@ -44,6 +34,8 @@ class WorldEditor extends CustomElement {
 
     #structureEditorTreeEl;
 
+    #optionGroupRegistry = new ListGroupRegistry("worldEditor_areaContentHints");
+
     constructor() {
         super();
         this.shadowRoot.append(TPL.generate());
@@ -56,7 +48,10 @@ class WorldEditor extends CustomElement {
         this.#formEl_ExitsEntry = this.shadowRoot.getElementById("form-exits-entry");
         /* --- */
         this.#structureEditorTreeEl = this.shadowRoot.getElementById("structure-editor-tree");
-        this.#reloadTree();
+        this.#structureEditorTreeEl.addEventListener("entitySelect[]", () => {
+            this.switchDetailEditor();
+        });
+        this.#structureEditorTreeEl.refresh();
         /* --- */
         new Controller_WorldConfig(this, this.#structureEditorTreeEl, this.#formEl_WorldConfig);
         new Controller_Locations(this, this.#structureEditorTreeEl);
@@ -67,81 +62,55 @@ class WorldEditor extends CustomElement {
         new Controller_Areas_Entry(this, this.#structureEditorTreeEl, this.#formEl_AreasEntry);
         new Controller_Exits(this, this.#structureEditorTreeEl);
         new Controller_Exits_Entry(this, this.#structureEditorTreeEl, this.#formEl_ExitsEntry);
+        /* --- */
+        DataManager.addEventListener("change", (event) => {
+            const {type} = event.data;
+            this.#structureEditorTreeEl.refresh(type);
+        });
     }
 
-    set configDataConverter(value) {
-        if (value instanceof DefaultWorldConfigDataConverter) {
-            this.#configDataConverter = value;
-        } else {
-            this.#configDataConverter = null;
-        }
+    setWorldData(data) {
+        TypeValidator.validate("World", data, {throwErrors: true});
+        DataManager.setData(data);
+        this.reloadDetailEditor();
+        /* --- */
+        const options = Object.keys(data.config.areaContentHints);
+        this.#optionGroupRegistry.setAll(options);
     }
 
-    get configDataConverter() {
-        return this.#configDataConverter ?? DEFAULT_CONFIG_DATA_CONVERTER;
-    }
-
-    setConfig(config) {
-        TypeValidator.validate("World", config, {throwErrors: true});
-        scope.setData(config);
-        scope.config = this.configDataConverter.translateSetConfig(config);
-        this.#reloadTree();
-        this.#extractEntries();
-        // reload form of current controller
-    }
-
-    getConfig() {
-        return this.configDataConverter.translateGetConfig(scope.config);
+    getWorldData() {
+        return DataManager.getData();
     }
 
     reset() {
+        DataManager.reset();
         scope.reset();
-        this.#reloadTree();
         this.switchDetailEditor();
     }
 
     switchDetailEditor(detailEditorEl) {
-        const currentEditorEl = this.shadowRoot.querySelector("#detail-panel > .active");
-        if (currentEditorEl != null) {
-            currentEditorEl.classList.remove("active");
+        if (this.#activeDetailEditor != null) {
+            this.#activeDetailEditor.resetScroll();
+            this.#activeDetailEditor.classList.remove("active");
         }
         if (detailEditorEl != null) {
             detailEditorEl.classList.add("active");
+            this.#activeDetailEditor = detailEditorEl;
         }
     }
 
-    #reloadTree() {
-        const treeConfig = this.configDataConverter.extractTreeStructure(scope.config);
-        this.#structureEditorTreeEl.loadConfig(treeConfig);
-    }
-
-    reloadTreeAtPath(path) {
-        const treeConfig = this.configDataConverter.extractTreeStructure(scope.config);
-        const subTreeConfig = getFromTreeConfigByRefPath(treeConfig, path ?? []);
-        this.#structureEditorTreeEl.loadConfigAtRefPath(path ?? [], subTreeConfig);
-    }
-
-    #extractEntries() {
-        locationListEntries.clear();
-        for (const ref in scope.config.location) {
-            locationListEntries.add(ref);
-        }
-        exitListEntries.clear();
-        for (const ref in scope.config.exit) {
-            exitListEntries.add(ref);
-        }
-        areaListEntries.clear();
-        for (const ref in scope.config.area) {
-            areaListEntries.add(ref);
-        }
-        collectionListEntries.clear();
-        for (const ref in scope.config.collection) {
-            collectionListEntries.add(ref);
+    reloadDetailEditor() {
+        if (this.#activeDetailEditor != null) {
+            const data = DataManager.readEntity(scope.entityType, scope.entityName);
+            this.#activeDetailEditor.setData(data);
         }
     }
 
     setFilterConfig(config) {
         scope.filterConfig = config;
+        if (this.#activeDetailEditor != null) {
+            this.#activeDetailEditor.setFilterConfig(config);
+        }
     }
 
 }

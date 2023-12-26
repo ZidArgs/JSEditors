@@ -1,3 +1,4 @@
+import ListGroupRegistry from "/emcJS/data/registry/form/ListGroupRegistry.js";
 import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
@@ -9,11 +10,18 @@ import TPL from "./EditorForm.js.html" assert {type: "html"};
 import STYLE from "./EditorForm.js.css" assert {type: "css"};
 import FORM_CONFIG from "./EditorForm.js.json" assert {type: "json"};
 
+// TODO outsource main functionality
 export default class EditorForm_WorldConfig extends CustomElement {
 
     #formContext = new FormContext();
 
+    #formContainerEl;
+
     #detailFormEl;
+
+    #areaHintEl;
+
+    #optionGroupRegistry = new ListGroupRegistry("worldEditor_areaContentHints");
 
     constructor() {
         super();
@@ -28,6 +36,7 @@ export default class EditorForm_WorldConfig extends CustomElement {
             this.dispatchEvent(event);
         });
         /* --- */
+        this.#formContainerEl = this.shadowRoot.getElementById("form-container");
         this.#detailFormEl = this.shadowRoot.getElementById("detail-form");
         this.#formContext.registerForm(this.#detailFormEl);
         this.#prepareForm();
@@ -36,10 +45,24 @@ export default class EditorForm_WorldConfig extends CustomElement {
         this.#formContext.registerForm(headerFormEl);
         const footerFormEl = this.shadowRoot.getElementById("footer-form");
         this.#formContext.registerForm(footerFormEl);
+        /* --- */
+        this.#areaHintEl = this.shadowRoot.getElementById("area-hints");
+        this.#areaHintEl.addEventListener("change", () => {
+            const options = Object.keys(this.#areaHintEl.value);
+            this.#optionGroupRegistry.setAll(options);
+        });
     }
 
     #prepareForm() {
         FormBuilder.replaceForm(this.#detailFormEl, FORM_CONFIG);
+    }
+
+    resetScroll() {
+        this.#formContainerEl.resetScroll();
+    }
+
+    setName() {
+        // ignore
     }
 
     setData(data) {
@@ -48,6 +71,10 @@ export default class EditorForm_WorldConfig extends CustomElement {
 
     getData() {
         return this.#formContext.getData();
+    }
+
+    setFilterConfig() {
+        // ignore
     }
 
 }

@@ -9,15 +9,12 @@ import TPL from "./EditorForm.js.html" assert {type: "html"};
 import STYLE from "./EditorForm.js.css" assert {type: "css"};
 import FORM_CONFIG from "./EditorForm.js.json" assert {type: "json"};
 
-/* TODO add new entries via dialog
-    - choose if either "collection" or one of the entries of the locations, exits and areas
-    - if "collection" fill in "type" automatically
-    - if "location", "exit" or "area", fill in "type" and "ref" automatically
-*/
-
+// TODO outsource main functionality
 export default class EditorForm_Areas_Entry extends CustomElement {
 
     #formContext = new FormContext();
+
+    #formContainerEl;
 
     #detailFormEl;
 
@@ -38,6 +35,7 @@ export default class EditorForm_Areas_Entry extends CustomElement {
             this.dispatchEvent(event);
         });
         /* --- */
+        this.#formContainerEl = this.shadowRoot.getElementById("form-container");
         this.#headerNameEl = this.shadowRoot.getElementById("header-name");
         this.#detailFormEl = this.shadowRoot.getElementById("detail-form");
         this.#formContext.registerForm(this.#detailFormEl);
@@ -78,6 +76,10 @@ export default class EditorForm_Areas_Entry extends CustomElement {
             }
             img.src = mapImageSelectEl.value;
         });
+    }
+
+    resetScroll() {
+        this.#formContainerEl.resetScroll();
     }
 
     setName(value) {

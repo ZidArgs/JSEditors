@@ -1,34 +1,33 @@
-import scope from "../../data/WorldEditorScope.js";
+import ModalDialog from "/emcJS/ui/modal/ModalDialog.js";
+import DataManager from "../../data/DataManager.js";
+import ComponentController from "../../util/ComponentController.js";
 // import "./EditorForm.js";
 import "./TreeNode.js";
 
-export default class Controller_Areas extends EventTarget {
+export default class Controller_Areas extends ComponentController {
 
-    constructor(editorEl, treeEl, detailEditorEl) {
-        super();
-        treeEl.addEventListener("select_Areas", () => {
-            scope.editPath = [];
-            if (detailEditorEl != null) {
-                const data = this.getConfigData();
-                detailEditorEl.setData(data);
-            }
-            editorEl.switchDetailEditor(detailEditorEl);
-        });
+    constructor(containerEl, treeEl, editorEl) {
+        super("", containerEl, treeEl, editorEl);
         /* --- */
-        if (detailEditorEl != null) {
-            detailEditorEl.addEventListener("save", (event) => {
-                const areaConfig = scope.config.areas;
-                scope.config.areas = {
-                    ...areaConfig,
-                    ...event.data
-                };
-                editorEl.dispatchEvent(new Event("change"));
-            });
-        }
+        treeEl.addEventListener(`addEntity[${this.type}]`, async (event) => {
+            event.stopPropagation();
+            let newName = null;
+            while (newName == null) {
+                newName = await ModalDialog.prompt("Add area", "Please enter a new name");
+                if (typeof newName !== "string") {
+                    return;
+                }
+                if (DataManager.hasEntity("Area", newName)) {
+                    await ModalDialog.alert("Area already exists", `The area "${newName}" does already exist. Please enter another name!`);
+                    newName = null;
+                }
+            }
+            DataManager.writeEntity("Area", newName, {});
+        });
     }
 
-    getConfigData() {
-        return scope.config.areas;
+    get type() {
+        return "areas";
     }
 
 }

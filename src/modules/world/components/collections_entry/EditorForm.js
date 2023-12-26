@@ -8,9 +8,12 @@ import TPL from "./EditorForm.js.html" assert {type: "html"};
 import STYLE from "./EditorForm.js.css" assert {type: "css"};
 import FORM_CONFIG from "./EditorForm.js.json" assert {type: "json"};
 
+// TODO outsource main functionality
 export default class EditorForm_Collections_Entry extends CustomElement {
 
     #formContext = new FormContext();
+
+    #formContainerEl;
 
     #detailFormEl;
 
@@ -29,6 +32,7 @@ export default class EditorForm_Collections_Entry extends CustomElement {
             this.dispatchEvent(event);
         });
         /* --- */
+        this.#formContainerEl = this.shadowRoot.getElementById("form-container");
         this.#headerNameEl = this.shadowRoot.getElementById("header-name");
         this.#detailFormEl = this.shadowRoot.getElementById("detail-form");
         this.#formContext.registerForm(this.#detailFormEl);
@@ -53,6 +57,10 @@ export default class EditorForm_Collections_Entry extends CustomElement {
         }
     }
 
+    resetScroll() {
+        this.#formContainerEl.resetScroll();
+    }
+
     setName(value) {
         this.#headerNameEl.i18nValue = value;
     }
@@ -63,6 +71,10 @@ export default class EditorForm_Collections_Entry extends CustomElement {
 
     getData() {
         return this.#formContext.getData();
+    }
+
+    setFilterConfig() {
+        // ignore
     }
 
 }

@@ -1,36 +1,26 @@
-import ContextMenuManagerMixin from "/emcJS/ui/mixin/ContextMenuManagerMixin.js";
 import TreeNode from "/emcJS/ui/tree/components/TreeNode.js";
-import {
-    mix
-} from "/emcJS/util/Mixin.js";
+import WorldEditorTreeNode from "../../ui/tree/WorldEditorTreeNode.js";
+import CtxMenu from "./CtxMenu.js";
 
-const BaseClass = mix(
-    TreeNode
-).with(
-    ContextMenuManagerMixin
-);
-
-export default class TreeNode_Collections extends BaseClass {
+export default class TreeNode_Collections extends WorldEditorTreeNode {
 
     constructor() {
         super();
         /* --- */
-        this.addEventListener("contentclick", (event) => {
+        this.setDefaultContextMenu(CtxMenu);
+        this.addDefaultContextMenuHandler("add", (event) => {
             event.stopPropagation();
-            const targetIndex = Array.from(this.parentElement.children).indexOf(this);
-            const ev = new Event("collectionSelect", {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event(`addEntity[${this.type}]`, {bubbles: true, cancelable: true, composed: true});
             ev.data = {
                 element: this,
-                index: targetIndex
+                ref: this.ref
             };
             this.dispatchEvent(ev);
         });
-        this.addEventListener("contentcontextmenu", (event) => {
-            event.stopPropagation();
-            this.showDefaultContextMenu(event);
-            return false;
-        });
-        /* --- */
+    }
+
+    get type() {
+        return "collections";
     }
 
 }

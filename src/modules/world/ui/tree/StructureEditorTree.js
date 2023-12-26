@@ -9,6 +9,9 @@ import "/emcJS/ui/tree/Tree.js";
 // import StructureTreeContextMenuFormElementWithChild from "./contextmenu/StructureTreeContextMenuFormElementWithChild.js";
 import TPL from "./StructureEditorTree.js.html" assert {type: "html"};
 import STYLE from "./StructureEditorTree.js.css" assert {type: "css"};
+import TreeConfigExtractor from "../../util/TreeConfigExtractor.js";
+
+const DEFAULT_TREE_CONFIG_EXTRACTOR = new TreeConfigExtractor()
 
 const BaseClass = mix(
     CustomElement
@@ -19,6 +22,8 @@ const BaseClass = mix(
 export default class StructureEditorTree extends BaseClass {
 
     #treeEl;
+
+    #treeConfigExtractor;
 
     constructor() {
         super();
@@ -52,6 +57,18 @@ export default class StructureEditorTree extends BaseClass {
         });
     }
 
+    set treeConfigExtractor(value) {
+        if (value instanceof TreeConfigExtractor) {
+            this.#treeConfigExtractor = value;
+        } else {
+            this.#treeConfigExtractor = null;
+        }
+    }
+
+    get treeConfigExtractor() {
+        return this.#treeConfigExtractor ?? DEFAULT_TREE_CONFIG_EXTRACTOR;
+    }
+
     selectItemByPath(path) {
         this.#treeEl.forcePathExpanded(path.slice(0, -1));
         this.#treeEl.selectItemByPath(path);
@@ -66,18 +83,29 @@ export default class StructureEditorTree extends BaseClass {
         this.#treeEl.forcePathExpanded(path);
     }
 
-    loadConfig(config) {
-        this.#treeEl.loadConfig(config);
-    }
-
-    loadConfigAtRefPath(path, config) {
-        if (!Array.isArray(path)) {
-            throw new Error("path must be an array");
-        }
-        if (path.length == 0) {
-            this.loadConfig(config);
+    refresh(type) {
+        if (type == null) {
+            const config = this.treeConfigExtractor.extractTreeStructure();
+            this.#treeEl.loadConfig(config);
         } else {
-            this.#treeEl.loadConfigAtRefPath(path, config);
+            switch (type) {
+                case "Location": {
+                    const config = this.treeConfigExtractor.extractTreeStructureLocations();
+                    this.#treeEl.loadConfigAtPathRef(["locations"], config);
+                } break;
+                case "Collection": {
+                    const config = this.treeConfigExtractor.extractTreeStructureCollections();
+                    this.#treeEl.loadConfigAtPathRef(["collections"], config);
+                } break;
+                case "Area": {
+                    const config = this.treeConfigExtractor.extractTreeStructureAreas();
+                    this.#treeEl.loadConfigAtPathRef(["areas"], config);
+                } break;
+                case "Exit": {
+                    const config = this.treeConfigExtractor.extractTreeStructureExits();
+                    this.#treeEl.loadConfigAtPathRef(["exits"], config);
+                } break;
+            }
         }
     }
 

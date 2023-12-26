@@ -98,7 +98,7 @@
         "type": "OptionAmountListInput",
         "name": "areaContentHints",
         "label": "Area Content Hints (Icons)",
-        "optiongroup": "worldEditor_areaContentHints"
+        "listgroup": "worldEditor_areaContentHints"
     },
     {
         "type": "TokenSelect",

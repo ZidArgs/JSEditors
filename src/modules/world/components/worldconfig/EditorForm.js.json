@@ -11,6 +11,7 @@
     },
     {
         "type": "AreaHintList",
+        "id": "area-hints",
         "name": "areaContentHints",
         "label": "Area Content Hint Counting"
     },

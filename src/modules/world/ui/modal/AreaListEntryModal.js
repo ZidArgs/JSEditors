@@ -11,7 +11,7 @@ import "/emcJS/ui/container/CollapsePanel.js";
 import "/emcJS/ui/form/button/Button.js";
 import {
     areaListEntries, exitListEntries, locationListEntries, collectionListEntries
-} from "../../data/EntityRegistries.js";
+} from "../../data/DataManager.js";
 import TPL from "./AreaListEntryModal.js.html" assert {type: "html"};
 import STYLE from "./AreaListEntryModal.js.css" assert {type: "css"};
 
