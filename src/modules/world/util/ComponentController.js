@@ -13,12 +13,6 @@ export default class ComponentController extends Object {
             const {ref} = event.data;
             scope.entityType = this.#entityType;
             scope.entityName = ref;
-            if (editorEl != null) {
-                const data = DataManager.readEntity(this.#entityType, ref);
-                editorEl.setName(ref);
-                editorEl.setData(data);
-                editorEl.setFilterConfig(scope.filterConfig);
-            }
             containerEl.switchDetailEditor(editorEl);
         });
         // save data

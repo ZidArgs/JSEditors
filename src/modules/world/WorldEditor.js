@@ -2,6 +2,7 @@ import OptionGroupRegistry from "/emcJS/data/registry/form/OptionGroupRegistry.j
 import LogicOperatorRegistry from "/emcJS/data/registry/LogicOperatorRegistry.js";
 import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import TypeValidator from "/emcJS/util/type/TypeValidator.js";
+import BusyIndicatorManager from "/emcJS/util/BusyIndicatorManager.js";
 import "/emcJS/ui/container/CaptionPanel.js";
 import "/emcJS/ui/container/CollapsePanel.js";
 import Controller_Areas from "./components/areas/Controller.js";
@@ -22,6 +23,10 @@ import TPL from "./WorldEditor.js.html" assert {type: "html"};
 import STYLE from "./WorldEditor.js.css" assert {type: "css"};
 
 class WorldEditor extends CustomElement {
+
+    #busyIndicatorManagerMain = new BusyIndicatorManager("main");
+
+    #busyIndicatorManagerForm = new BusyIndicatorManager("form");
 
     #activeDetailEditor;
 
@@ -86,63 +91,83 @@ class WorldEditor extends CustomElement {
         LogicOperatorRegistry.setOperator("special", "$IS_DONE", {
             type: "value"
         });
+        /* --- */
+        const detailPanelEl = this.shadowRoot.getElementById("detail-panel");
+        this.#busyIndicatorManagerForm.setTarget(detailPanelEl);
     }
 
-    setWorldData(data) {
+    async setWorldData(data) {
+        await this.#busyIndicatorManagerMain.busy();
         TypeValidator.validate("World", data, {throwErrors: true});
         DataManager.setData(data);
         this.reloadDetailEditor();
         /* --- */
         const options = Object.keys(data.config.areaContentHints);
         this.#optionGroupRegistry.setAll(options);
+        await this.#busyIndicatorManagerMain.unbusy();
     }
 
     getWorldData() {
         return DataManager.getData();
     }
 
-    reset() {
+    async reset() {
+        await this.#busyIndicatorManagerMain.busy();
         DataManager.reset();
         scope.reset();
         this.switchDetailEditor();
+        await this.#busyIndicatorManagerMain.unbusy();
     }
 
-    switchDetailEditor(detailEditorEl) {
+    async switchDetailEditor(detailEditorEl) {
+        await this.#busyIndicatorManagerForm.busy();
         if (this.#activeDetailEditor != null) {
             this.#activeDetailEditor.resetScroll();
             this.#activeDetailEditor.classList.remove("active");
         }
         if (detailEditorEl != null) {
+            const data = DataManager.readEntity(scope.entityType, scope.entityName);
+            detailEditorEl.setName(scope.entityName);
+            detailEditorEl.setData(data);
+            detailEditorEl.setFilterConfig(scope.filterConfig);
             detailEditorEl.classList.add("active");
             this.#activeDetailEditor = detailEditorEl;
         }
+        await this.#busyIndicatorManagerForm.unbusy();
     }
 
-    reloadDetailEditor() {
+    async reloadDetailEditor() {
+        await this.#busyIndicatorManagerForm.busy();
         if (this.#activeDetailEditor != null) {
             const data = DataManager.readEntity(scope.entityType, scope.entityName);
             this.#activeDetailEditor.setData(data);
         }
+        await this.#busyIndicatorManagerForm.unbusy();
     }
 
-    setFilterConfig(data) {
+    async setFilterConfig(data) {
+        await this.#busyIndicatorManagerMain.busy();
         scope.filterConfig = data;
         if (this.#activeDetailEditor != null) {
             this.#activeDetailEditor.setFilterConfig(data);
         }
         // TODO add filter to LogicOperatorRegistry
+        await this.#busyIndicatorManagerMain.unbusy();
     }
 
-    setItems(data) {
+    async setItems(data) {
+        await this.#busyIndicatorManagerMain.busy();
         LogicOperatorRegistry.clearGroup("items");
         for (const name in data) {
             LogicOperatorRegistry.setOperator("items", `item[${name}]`, {
                 type: "value"
             });
         }
+        await this.#busyIndicatorManagerMain.unbusy();
     }
 
-    setOptions(data) {
+    async setOptions(data) {
+        await this.#busyIndicatorManagerMain.busy();
         LogicOperatorRegistry.clearGroup("options");
         for (const name in data) {
             const entry = data[name];
@@ -158,9 +183,11 @@ class WorldEditor extends CustomElement {
                 });
             }
         }
+        await this.#busyIndicatorManagerMain.unbusy();
     }
 
-    setSettings(data) {
+    async setSettings(data) {
+        await this.#busyIndicatorManagerMain.busy();
         LogicOperatorRegistry.clearGroup("settings");
         for (const name in data) {
             const entry = data[name];
@@ -176,6 +203,7 @@ class WorldEditor extends CustomElement {
                 });
             }
         }
+        await this.#busyIndicatorManagerMain.unbusy();
     }
 
 }
