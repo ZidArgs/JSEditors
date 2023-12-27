@@ -15,6 +15,8 @@ import Controller_Locations_Entry from "./components/locations_entry/Controller.
 import Controller_WorldConfig from "./components/worldconfig/Controller.js";
 import scope from "./data/WorldEditorScope.js";
 import DataManager from "./data/DataManager.js";
+import "./util/ExtendedDataGridCellsLoader.js";
+import "./util/ExtendedFormFieldsLoader.js";
 import "./ui/tree/StructureEditorTree.js";
 import TPL from "./WorldEditor.js.html" assert {type: "html"};
 import STYLE from "./WorldEditor.js.css" assert {type: "css"};

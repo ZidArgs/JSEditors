@@ -53,6 +53,10 @@ export default class FilterInput extends AbstractFormInput {
         this.#inputEl.loadFilterConfig(config);
     }
 
+    get defaultValue() {
+        return this.getJSONAttribute("value") ?? {};
+    }
+
     set value(value) {
         this.#inputEl.value = value ?? this.defaultValue;
         super.value = value;
@@ -89,4 +93,4 @@ export default class FilterInput extends AbstractFormInput {
 }
 
 FormElementRegistry.register("FilterInput", FilterInput);
-customElements.define("jse-world-editor-field-input-filter", FilterInput);
+customElements.define("jse-field-input-filter", FilterInput);

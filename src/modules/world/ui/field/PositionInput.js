@@ -81,4 +81,4 @@ export default class PositionInput extends AbstractFormInput {
 }
 
 FormElementRegistry.register("PositionInput", PositionInput);
-customElements.define("jse-world-editor-field-input-position", PositionInput);
+customElements.define("jse-field-input-position", PositionInput);

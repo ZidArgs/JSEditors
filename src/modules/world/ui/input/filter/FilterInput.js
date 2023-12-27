@@ -188,4 +188,4 @@ export default class FilterInput extends CustomFormElementDelegating {
 
 }
 
-customElements.define("jse-world-editor-input-filter", FilterInput);
+customElements.define("jse-input-filter", FilterInput);

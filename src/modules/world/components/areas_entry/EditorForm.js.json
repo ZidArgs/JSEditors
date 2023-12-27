@@ -45,43 +45,49 @@
         "optiongroup": "worldEditor_areaIcons"
     },
     {
-        "type": "SwitchInput",
-        "name": "map.active",
-        "label": "Map - Active"
-    },
-    {
-        "type": "ColorInput",
-        "name": "map.backgroundColor",
-        "label": "Map - Background Color"
-    },
-    {
-        "type": "ImageSelect",
-        "id": "mapselect",
-        "name": "map.backgroundImage",
-        "label": "Map - Background Image",
-        "optiongroup": "worldEditor_areaMapImages"
-    },
-    {
-        "type": "NumberInput",
-        "id": "mapwidth",
-        "name": "map.width",
-        "label": "Map - Width",
-        "readonly": true
-    },
-    {
-        "type": "NumberInput",
-        "id": "mapheight",
-        "name": "map.height",
-        "label": "Map - Height",
-        "readonly": true
-    },
-    {
-        "type": "RangeInput",
-        "name": "map.zoom",
-        "label": "Map - Default Zoom",
-        "min": 10,
-        "max": 200,
-        "scratched": true
+        "type": "Fieldset",
+        "label": "Map settings",
+        "children": [
+            {
+                "type": "SwitchInput",
+                "name": "map.active",
+                "label": "Map active"
+            },
+            {
+                "type": "ColorInput",
+                "name": "map.backgroundColor",
+                "label": "Background Color"
+            },
+            {
+                "type": "ImageSelect",
+                "id": "mapselect",
+                "name": "map.backgroundImage",
+                "label": "Background Image",
+                "optiongroup": "worldEditor_areaMapImages"
+            },
+            {
+                "type": "NumberInput",
+                "id": "mapwidth",
+                "name": "map.width",
+                "label": "Width",
+                "readonly": true
+            },
+            {
+                "type": "NumberInput",
+                "id": "mapheight",
+                "name": "map.height",
+                "label": "Height",
+                "readonly": true
+            },
+            {
+                "type": "RangeInput",
+                "name": "map.zoom",
+                "label": "Default Zoom",
+                "min": 10,
+                "max": 200,
+                "scratched": true
+            }
+        ]
     },
     {
         "type": "ConnectionListInput",
@@ -99,7 +105,7 @@
         "type": "OptionAmountListInput",
         "name": "areaContentHints",
         "label": "Area Content Hints (Icons)",
-        "listgroup": "worldEditor_areaContentHints"
+        "optiongroup": "worldEditor_areaContentHints"
     },
     {
         "type": "TokenSelect",

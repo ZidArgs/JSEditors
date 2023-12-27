@@ -10,11 +10,8 @@ import TPL from "./MapPosInput.js.html" assert {type: "html"};
 import STYLE from "./MapPosInput.js.css" assert {type: "css"};
 
 // TODO use element manager
-// TODO add current marker preview (class="active")
-// TODO if x or y is empty: dont show preview marker
 // TODO use form styles
 // TODO scroll to current marker position
-// TODO add "remove position"-button
 
 export default class MapPosInput extends CustomElement {
 
@@ -207,4 +204,4 @@ export default class MapPosInput extends CustomElement {
 
 }
 
-customElements.define("jse-world-editor-input-position-map", MapPosInput);
+customElements.define("jse-input-position-map", MapPosInput);

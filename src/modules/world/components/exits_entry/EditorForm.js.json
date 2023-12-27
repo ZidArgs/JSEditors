@@ -54,10 +54,10 @@
         "optiongroup": "worldEditor_exitIcons"
     },
     {
-        "type": "BoolOrLogicListInput",
+        "type": "ListSelect",
         "name": "bindsTo",
         "label": "Binds to types",
-        "listgroup": "worldEditor_exitTypes"
+        "optiongroup": "worldEditor_exitTypes"
     },
     {
         "type": "SwitchInput",
