@@ -46,6 +46,7 @@
     },
     {
         "type": "MarkerListInput",
+        "id": "marker-list",
         "name": "list",
         "label": "List",
         "value": []

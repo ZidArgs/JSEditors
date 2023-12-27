@@ -91,12 +91,20 @@
     },
     {
         "type": "ConnectionListInput",
+        "id": "connection-list",
         "name": "connections",
         "label": "Connections",
         "value": []
     },
     {
-        "type": "MarkerListCollectionInput",
+        "type": "MarkerListInput",
+        "id": "marker-list",
+        "name": "lists.v",
+        "label": "Lists",
+        "value": []
+    },
+    {
+        "type": "MultiMarkerListInput",
         "name": "lists",
         "label": "Lists",
         "value": {}

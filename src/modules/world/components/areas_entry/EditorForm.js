@@ -1,6 +1,9 @@
 import CustomElement from "/emcJS/ui/element/CustomElement.js";
 import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
+import {
+    debounce
+} from "/emcJS/util/Debouncer.js";
 import "/emcJS/ui/form/FormContainer.js";
 import "/emcJS/ui/form/field/DefaultFormFieldsLoader.js";
 import "/emcJS/ui/i18n/I18nLabel.js";
@@ -31,6 +34,10 @@ export default class EditorForm_Areas_Entry extends CustomElement {
     #filterInputEl;
 
     #visibleInputEl;
+
+    #connectionListEl;
+
+    #markerListEl;
 
     constructor() {
         super();
@@ -63,13 +70,15 @@ export default class EditorForm_Areas_Entry extends CustomElement {
         /* --- */
         this.#filterInputEl = this.shadowRoot.getElementById("filter-input");
         this.#visibleInputEl = this.shadowRoot.getElementById("visible-input");
+        this.#connectionListEl = this.shadowRoot.getElementById("connection-list");
+        this.#markerListEl = this.shadowRoot.getElementById("marker-list");
         /* --- */
         this.#filterInputEl.addOperatorGroup(...LOGIC_OPERATOR_GROUPS);
         this.#visibleInputEl.addOperatorGroup(...LOGIC_OPERATOR_GROUPS);
         /* --- */
-        const mapImageSelectEl = this.#detailFormEl.querySelector("#mapselect");
-        const mapImageWidthEl = this.#detailFormEl.querySelector("#mapwidth");
-        const mapImageHeightEl = this.#detailFormEl.querySelector("#mapheight");
+        const mapImageSelectEl = this.shadowRoot.getElementById("mapselect");
+        const mapImageWidthEl = this.shadowRoot.getElementById("mapwidth");
+        const mapImageHeightEl = this.shadowRoot.getElementById("mapheight");
         mapImageSelectEl.addEventListener("change", () => {
             const img = new Image();
             img.onload = () => {
@@ -81,6 +90,16 @@ export default class EditorForm_Areas_Entry extends CustomElement {
                 mapImageHeightEl.value = 0;
             }
             img.src = mapImageSelectEl.value;
+        });
+        /* --- */
+        this.#formContext.addEventListener("clear", () => {
+            this.#updateMapData(this.#formContext.getData());
+        });
+        this.#formContext.addEventListener("change", () => {
+            this.#updateMapData(this.#formContext.getData());
+        });
+        this.#formContext.addEventListener("load", () => {
+            this.#updateMapData(this.#formContext.getData());
         });
     }
 
@@ -94,6 +113,8 @@ export default class EditorForm_Areas_Entry extends CustomElement {
 
     setData(data) {
         this.#formContext.loadData(data);
+        /* --- */
+        this.#updateMapData(data);
     }
 
     getData() {
@@ -103,6 +124,15 @@ export default class EditorForm_Areas_Entry extends CustomElement {
     setFilterConfig(config) {
         this.#filterInputEl.loadFilterConfig(config);
     }
+
+    #updateMapData = debounce((data) => {
+        this.#connectionListEl.loadMapData(data.map);
+        this.#connectionListEl.loadEntries(data.lists.v);
+        this.#connectionListEl.loadConnections(data.connections);
+        this.#markerListEl.loadMapData(data.map);
+        this.#markerListEl.loadEntries(data.lists.v);
+        this.#markerListEl.loadConnections(data.connections);
+    });
 
 }
 

@@ -26,8 +26,20 @@ export default class DataGridCellCoordinates extends DataGridCell {
         });
     }
 
-    loadMapData() {
-        // TODO
+    setCurrentMarker(currentType, currentName, currentLabel) {
+        this.#inputEl.setCurrentMarker(currentType, currentName, currentLabel);
+    }
+
+    loadMapData(mapData) {
+        this.#inputEl.loadMapData(mapData);
+    }
+
+    loadConnections(connections) {
+        this.#inputEl.loadConnections(connections);
+    }
+
+    loadEntries(entries) {
+        this.#inputEl.loadEntries(entries);
     }
 
     get value() {
@@ -77,14 +89,15 @@ export default class DataGridCellCoordinates extends DataGridCell {
     }
 
     onValueChange(value) {
-        const {x = 0, y = 0} = value ?? {};
-        const xValue = parseInt(x) || 0;
-        const yValue = parseInt(y) || 0;
-        this.#valueEl.innerText = `[${xValue}, ${yValue}]`;
-        this.#inputEl.value = {
-            x: xValue,
-            y: yValue
-        };
+        value = this.#convertValue(value);
+        if (value == null) {
+            this.#valueEl.innerText = "";
+            this.#inputEl.value = null;
+        } else {
+            const {x, y} = value;
+            this.#valueEl.innerText = `[${x}, ${y}]`;
+            this.#inputEl.value = {x, y};
+        }
     }
 
     #onInput(event) {
@@ -100,6 +113,19 @@ export default class DataGridCellCoordinates extends DataGridCell {
             rowName: this.rowName
         };
         this.dispatchEvent(ev);
+    }
+
+    #convertValue(value) {
+        if (value == null || typeof value !== "object") {
+            return null;
+        }
+        const {x = 0, y = 0} = value;
+        const xValue = parseInt(x) || 0;
+        const yValue = parseInt(y) || 0;
+        return {
+            x: xValue,
+            y: yValue
+        };
     }
 
 }

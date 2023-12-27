@@ -5,6 +5,9 @@ import {
 import {
     debounce
 } from "/emcJS/util/Debouncer.js";
+import {
+    deepClone
+} from "/emcJS/util/helper/DeepClone.js";
 import SimpleDataProvider from "/emcJS/util/grid/provider/SimpleDataProvider.js";
 import "/emcJS/ui/grid/DataGrid.js";
 import ModalDialog from "/emcJS/ui/modal/ModalDialog.js";
@@ -38,6 +41,12 @@ export default class MarkerListInput extends CustomFormElementDelegating {
     #addEl;
 
     #dataManager;
+
+    #mapData = {};
+
+    #connections = {};
+
+    #entries = [];
 
     constructor() {
         super();
@@ -77,11 +86,11 @@ export default class MarkerListInput extends CustomFormElementDelegating {
             const index = currentValue.findIndex((entry) => {
                 return rowName === this.#generateRowName(entry.ref);
             });
-            const newValue = [...currentValue];
-            if (rowName in currentValue) {
+            if (index >= 0) {
+                const newValue = deepClone(currentValue);
                 newValue[index].pos = value;
+                this.value = newValue;
             }
-            this.value = currentValue;
         }));
         this.#gridEl.addEventListener("edit::visible", debounce((event) => {
             event.stopPropagation();
@@ -91,12 +100,15 @@ export default class MarkerListInput extends CustomFormElementDelegating {
             const index = currentValue.findIndex((entry) => {
                 return rowName === this.#generateRowName(entry.ref);
             });
-            const newValue = [...currentValue];
-            if (rowName in currentValue) {
+            if (index >= 0) {
+                const newValue = deepClone(currentValue);
                 newValue[index].visible = value;
+                this.value = newValue;
             }
-            this.value = newValue;
         }));
+        this.#gridEl.addEventListener("rows-updated", () => {
+            this.#updateCoordinateCells();
+        });
         /* --- */
         this.#addEl = this.shadowRoot.getElementById("add");
         this.#addEl.addEventListener("click", async () => {
@@ -206,7 +218,7 @@ export default class MarkerListInput extends CustomFormElementDelegating {
                         try {
                             this.#applyValue(JSON.parse(newValue));
                         } catch {
-                            this.#applyValue({});
+                            this.#applyValue([]);
                         }
                     }
                 }
@@ -234,6 +246,33 @@ export default class MarkerListInput extends CustomFormElementDelegating {
 
     #generateRowName(entry) {
         return `${entry.name}\n[${entry.type}]`
+    }
+
+    #updateCoordinateCells = debounce(() => {
+        const coordinatesColumCells = this.#gridEl.getAllCellsForColumn("pos");
+        for (const coordinatesCell of coordinatesColumCells) {
+            const rowData = coordinatesCell.rowData;
+            const {entityType, entityName} = rowData;
+            coordinatesCell.setCurrentMarker(entityType.toLowerCase(), entityName);
+            coordinatesCell.loadMapData(this.#mapData);
+            coordinatesCell.loadConnections(this.#connections);
+            coordinatesCell.loadEntries(this.#entries);
+        }
+    });
+
+    loadMapData(mapData) {
+        this.#mapData = deepClone(mapData);
+        this.#updateCoordinateCells();
+    }
+
+    loadConnections(connections) {
+        this.#connections = deepClone(connections);
+        this.#updateCoordinateCells();
+    }
+
+    loadEntries(entries) {
+        this.#entries = deepClone(entries);
+        this.#updateCoordinateCells();
     }
 
 }

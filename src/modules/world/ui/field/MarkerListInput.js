@@ -78,6 +78,18 @@ export default class MarkerListInput extends AbstractFormInput {
         }
     }
 
+    loadMapData(mapData) {
+        this.#inputEl.loadMapData(mapData);
+    }
+
+    loadConnections(connections) {
+        this.#inputEl.loadConnections(connections);
+    }
+
+    loadEntries(entries) {
+        this.#inputEl.loadEntries(entries);
+    }
+
 }
 
 FormElementRegistry.register("MarkerListInput", MarkerListInput);

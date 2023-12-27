@@ -25,9 +25,13 @@ export default class MapPosInput extends CustomElement {
 
     #posYInputElement;
 
+    #entryMarkerList = [];
+
+    #connectionMarkerList = [];
+
     #currentMarkerType;
 
-    #currentMarkerIndex;
+    #currentMarkerName;
 
     #currentMarkerLabel;
 
@@ -122,40 +126,29 @@ export default class MapPosInput extends CustomElement {
         return {};
     }
 
-    loadData(map, connections, entries, currentType, currentIndex, currentLabel) {
+    setCurrentMarker(currentType, currentName, currentLabel) {
+        if (this.#currentMarkerEl) {
+            this.#currentMarkerEl.classList.remove("active");
+        }
         this.#currentMarkerType = currentType;
-        this.#currentMarkerIndex = currentIndex;
+        this.#currentMarkerName = currentName;
         this.#currentMarkerLabel = currentLabel;
-        this.innerHTML = "";
-        if (map != null) {
-            const {color, background, width, height} = map;
-            this.#mapElement.style.backgroundColor = color;
-            this.#mapElement.style.backgroundImage = `url("${background}")`;
+        this.#currentMarkerEl = this.querySelector(`[data-ref="${currentType}__${currentName}"]`);
+        if (this.#currentMarkerEl) {
+            this.#currentMarkerEl.classList.add("active");
+        }
+    }
+
+    loadMapData(mapData) {
+        if (mapData != null && mapData.active && mapData.backgroundImage) {
+            const {backgroundColor, backgroundImage, width, height} = mapData;
+            this.#mapElement.style.backgroundColor = backgroundColor;
+            this.#mapElement.style.backgroundImage = `url("${backgroundImage}")`;
             this.#mapElement.style.width = `${width}px`;
             this.#mapElement.style.height = `${height}px`;
             this.#posXInputElement.max = width;
             this.#posYInputElement.max = height;
-            for (const index in connections ?? []) {
-                const entry = connections[index];
-                const {label, posA, posB} = entry;
-                if (posA != null) {
-                    this.#createMarker("connection", `${index}_0`, posA.x, posA.y, label);
-                }
-                if (posB != null) {
-                    this.#createMarker("connection", `${index}_1`, posB.x, posB.y, label);
-                }
-            }
-            for (const index in entries ?? []) {
-                const entry = entries[index];
-                const {pos, category} = entry;
-                if (category != null && pos != null) {
-                    this.#createMarker(category, index, pos.x, pos.y);
-                }
-            }
-            this.#currentMarkerEl = this.querySelector(`[data-ref="${currentType}__${currentIndex}"]`);
-            if (this.#currentMarkerEl) {
-                this.#currentMarkerEl.classList.add("active");
-            }
+            this.#mapElement.classList.remove("none");
         } else {
             this.#mapElement.style.backgroundColor = "";
             this.#mapElement.style.backgroundImage = "";
@@ -163,19 +156,50 @@ export default class MapPosInput extends CustomElement {
             this.#mapElement.style.height = "0px";
             this.#posXInputElement.max = 0;
             this.#posYInputElement.max = 0;
+            this.#mapElement.classList.add("none");
         }
     }
 
-    #createMarker(type, index, x, y, label) {
+    loadConnections(connections) {
+        this.#connectionMarkerList = [];
+        for (const entry of connections ?? []) {
+            const {label, posA, posB} = entry;
+            if (posA != null) {
+                this.#connectionMarkerList.push(this.#createMarker("connection", `${label}_posA`, posA.x, posA.y, label));
+            }
+            if (posB != null) {
+                this.#connectionMarkerList.push(this.#createMarker("connection", `${label}_posB`, posB.x, posB.y, label));
+            }
+        }
+        this.#rerender();
+    }
+
+    loadEntries(entries) {
+        this.#entryMarkerList = [];
+        for (const entry of entries ?? []) {
+            const {pos, ref} = entry;
+            const {type, name} = ref;
+            if (type != null && pos != null) {
+                this.#entryMarkerList.push(this.#createMarker(type, name, pos.x, pos.y));
+            }
+        }
+        this.#rerender();
+    }
+
+    #createMarker(type, name, x, y, label) {
         if (!isNaN(x) && !isNaN(y)) {
+            type = type.toLowerCase();
             const el = document.createElement(`jse-world-editor-input-position-marker-${type}`);
             el.x = x;
             el.y = y;
-            el.dataset.ref = `${type}__${index}`;
+            el.dataset.ref = `${type}__${name}`;
             if (label != null) {
                 el.label = label;
             }
-            this.append(el);
+            if (this.#currentMarkerType === type && this.#currentMarkerName === name) {
+                this.#currentMarkerEl = el;
+                this.#currentMarkerEl.classList.add("active");
+            }
             return el;
         }
     }
@@ -189,7 +213,7 @@ export default class MapPosInput extends CustomElement {
                     this.#onChange();
                 }
             } else {
-                this.#currentMarkerEl = this.#createMarker(this.#currentMarkerType, this.#currentMarkerIndex, this.#xValue, this.#yValue, this.#currentMarkerLabel);
+                this.#currentMarkerEl = this.#createMarker(this.#currentMarkerType, this.#currentMarkerName, this.#xValue, this.#yValue, this.#currentMarkerLabel);
                 if (this.#currentMarkerEl) {
                     this.#currentMarkerEl.classList.add("active");
                     this.#onChange();
@@ -201,6 +225,20 @@ export default class MapPosInput extends CustomElement {
             this.#onChange();
         }
     }
+
+    #rerender = debounce(() => {
+        this.innerHTML = "";
+        for (const el of this.#connectionMarkerList) {
+            this.append(el);
+        }
+        for (const el of this.#entryMarkerList) {
+            this.append(el);
+        }
+        this.#currentMarkerEl = this.querySelector(`[data-ref="${this.#currentMarkerType}__${this.#currentMarkerName}"]`);
+        if (this.#currentMarkerEl) {
+            this.#currentMarkerEl.classList.add("active");
+        }
+    });
 
 }
 

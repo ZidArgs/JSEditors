@@ -4,7 +4,9 @@
     width: 100%;
 }
 #text {
-    justify-content: flex-start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex-grow: 1;
     height: 2em;
     padding: 0px 7px;

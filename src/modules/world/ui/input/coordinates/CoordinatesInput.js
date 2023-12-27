@@ -1,69 +1,41 @@
 import CustomFormElementDelegating from "/emcJS/ui/element/CustomFormElementDelegating.js";
 import {
-    debounce
-} from "/emcJS/util/Debouncer.js";
-import ElementListCache from "/emcJS/util/html/ElementListCache.js";
-import {
     isEqual
 } from "/emcJS/util/helper/Comparator.js";
-import MutationObserverManager from "/emcJS/util/observer/MutationObserverManager.js";
-import "/emcJS/ui/i18n/I18nLabel.js";
 import "/emcJS/ui/i18n/I18nTooltip.js";
 import CoordinatesInputModal from "./components/CoordinatesInputModal.js";
 import TPL from "./CoordinatesInput.js.html" assert {type: "html"};
 import STYLE from "./CoordinatesInput.js.css" assert {type: "css"};
 
-const MUTATION_CONFIG = {
-    attributes: true,
-    characterData: true,
-    attributeFilter: ["value"]
-};
-
 export default class CoordinatesInput extends CustomFormElementDelegating {
 
     #value;
-
-    #iconEl;
 
     #textEl;
 
     #buttonEl;
 
-    #optionsContainerEl;
-
-    #imageIconModal = new CoordinatesInputModal();
-
-    #optionNodeList = new ElementListCache();
-
-    #mutationObserver = new MutationObserverManager(MUTATION_CONFIG, () => {
-        this.#onSlotChange();
-    });
+    #coordinatesInputModal = new CoordinatesInputModal();
 
     constructor() {
         super();
         this.shadowRoot.append(TPL.generate());
         STYLE.apply(this.shadowRoot);
         /* --- */
-        this.#iconEl = this.shadowRoot.getElementById("icon");
         this.#textEl = this.shadowRoot.getElementById("text");
         this.#buttonEl = this.shadowRoot.getElementById("button");
-        this.#optionsContainerEl = this.shadowRoot.getElementById("options-container");
         this.#buttonEl.addEventListener("click", () => {
-            this.#imageIconModal.value = this.value;
-            this.#imageIconModal.show();
+            this.#coordinatesInputModal.value = this.value;
+            this.#coordinatesInputModal.show();
         });
-        this.#imageIconModal.addEventListener("submit", () => {
-            this.value = this.#imageIconModal.value;
-        });
-        this.#optionsContainerEl.addEventListener("slotchange", () => {
-            this.#onSlotChange();
+        this.#coordinatesInputModal.addEventListener("submit", () => {
+            this.value = this.#coordinatesInputModal.value;
         });
     }
 
     connectedCallback() {
         const value = this.value;
         this.#value = value;
-        this.#imageIconModal.loadOptions(this.#resolveSlottedOptions());
         this.internals.setFormValue(value);
     }
 
@@ -73,7 +45,7 @@ export default class CoordinatesInput extends CustomFormElementDelegating {
     }
 
     formResetCallback() {
-        this.value = super.value || "";
+        this.value = super.value || null;
     }
 
     formStateRestoreCallback(state/* , mode */) {
@@ -81,6 +53,7 @@ export default class CoordinatesInput extends CustomFormElementDelegating {
     }
 
     set value(value) {
+        value = this.#convertValue(value);
         if (!isEqual(this.#value, value)) {
             this.#value = value;
             this.#applyValue(value);
@@ -111,7 +84,7 @@ export default class CoordinatesInput extends CustomFormElementDelegating {
     }
 
     static get observedAttributes() {
-        return ["value", "placeholder", "sorted"];
+        return ["value", "sorted"];
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -119,65 +92,57 @@ export default class CoordinatesInput extends CustomFormElementDelegating {
             case "value": {
                 if (oldValue != newValue) {
                     if (this.#value === undefined) {
-                        this.#applyValue(this.value);
-                        this.internals.setFormValue(this.value);
+                        const value = this.#convertValue(value);
+                        this.#applyValue(value);
+                        this.internals.setFormValue(value);
                         /* --- */
                         this.dispatchEvent(new Event("change"));
                     }
                 }
             } break;
-            // case "placeholder": {
-            //     if (oldValue != newValue) {
-            //         this.#placeholderEl.setAttribute("i18n-value", newValue)
-            //     }
-            // } break;
         }
     }
 
     #applyValue(value) {
-        if (value != null && value !== "") {
-            this.#iconEl.style.backgroundImage = `url(${value})`;
-            const selectedEl = this.#optionNodeList.querySelector(`[value="${value}"]`);
-            if (selectedEl != null) {
-                this.#textEl.i18nValue = selectedEl.i18nValue ?? selectedEl.innerHTML;
-            } else {
-                this.#textEl.i18nValue = value;
-            }
+        const {x, y} = this.#convertValue(value);
+        if (x == null || y == null) {
+            this.#textEl.innerText = "unset";
         } else {
-            this.#iconEl.style.backgroundImage = "";
-            this.#textEl.i18nValue = "";
+            this.#textEl.innerText = `[${x}, ${y}]`;
         }
     }
 
-    #resolveSlottedOptions() {
-        const res = {};
-        const optionNodeList = this.#optionsContainerEl.assignedElements({flatten: true}).filter((el) => el.matches("[value]"));
-        this.#optionNodeList.setNodeList(optionNodeList);
-        /* --- */
-        const oldNodes = new Set(this.#mutationObserver.getObservedNodes());
-        const newNodes = new Set();
-        for (const el of optionNodeList) {
-            res[el.value] = el.i18nValue ?? el.innerHTML;
-            /* --- */
-            if (oldNodes.has(el)) {
-                oldNodes.delete(el);
-            } else {
-                newNodes.add(el);
-            }
+    #convertValue(value) {
+        if (typeof value !== "object") {
+            return {x: null, y: null};
         }
-        for (const node of oldNodes) {
-            this.#mutationObserver.unobserve(node);
+        const {x, y} = value;
+        if (x == null || y == null) {
+            return {x: null, y: null};
         }
-        for (const node of newNodes) {
-            this.#mutationObserver.observe(node);
-        }
-        return res;
+        const xValue = parseInt(x) || 0;
+        const yValue = parseInt(y) || 0;
+        return {
+            x: xValue,
+            y: yValue
+        };
     }
 
-    #onSlotChange = debounce(() => {
-        this.#imageIconModal.loadOptions(this.#resolveSlottedOptions());
-        this.#applyValue(this.#imageIconModal.value);
-    });
+    setCurrentMarker(currentType, currentName, currentLabel) {
+        this.#coordinatesInputModal.setCurrentMarker(currentType, currentName, currentLabel);
+    }
+
+    loadMapData(mapData) {
+        this.#coordinatesInputModal.loadMapData(mapData);
+    }
+
+    loadConnections(connections) {
+        this.#coordinatesInputModal.loadConnections(connections);
+    }
+
+    loadEntries(entries) {
+        this.#coordinatesInputModal.loadEntries(entries);
+    }
 
 }
 

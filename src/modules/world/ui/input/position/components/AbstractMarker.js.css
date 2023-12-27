@@ -26,3 +26,6 @@
 #label {
     transform: rotate(calc(var(--rotation, 0deg) * -1));
 }
+:host(.active) #marker {
+    box-shadow: 0 0 2px 4px #67ffea;
+}

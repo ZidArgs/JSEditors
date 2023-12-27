@@ -1,6 +1,11 @@
 <div class="wrapper">
-    <slot id="map">
-    </slot>
+    <div class="map-wrapper">
+        <slot id="map" class="none">
+        </slot>
+        <div id="no-map">
+            no active/valid map configuration
+        </div>
+    </div>
 </div>
 <div class="position-input-wrapper">
     <label class="position-label">
