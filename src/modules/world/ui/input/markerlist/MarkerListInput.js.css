@@ -1,7 +1,7 @@
 :host {
     display: flex;
     flex-direction: column;
-    height: 300px;
+    height: calc(100vh - 250px);
     min-width: 200px;
     padding: 0px;
     color: var(--input-text-color, #000000);
