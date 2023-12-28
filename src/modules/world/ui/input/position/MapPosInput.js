@@ -177,8 +177,8 @@ export default class MapPosInput extends CustomElement {
     loadEntries(entries) {
         this.#entryMarkerList = [];
         for (const entry of entries ?? []) {
-            const {pos, ref} = entry;
-            const {type, name} = ref;
+            const {pos = {}, ref = {}} = entry ?? {};
+            const {type = null, name = null} = ref ?? {};
             if (type != null && pos != null) {
                 this.#entryMarkerList.push(this.#createMarker(type, name, pos.x, pos.y));
             }

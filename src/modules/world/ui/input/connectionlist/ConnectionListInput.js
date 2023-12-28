@@ -9,9 +9,11 @@ import {
     deepClone
 } from "/emcJS/util/helper/DeepClone.js";
 import SimpleDataProvider from "/emcJS/util/grid/provider/SimpleDataProvider.js";
-import "/emcJS/ui/grid/DataGrid.js";
 import ModalDialog from "/emcJS/ui/modal/ModalDialog.js";
 import "/emcJS/ui/form/element/input/search/SearchInput.js";
+import "/emcJS/ui/form/button/Button.js";
+import "/emcJS/ui/grid/DataGrid.js";
+import "/emcJS/ui/grid/DataGrid.js";
 import TPL from "./ConnectionListInput.js.html" assert {type: "html"};
 import STYLE from "./ConnectionListInput.js.css" assert {type: "css"};
 
@@ -28,8 +30,6 @@ export default class ConnectionListInput extends CustomFormElementDelegating {
     #dataManager;
 
     #mapData = {};
-
-    #connections = {};
 
     #entries = [];
 
@@ -235,7 +235,7 @@ export default class ConnectionListInput extends CustomFormElementDelegating {
             const {name} = rowData;
             coordinatesCell.setCurrentMarker("connection", `${name}_posA`, name);
             coordinatesCell.loadMapData(this.#mapData);
-            coordinatesCell.loadConnections(this.#connections);
+            coordinatesCell.loadConnections(this.#value ?? []);
             coordinatesCell.loadEntries(this.#entries);
         }
         const coordinatesColumCellsB = this.#gridEl.getAllCellsForColumn("posB");
@@ -244,18 +244,13 @@ export default class ConnectionListInput extends CustomFormElementDelegating {
             const {name} = rowData;
             coordinatesCell.setCurrentMarker("connection", `${name}_posB`, name);
             coordinatesCell.loadMapData(this.#mapData);
-            coordinatesCell.loadConnections(this.#connections);
+            coordinatesCell.loadConnections(this.#value ?? []);
             coordinatesCell.loadEntries(this.#entries);
         }
     });
 
     loadMapData(mapData) {
         this.#mapData = deepClone(mapData);
-        this.#updateCoordinateCells();
-    }
-
-    loadConnections(connections) {
-        this.#connections = deepClone(connections);
         this.#updateCoordinateCells();
     }
 

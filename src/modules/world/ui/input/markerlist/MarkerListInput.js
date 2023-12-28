@@ -9,25 +9,19 @@ import {
     deepClone
 } from "/emcJS/util/helper/DeepClone.js";
 import SimpleDataProvider from "/emcJS/util/grid/provider/SimpleDataProvider.js";
-import "/emcJS/ui/grid/DataGrid.js";
 import ModalDialog from "/emcJS/ui/modal/ModalDialog.js";
+import ModalDialogRelationSelect from "/emcJS/ui/modal/input/ModalDialogRelationSelect.js";
 import "/emcJS/ui/form/element/input/search/SearchInput.js";
+import "/emcJS/ui/form/button/Button.js";
+import "/emcJS/ui/grid/DataGrid.js";
 import TPL from "./MarkerListInput.js.html" assert {type: "html"};
 import STYLE from "./MarkerListInput.js.css" assert {type: "css"};
 
-const ADD_ENTRY_FORM = [
-    {
-        "type": "RelationSelect",
-        "name": "entry",
-        "label": "Entry",
-        "types": [
-            "Area",
-            "Exit",
-            "Collection",
-            "Location"
-        ],
-        "placeholder": "Select entry..."
-    }
+const RELATION_TYPES = [
+    "Area",
+    "Exit",
+    "Collection",
+    "Location"
 ];
 
 export default class MarkerListInput extends CustomFormElementDelegating {
@@ -44,9 +38,9 @@ export default class MarkerListInput extends CustomFormElementDelegating {
 
     #mapData = {};
 
-    #connections = {};
+    #connections = [];
 
-    #entries = [];
+    #relationSelectModal = new ModalDialogRelationSelect();
 
     constructor() {
         super();
@@ -60,6 +54,8 @@ export default class MarkerListInput extends CustomFormElementDelegating {
             // TODO
             event.stopPropagation();
         });
+        /* --- */
+        this.#relationSelectModal.types = RELATION_TYPES;
         /* --- */
         this.#gridEl = this.shadowRoot.getElementById("grid");
         this.#gridEl.addEventListener("action::delete", (event) => {
@@ -116,12 +112,11 @@ export default class MarkerListInput extends CustomFormElementDelegating {
             let rowName = null;
             const currentValue = this.value ?? [];
             while (rowName == null) {
-                const result = await ModalDialog.form("Add entity", "Please select an entry", ADD_ENTRY_FORM);
-                if (result == null || result === false) {
+                entityEntry = await this.#relationSelectModal.show();
+                if (entityEntry == null || entityEntry === false) {
                     return;
                 }
-                entityEntry = result.entry;
-                if (entityEntry == null || entityEntry.type === "" || entityEntry.name === "") {
+                if (entityEntry.type == null || entityEntry.type === "" || entityEntry.name == null || entityEntry.name === "") {
                     await ModalDialog.alert("Empty entry selected", "You selected the empty entry, which can not be added. Please select another one!");
                     continue;
                 }
@@ -237,6 +232,7 @@ export default class MarkerListInput extends CustomFormElementDelegating {
                 name: this.#generateRowName(row.ref),
                 entityType: row.ref.type,
                 entityName: row.ref.name,
+                relation: row.ref,
                 pos: row.pos,
                 visible: row.visible
             }
@@ -256,7 +252,7 @@ export default class MarkerListInput extends CustomFormElementDelegating {
             coordinatesCell.setCurrentMarker(entityType.toLowerCase(), entityName);
             coordinatesCell.loadMapData(this.#mapData);
             coordinatesCell.loadConnections(this.#connections);
-            coordinatesCell.loadEntries(this.#entries);
+            coordinatesCell.loadEntries(this.#value ?? []);
         }
     });
 
@@ -267,11 +263,6 @@ export default class MarkerListInput extends CustomFormElementDelegating {
 
     loadConnections(connections) {
         this.#connections = deepClone(connections);
-        this.#updateCoordinateCells();
-    }
-
-    loadEntries(entries) {
-        this.#entries = deepClone(entries);
         this.#updateCoordinateCells();
     }
 

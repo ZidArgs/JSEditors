@@ -13,7 +13,7 @@ export default class Controller_Collections extends ComponentController {
             event.stopPropagation();
             let newName = null;
             while (newName == null) {
-                newName = await ModalDialog.prompt("Add collection", "Please enter a new name");
+                newName = await ModalDialog.prompt("Add collection", "Please enter a new name!");
                 if (typeof newName !== "string") {
                     return;
                 }

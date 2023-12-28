@@ -13,7 +13,7 @@ export default class Controller_Exits extends ComponentController {
             event.stopPropagation();
             let newName = null;
             while (newName == null) {
-                newName = await ModalDialog.prompt("Add exit", "Please enter a new name");
+                newName = await ModalDialog.prompt("Add exit", "Please enter a new name!");
                 if (typeof newName !== "string") {
                     return;
                 }

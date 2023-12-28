@@ -99,7 +99,7 @@ class WorldEditor extends CustomElement {
     async setWorldData(data) {
         await this.#busyIndicatorManagerMain.busy();
         TypeValidator.validate("World", data, {throwErrors: true});
-        DataManager.setData(data);
+        DataManager.loadData(data);
         this.reloadDetailEditor();
         /* --- */
         const options = Object.keys(data.config.areaContentHints);
@@ -108,7 +108,9 @@ class WorldEditor extends CustomElement {
     }
 
     getWorldData() {
-        return DataManager.getData();
+        const data = DataManager.getData();
+        TypeValidator.validate("World", data, {throwErrors: true});
+        return data;
     }
 
     async reset() {

@@ -13,7 +13,7 @@ export default class Controller_Areas extends ComponentController {
             event.stopPropagation();
             let newName = null;
             while (newName == null) {
-                newName = await ModalDialog.prompt("Add area", "Please enter a new name");
+                newName = await ModalDialog.prompt("Add area", "Please enter a new name!");
                 if (typeof newName !== "string") {
                     return;
                 }

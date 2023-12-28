@@ -105,7 +105,6 @@ export default class EditorForm_Collections_Entry extends CustomElement {
 
     #updateMapData = debounce((data) => {
         this.#markerListEl.loadMapData(data.map);
-        this.#markerListEl.loadEntries(data.list);
     });
 
 }

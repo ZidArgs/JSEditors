@@ -82,10 +82,6 @@ export default class ConnectionListInput extends AbstractFormInput {
         this.#inputEl.loadMapData(mapData);
     }
 
-    loadConnections(connections) {
-        this.#inputEl.loadConnections(connections);
-    }
-
     loadEntries(entries) {
         this.#inputEl.loadEntries(entries);
     }

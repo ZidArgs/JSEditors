@@ -6,9 +6,9 @@ import {
     isEqual
 } from "/emcJS/util/helper/Comparator.js";
 import SimpleDataProvider from "/emcJS/util/grid/provider/SimpleDataProvider.js";
-import "/emcJS/ui/grid/DataGrid.js";
 import ModalDialog from "/emcJS/ui/modal/ModalDialog.js";
 import "/emcJS/ui/form/element/input/search/SearchInput.js";
+import "/emcJS/ui/grid/DataGrid.js";
 import TPL from "./AreaHintListInput.js.html" assert {type: "html"};
 import STYLE from "./AreaHintListInput.js.css" assert {type: "css"};
 
