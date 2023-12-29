@@ -5,7 +5,6 @@
   "description": "JavaScript based editors",
   "type": "module",
   "license": "UNLICENSED",
-  "main": "main.js",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@bitbucket.org/zidargs/jseditors.git"
@@ -15,7 +14,7 @@
     "emcjs": "git+https://bitbucket.org/zidargs/emcjs.git#0.9.13"
   },
   "devDependencies": {
-    "webservice": "git+https://bitbucket.org/zidargs/webservice.git/@1.4.3",
+    "webservice": "git+https://bitbucket.org/zidargs/webservice.git/@1.4.4",
     "@babel/core": "^7.16.10",
     "@babel/eslint-parser": "^7.16.5",
     "@babel/plugin-syntax-import-assertions": "^7.17.12",

@@ -5,11 +5,7 @@ import createWorldEditor from "./editors/world/WorldEditor.js";
 
 const windowElement = document.getElementById("window");
 
-function registerWindow({name, panel, navigation, refreshFn}) {
-    windowElement.register(name, panel, navigation, refreshFn);
-}
-
 // add editors
-// registerWindow(await createFormEditor());
-registerWindow(await createWorldEditor());
+// windowElement.register(await createFormEditor());
+windowElement.register(await createWorldEditor());
 

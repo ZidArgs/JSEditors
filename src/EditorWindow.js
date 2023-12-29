@@ -39,7 +39,7 @@ export default class EditorWindow extends CustomElement {
         });
     }
 
-    register(name, panelEl, navConfig, refreshFn) {
+    register({name, panelEl, navConfig, refreshFn} = {}) {
         if (typeof name !== "string" || name == "") {
             throw Error("Panel name must be a non empty string");
         }
