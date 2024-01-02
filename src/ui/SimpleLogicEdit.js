@@ -12,7 +12,6 @@ import "./logic/ComparatorLessThanEqual.js";
 import "./logic/ComparatorNotEqual.js";
 import "./logic/LiteralFalse.js";
 // import "./logic/LiteralNumber.js";
-import "./logic/LiteralPointer.js";
 import "./logic/LiteralState.js";
 // import "./logic/LiteralString.js";
 import "./logic/LiteralTrue.js";

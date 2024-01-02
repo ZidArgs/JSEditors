@@ -51,7 +51,7 @@ export default class LogicElement extends AbstractElement {
     }
 
     loadLogic(logic) {
-        this.ref = logic.content;
+        this.ref = logic.ref;
         this.category = logic.category || "";
     }
 
@@ -59,13 +59,13 @@ export default class LogicElement extends AbstractElement {
         if (this.category) {
             return {
                 type: REFERENCE,
-                content: this.ref,
+                ref: this.ref,
                 category: this.category
             };
         } else {
             return {
                 type: REFERENCE,
-                content: this.ref
+                ref: this.ref
             };
         }
     }
