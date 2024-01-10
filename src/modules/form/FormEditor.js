@@ -343,7 +343,7 @@ class FormEditor extends CustomElement {
         this.#editRefPath = [...refPath];
         const treeConfig = this.configDataConverter.extractTreeStructure(this.#config);
         const subTreeConfig = getFromTreeConfigByRefPath(treeConfig, refPath);
-        this.#structureEditorTreeEl.loadConfigAtPathRef(refPath, subTreeConfig);
+        this.#structureEditorTreeEl.loadConfigAtRefPath(refPath, subTreeConfig);
     }
 
     #initLogicOperators() {

@@ -23,7 +23,7 @@ export default class Controller_Areas extends ComponentController {
                 }
             }
             DataManager.writeEntity("Area", newName, {});
-            treeEl.selectItemByPathRef(["areas", newName]);
+            treeEl.selectItemByRefPath(["areas", newName]);
         });
         /* --- */
         if (editorEl != null) {
@@ -31,7 +31,7 @@ export default class Controller_Areas extends ComponentController {
                 event.stopPropagation();
                 event.preventDefault();
                 const {entityName} = event.data;
-                treeEl.selectItemByPathRef(["areas", entityName]);
+                treeEl.selectItemByRefPath(["areas", entityName]);
             });
         }
     }

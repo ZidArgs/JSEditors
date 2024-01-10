@@ -202,14 +202,14 @@ export default class StructureEditorTree extends BaseClass {
         this.#treeEl.loadConfig(config);
     }
 
-    loadConfigAtPathRef(path, config) {
+    loadConfigAtRefPath(path, config) {
         if (!Array.isArray(path)) {
             throw new Error("path must be an array");
         }
         if (path.length == 0) {
             this.loadConfig(config);
         } else {
-            this.#treeEl.loadConfigAtPathRef(path, config);
+            this.#treeEl.loadConfigAtRefPath(path, config);
         }
     }
 
