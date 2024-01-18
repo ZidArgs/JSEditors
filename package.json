@@ -1,7 +1,7 @@
 {
   "name": "jseditors",
   "author": "Denis Peters (ZidArgs)",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "JavaScript based editors",
   "type": "module",
   "license": "UNLICENSED",
@@ -11,7 +11,7 @@
   },
   "homepage": "https://bitbucket.org/zidargs/jseditors/src",
   "dependencies": {
-    "emcjs": "git+https://bitbucket.org/zidargs/emcjs.git#0.9.13"
+    "emcjs": "git+https://bitbucket.org/zidargs/emcjs.git#0.11.3"
   },
   "devDependencies": {
     "webservice": "git+https://bitbucket.org/zidargs/webservice.git/@1.4.4",
