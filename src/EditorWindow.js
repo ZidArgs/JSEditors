@@ -7,13 +7,6 @@ import STYLE from "./EditorWindow.js.css" assert {type: "css"};
 
 const TITLE_PREFIX = "Editor";
 
-const MAIN_NAV = [{
-    "content": "EXIT",
-    "handler": () => {
-        window.close()
-    }
-}];
-
 export default class EditorWindow extends CustomElement {
 
     #navbarEl = null;
@@ -24,18 +17,31 @@ export default class EditorWindow extends CustomElement {
 
     #currentPanel = null;
 
+    #mainNav = [{
+        "content": "EXIT",
+        "handler": () => {
+            this.close()
+        }
+    }];
+
+    #defaultNav = [{
+        "content": "EXIT",
+        "handler": () => {
+            this.changeApp();
+        }
+    }];
+
     constructor() {
         super();
         this.shadowRoot.append(TPL.generate());
         STYLE.apply(this.shadowRoot);
         /* --- */
-
         this.#navbarEl = this.shadowRoot.getElementById("navbar");
-        this.#navbarEl.loadNavigation(MAIN_NAV);
-
+        this.#navbarEl.loadNavigation(this.buildNav(this.#mainNav));
+        /* --- */
         this.#choiceEl = this.shadowRoot.getElementById("choice");
         this.#choiceEl.addEventListener("choice", (event) => {
-            this.#onChoice(event);
+            this.changeApp(event.app);
         });
     }
 
@@ -60,10 +66,6 @@ export default class EditorWindow extends CustomElement {
         this.changeApp();
     }
 
-    #onChoice(event) {
-        this.changeApp(event.app);
-    }
-
     async changeApp(name) {
         if (typeof name !== "string" || name == "") {
             document.title = TITLE_PREFIX;
@@ -71,7 +73,7 @@ export default class EditorWindow extends CustomElement {
                 this.#currentPanel.removeAttribute("slot");
             }
             this.#currentPanel = null;
-            this.#navbarEl.loadNavigation(MAIN_NAV);
+            this.#navbarEl.loadNavigation(this.buildNav(this.#mainNav));
         } else {
             const {panelEl, refreshFn, navConfig} = this.#panelConfig.get(name);
             if (panelEl == null) {
@@ -87,17 +89,20 @@ export default class EditorWindow extends CustomElement {
                     await refreshFn();
                 }
                 if (navConfig != null) {
-                    this.#navbarEl.loadNavigation(navConfig);
+                    this.#navbarEl.loadNavigation(this.buildNav(navConfig));
                 } else {
-                    this.#navbarEl.loadNavigation([{
-                        "content": "EXIT",
-                        "handler": () => {
-                            this.changeApp();
-                        }
-                    }]);
+                    this.#navbarEl.loadNavigation(this.buildNav(this.#defaultNav));
                 }
             }
         }
+    }
+
+    close() {
+        window.close();
+    }
+
+    buildNav(navConfig = []) {
+        return navConfig;
     }
 
 }
