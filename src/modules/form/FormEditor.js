@@ -34,7 +34,7 @@ const DEFAULT_CONFIG = {
     defaultValues: {}
 };
 
-LogicOperatorRegistry.setCaption("formFields", "Form Fields");
+LogicOperatorRegistry.setGroupCaption("formFields", "Form Fields");
 
 class FormEditor extends CustomElement {
 
@@ -364,15 +364,17 @@ class FormEditor extends CustomElement {
     #setLogicOperator(config) {
         if (config.name) {
             if (config.options) {
-                LogicOperatorRegistry.setOperator("formFields", config.name, {
+                LogicOperatorRegistry.setOperator(config.name, {
                     type: "state",
                     options: config.options,
                     value: Object.keys(config.options)[0]
                 });
+                LogicOperatorRegistry.linkOperator(config.name, "formFields");
             } else {
-                LogicOperatorRegistry.setOperator("formFields", config.name, {
+                LogicOperatorRegistry.setOperator(config.name, {
                     type: "value"
                 });
+                LogicOperatorRegistry.linkOperator(config.name, "formFields");
             }
         }
     }
@@ -380,7 +382,7 @@ class FormEditor extends CustomElement {
     #checkDeleteLogicOperator(config) {
         if (config.name) {
             // TODO check if last element of name
-            LogicOperatorRegistry.deleteOperator("formFields", config.name);
+            LogicOperatorRegistry.deleteOperator(config.name);
         }
     }
 
