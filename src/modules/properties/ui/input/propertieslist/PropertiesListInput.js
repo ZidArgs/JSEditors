@@ -5,7 +5,7 @@ import {
 import {
     debounce
 } from "/emcJS/util/Debouncer.js";
-import SimpleDataProvider from "/emcJS/util/grid/provider/SimpleDataProvider.js";
+import SimpleDataProvider from "/emcJS/util/dataprovider/SimpleDataProvider.js";
 import ModalDialog from "/emcJS/ui/modal/ModalDialog.js";
 import "/emcJS/ui/form/element/input/search/SearchInput.js";
 import "/emcJS/ui/grid/DataGrid.js";
