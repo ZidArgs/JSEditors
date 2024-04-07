@@ -227,7 +227,7 @@ export default class PropertiesListInput extends CustomFormElementDelegating {
                 key: row[0],
                 name: row[0],
                 value: row[1]
-            }
+            };
         });
         this.#dataManager.setSource(data);
     }

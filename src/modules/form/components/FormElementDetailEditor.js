@@ -46,7 +46,7 @@ function getDetailConfig(ref) {
         }
         const clazz = FormElementRegistry.getRegisteredClass(ref);
         if (clazz != null) {
-            return clazz.formConfigurationFields
+            return clazz.formConfigurationFields;
         }
     }
     return [];
@@ -59,7 +59,7 @@ function getDetailCanHaveChildren(ref) {
         }
         const clazz = FormElementRegistry.getRegisteredClass(ref);
         if (clazz != null) {
-            return clazz.formConfigurationCanHaveChildren
+            return clazz.formConfigurationCanHaveChildren;
         }
     }
     return [];

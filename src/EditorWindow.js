@@ -20,7 +20,7 @@ export default class EditorWindow extends CustomElement {
     #mainNav = [{
         "content": "EXIT",
         "handler": () => {
-            this.close()
+            this.close();
         }
     }];
 

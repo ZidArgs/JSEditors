@@ -40,7 +40,7 @@ export default class DefaultFromConfigDataConverter {
             const {children, ...data} = element;
             const resElement = {...data};
             if (children != null) {
-                resElement.children = this.translateSetConfigElementList(children)
+                resElement.children = this.translateSetConfigElementList(children);
             }
             res.push(this.injectFormElementId(resElement));
         }
@@ -70,7 +70,7 @@ export default class DefaultFromConfigDataConverter {
             const {children, ...data} = element;
             const resElement = {...data};
             if (children != null) {
-                resElement.children = this.translateGetConfigElements(children)
+                resElement.children = this.translateGetConfigElements(children);
             }
             res.push(this.removeFormElementId(resElement));
         }

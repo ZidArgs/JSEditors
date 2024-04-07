@@ -60,7 +60,7 @@ export default class FromConfigDataConverter extends DefaultFromConfigDataConver
             ...data
         };
         if (children != null) {
-            resElement.children = this.translateSetConfigElementList(children)
+            resElement.children = this.translateSetConfigElementList(children);
         }
         if (values != null && typeof values === "object") {
             resElement.options = {};

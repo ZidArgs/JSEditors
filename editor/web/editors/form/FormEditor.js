@@ -40,5 +40,5 @@ export default async function() {
         name: "Form Editor",
         panel: editorEl,
         navigation: NAV
-    }
+    };
 }

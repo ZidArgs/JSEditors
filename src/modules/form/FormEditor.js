@@ -231,7 +231,7 @@ class FormEditor extends CustomElement {
 
     #getElementList(path) {
         const p = [...path];
-        const f = p.shift()
+        const f = p.shift();
         let res = this.#config.forms;
         if (f != null) {
             res = res[f].elements;
@@ -354,7 +354,7 @@ class FormEditor extends CustomElement {
 
     #loadLogicOperators(elements) {
         for (const el of elements) {
-            this.#setLogicOperator(el)
+            this.#setLogicOperator(el);
             if (el.children != null) {
                 this.#loadLogicOperators(el.children);
             }

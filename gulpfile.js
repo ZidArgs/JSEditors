@@ -17,7 +17,7 @@ console.log({REBUILD});
 function copyJS(files, dest) {
     let res = gulp.src(files);
     if (!REBUILD) {
-        res = res.pipe(newer(dest))
+        res = res.pipe(newer(dest));
     }
     res = res.pipe(sourceImport());
     res = res.pipe(gulp.dest(dest));
@@ -47,7 +47,7 @@ function copyEmcJSCSS() {
     ];
     let res = gulp.src(FILES);
     if (!REBUILD) {
-        res = res.pipe(newer(`${OUT_PATH}/emcJS/_style`))
+        res = res.pipe(newer(`${OUT_PATH}/emcJS/_style`));
     }
     res = res.pipe(gulp.dest(`${OUT_PATH}/emcJS/_style`));
     return res;
