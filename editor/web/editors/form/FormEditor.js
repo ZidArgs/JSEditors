@@ -6,6 +6,11 @@ export default async function() {
     const editorEl = document.createElement("jse-form-editor");
     editorEl.configDataConverter = new FromConfigDataConverter();
 
+    // refresh
+    async function refreshFn() {
+        // ignore
+    }
+
     // navigation
     const NAV = [{
         "content": "FILE",
@@ -38,7 +43,8 @@ export default async function() {
 
     return {
         name: "Form Editor",
-        panel: editorEl,
-        navigation: NAV
+        panelEl: editorEl,
+        navConfig: NAV,
+        refreshFn
     };
 }

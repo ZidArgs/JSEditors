@@ -1,7 +1,7 @@
 import path from "path";
 import gulp from "gulp";
 import newer from "gulp-newer";
-import sourceImport from "emcjs/build_tools/sourceImport.js";
+import sourceImport from "emcjs/_build_tools/sourceImport.js";
 
 const __dirname = path.resolve();
 const NODE_FOLDER = path.resolve(__dirname, "node_modules");

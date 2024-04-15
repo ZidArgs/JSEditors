@@ -28,7 +28,7 @@ export default class StructureEditorTree extends BaseClass {
         STYLE.apply(this.shadowRoot);
         /* --- */
         this.addEventListener("contextmenusclosed", () => {
-            this.#treeEl.markItemByPathForMenu();
+            this.#treeEl.markItemForMenuByPath();
         });
         this.setContextMenu("form", StructureTreeContextMenuForm);
         this.addContextMenuHandler("form", "edit", (event) => {
@@ -151,7 +151,7 @@ export default class StructureEditorTree extends BaseClass {
         });
         this.#treeEl.addEventListener("menu", (event) => {
             const {path, refPath, element} = event.data;
-            this.#treeEl.markItemByPathForMenu(path);
+            this.#treeEl.markItemForMenuByPath(path);
             if (path.length === 1) {
                 this.showContextMenu("form", event, {path, refPath});
             } else if (path.length > 1) {
