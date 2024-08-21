@@ -13,7 +13,7 @@ import {
     extractDefaultValuesFromConfig
 } from "/emcJS/util/helper/ui/Form.js";
 import "/emcJS/ui/form/FormContainer.js";
-import "/emcJS/ui/form/field/DefaultFormFieldsLoader.js";
+import "/emcJS/ui/form/element/FormElementsLoader.js";
 import TPL from "./FormElementDetailEditor.js.html" assert {type: "html"};
 import STYLE from "./FormElementDetailEditor.js.css" assert {type: "css"};
 
@@ -30,11 +30,9 @@ const FORM_ELEMENT_TYPES = [...Object.keys(SPECIAL_FORM_ELEMENTS), ...FormElemen
 
 function addTypeSelectOptions(formEl) {
     for (const ref of FORM_ELEMENT_TYPES) {
-        const optionEl = document.createElement("emc-option");
+        const optionEl = document.createElement("option");
         optionEl.setAttribute("value", ref);
-        const labelEl = document.createElement("emc-i18n-label");
-        labelEl.i18nValue = ref;
-        optionEl.append(labelEl);
+        optionEl.setAttribute("label", ref);
         formEl.append(optionEl);
     }
 }
@@ -125,6 +123,10 @@ export default class FormElementDetailEditor extends CustomElement {
         this.#formContext.loadData({...defaults, ...values, type});
         this.#typeSelectEventManager.setActive(true);
 
+        const editableLogicEl = this.#detailFormEl.querySelector("[name=\"editable\"]");
+        if (editableLogicEl != null) {
+            editableLogicEl.addOperatorGroup("formFields");
+        }
         const enabledLogicEl = this.#detailFormEl.querySelector("[name=\"enabled\"]");
         if (enabledLogicEl != null) {
             enabledLogicEl.addOperatorGroup("formFields");

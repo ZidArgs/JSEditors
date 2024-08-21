@@ -11,7 +11,7 @@
   },
   "homepage": "https://bitbucket.org/zidargs/jseditors/src",
   "dependencies": {
-    "emcjs": "git+https://bitbucket.org/zidargs/emcjs.git#0.15.3",
+    "emcjs": "git+https://bitbucket.org/zidargs/emcjs.git#0.16.1",
     "jswebservice": "git+https://bitbucket.org/zidargs/jswebservice.git/#2.1.4"
   },
   "devDependencies": {

@@ -5,7 +5,7 @@ import "/emcJS/ui/form/FormRow.js";
 import "/emcJS/ui/form/button/SubmitButton.js";
 import "/emcJS/ui/form/button/ResetButton.js";
 import "/emcJS/ui/form/FormContainer.js";
-import "/emcJS/ui/form/field/DefaultFormFieldsLoader.js";
+import "/emcJS/ui/form/element/FormElementsLoader.js";
 import TPL from "./FormDetailEditor.js.html" assert {type: "html"};
 import STYLE from "./FormDetailEditor.js.css" assert {type: "css"};
 
