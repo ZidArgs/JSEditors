@@ -124,7 +124,7 @@ class FormEditor extends CustomElement {
         /* --- */
         this.#structureEditorTreeEl = this.shadowRoot.getElementById("structure-editor-tree");
         this.#structureEditorTreeEl.addEventListener("addForm", (event) => {
-            const {path, refPath} = event;
+            const {path} = event;
             const calculatedIndex = this.#normalizeIndex(path, this.#config);
             const newElement = {
                 elements: [],
@@ -136,7 +136,7 @@ class FormEditor extends CustomElement {
             };
             this.#config.forms.splice(calculatedIndex, 0, newElement);
             this.#editPath = [calculatedIndex];
-            this.#reloadTreeAtPath(refPath);
+            this.#reloadTree();
             this.#buildPreview();
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
             this.dispatchEvent(new Event("change"));
@@ -144,11 +144,11 @@ class FormEditor extends CustomElement {
         this.#structureEditorTreeEl.addEventListener("removeForm", (event) => {
             this.#detailEditorFormEl.classList.remove("active");
             this.#detailEditorFormElementEl.classList.remove("active");
-            const {path, refPath} = event;
+            const {path} = event;
             const calculatedIndex = this.#normalizeIndex(path, this.#config);
             this.#config.forms.splice(calculatedIndex, 1);
             this.#editPath = [];
-            this.#reloadTreeAtPath(refPath);
+            this.#reloadTree();
             this.#buildPreview();
             this.#detailEditorFormElementEl.setData({type: ""});
             this.#structureEditorTreeEl.selectItemByPath(this.#editPath);
@@ -262,18 +262,12 @@ class FormEditor extends CustomElement {
         const oldMarkedEl = this.#previewEl.querySelector(".marked");
         if (oldMarkedEl != null) {
             oldMarkedEl.classList.remove("marked");
-            oldMarkedEl.style.outline = "";
-            oldMarkedEl.style.outlineOffset = "";
-            oldMarkedEl.style.zIndex = "";
         }
         const config = this.#getCurrentElementConfig();
         if (config != null) {
             const newMarkedEl = this.#previewEl.querySelector(`[data-id="${config.data.id}"]`);
             if (newMarkedEl != null) {
                 newMarkedEl.classList.add("marked");
-                newMarkedEl.style.outline = "solid 4px red";
-                newMarkedEl.style.outlineOffset = "-6px";
-                newMarkedEl.style.zIndex = "1";
                 if (newMarkedEl instanceof HTMLFormElement) {
                     scrollIntoViewIfNeeded(newMarkedEl, {
                         behavior: "smooth",

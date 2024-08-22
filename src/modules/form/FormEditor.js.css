@@ -10,23 +10,28 @@
     background-color: #111;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr;
-    grid-template-areas: 
-    "structure preview detail";
+    grid-template-areas:
+        "structure preview detail";
     grid-column-gap: 5px;
     grid-row-gap: 5px;
 }
+
 #structure-panel {
     grid-area: structure;
 }
+
 #preview-panel {
     grid-area: preview;
 }
+
 #detail-panel {
     grid-area: detail;
 }
+
 #detail-panel > :not(.active) {
     display: none;
 }
+
 .button {
     display: flex;
     align-items: center;
@@ -46,11 +51,21 @@
     line-height: 1em;
     cursor: pointer;
 }
+
 .button:hover {
     color: var(--button-hover-text-color, #ffffff);
     background-color: var(--button-hover-back-color, #000000);
 }
+
 .button:focus {
     box-shadow: none;
     outline: none;
+}
+
+#preview-panel .marked {
+    outline-style: groove;
+    outline-color: #c7c7c7a3;
+    outline-width: 4px;
+    outline-offset: -5px;
+    z-index: 1;
 }
