@@ -2,9 +2,9 @@
     <emc-input-search id="search"></emc-input-search>
 </div>
 <emc-datagrid id="grid" nohead stretched="value">
-    <emc-datagrid-column name="name" caption="Key" type="string" width="200"></emc-datagrid-column>
-    <emc-datagrid-column name="value" caption="Translation" type="text" width="300" editable action="value"></emc-datagrid-column>
-    <emc-datagrid-column name="delete" caption="" type="button" width="100" text="Delete" action="delete"></emc-datagrid-column>
+    <emc-datagrid-column name="name" label="Key" type="string" width="200"></emc-datagrid-column>
+    <emc-datagrid-column name="value" label="Translation" type="text" width="300" editable action="value"></emc-datagrid-column>
+    <emc-datagrid-column name="delete" label="" type="button" width="100" text="Delete" action="delete"></emc-datagrid-column>
 </emc-datagrid>
 <emc-form-row class="footer" align="end">
     <emc-button id="jump-unset" text="jump to next untranslated, 0 remaining" icon="⚠" style="align-self: start;"></emc-button>
