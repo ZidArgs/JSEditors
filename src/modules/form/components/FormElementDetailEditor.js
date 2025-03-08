@@ -113,7 +113,7 @@ export default class FormElementDetailEditor extends CustomElement {
     }
 
     setData(data) {
-        this.#typeSelectEventManager.setActive(false);
+        this.#typeSelectEventManager.active = false;
         const {type, ...values} = data ?? {};
         const config = getDetailConfig(type);
         const defaults = extractDefaultValuesFromConfig(config);
@@ -121,7 +121,7 @@ export default class FormElementDetailEditor extends CustomElement {
         FormBuilder.replaceForm(this.#detailFormEl, config);
 
         this.#formContext.loadData({...defaults, ...values, type});
-        this.#typeSelectEventManager.setActive(true);
+        this.#typeSelectEventManager.active = true;
 
         const editableLogicEl = this.#detailFormEl.querySelector("[name=\"editable\"]");
         if (editableLogicEl != null) {
