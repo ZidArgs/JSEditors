@@ -1,4 +1,4 @@
-import Template from "/emcJS/util/html/Template.js";
+import HTMLTemplate from "/emcJS/util/html/template/HTMLTemplate.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "MAX";
@@ -6,7 +6,7 @@ const TPL_BACKGROUND = "#9affec";
 const TPL_BORDER = "#51978a";
 const REFERENCE = "max";
 
-const TPL = new Template(`
+const TPL = new HTMLTemplate(`
     <style>
         :host {
             --logic-color-back: ${TPL_BACKGROUND};

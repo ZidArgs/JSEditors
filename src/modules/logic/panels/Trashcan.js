@@ -1,9 +1,9 @@
 import DragDropMemory from "/emcJS/data/DragDropMemory.js";
-import Template from "/emcJS/util/html/Template.js";
+import HTMLTemplate from "/emcJS/util/html/template/HTMLTemplate.js";
 
 import LogicAbstractElement from "../../../ui/logic/AbstractElement.js";
 
-const TPL = new Template(`
+const TPL = new HTMLTemplate(`
     <style>
         * {
             position: relative;

@@ -1,4 +1,4 @@
-import Template from "/emcJS/util/html/Template.js";
+import HTMLTemplate from "/emcJS/util/html/template/HTMLTemplate.js";
 import DragDropMemory from "/emcJS/data/DragDropMemory.js";
 import "/emcJS/ui/container/CollapsePanel.js";
 import "/emcJS/ui/FilteredList.js";
@@ -32,7 +32,7 @@ import "./logic/OperatorOr.js";
 import "./logic/OperatorXnor.js";
 import "./logic/OperatorXor.js";
 
-const TPL = new Template(`
+const TPL = new HTMLTemplate(`
 <style>
     :host {
         display: grid;

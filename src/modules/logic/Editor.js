@@ -1,4 +1,4 @@
-import Template from "/emcJS/util/html/Template.js";
+import HTMLTemplate from "/emcJS/util/html/template/HTMLTemplate.js";
 import "/emcJS/ui/container/CaptionPanel.js";
 import "/emcJS/ui/container/CollapsePanel.js";
 import "/emcJS/ui/FilteredList.js";
@@ -34,7 +34,7 @@ import "../../ui/logic/MathMul.js";
 import "../../ui/logic/MathPow.js";
 import "../../ui/logic/MathSub.js";
 
-const TPL = new Template(`
+const TPL = new HTMLTemplate(`
 <style>
     :host {
         display: grid;

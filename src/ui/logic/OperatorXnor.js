@@ -1,4 +1,4 @@
-import Template from "/emcJS/util/html/Template.js";
+import HTMLTemplate from "/emcJS/util/html/template/HTMLTemplate.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "XNOR";
@@ -8,7 +8,7 @@ const TPL_BACKGROUND = `repeating-linear-gradient(145deg, ${TPL_BG_0}, ${TPL_BG_
 const TPL_BORDER = "#774455";
 const REFERENCE = "xnor";
 
-const TPL = new Template(`
+const TPL = new HTMLTemplate(`
     <style>
         :host {
             --logic-color-back: ${TPL_BACKGROUND};

@@ -103,7 +103,7 @@ export default class PropertiesListInput extends CustomFormElementDelegating {
         });
         /* --- */
         this.#dataManager = new SimpleDataProvider(this.#gridEl);
-        this.#dataManager.setOptions({
+        this.#dataManager.setConfig({
             sort: ["name"]
         });
         /* --- */
@@ -115,7 +115,7 @@ export default class PropertiesListInput extends CustomFormElementDelegating {
                     name: this.#searchEl.value
                 };
             }
-            this.#dataManager.updateOptions(options);
+            this.#dataManager.updateConfig(options);
         }, true);
     }
 
@@ -211,11 +211,11 @@ export default class PropertiesListInput extends CustomFormElementDelegating {
 
     #updateSort(value) {
         if (value) {
-            this.#dataManager.setOptions({
+            this.#dataManager.setConfig({
                 sort: ["name"]
             });
         } else {
-            this.#dataManager.setOptions({
+            this.#dataManager.setConfig({
                 sort: []
             });
         }

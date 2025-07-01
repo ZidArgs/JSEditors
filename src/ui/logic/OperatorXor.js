@@ -1,4 +1,4 @@
-import Template from "/emcJS/util/html/Template.js";
+import HTMLTemplate from "/emcJS/util/html/template/HTMLTemplate.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "XOR";
@@ -6,7 +6,7 @@ const TPL_BACKGROUND = "#ffa500";
 const TPL_BORDER = "#774455";
 const REFERENCE = "xor";
 
-const TPL = new Template(`
+const TPL = new HTMLTemplate(`
     <style>
         :host {
             --logic-color-back: ${TPL_BACKGROUND};

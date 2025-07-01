@@ -1,9 +1,9 @@
-import Template from "/emcJS/util/html/Template.js";
+import HTMLTemplate from "/emcJS/util/html/template/HTMLTemplate.js";
 import {
     appUID
 } from "/emcJS/util/helper/UniqueGenerator.js";
 
-const TPL = new Template(`
+const TPL = new HTMLTemplate(`
     <style>
         * {
             position: relative;
@@ -209,7 +209,7 @@ export default class AbstractElement extends HTMLElement {
 /**
  * for undefined references
  */
-const TPL_E = new Template(`
+const TPL_E = new HTMLTemplate(`
     <style>
         .error {
             --logic-color-back: #ff0000;
