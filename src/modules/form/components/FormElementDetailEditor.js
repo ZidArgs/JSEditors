@@ -5,6 +5,7 @@ import FormContext from "/emcJS/util/form/FormContext.js";
 import EventTargetManager from "/emcJS/util/event/EventTargetManager.js";
 import FormFieldset from "/emcJS/ui/form/FormFieldset.js";
 import FormRow from "/emcJS/ui/form/FormRow.js";
+import FormSection from "/emcJS/ui/form/FormSection.js";
 import ActionButton from "/emcJS/ui/form/button/ActionButton.js";
 import LinkButton from "/emcJS/ui/form/button/LinkButton.js";
 import SubmitButton from "/emcJS/ui/form/button/SubmitButton.js";
@@ -18,6 +19,7 @@ import TPL from "./FormElementDetailEditor.js.html" assert {type: "html"};
 import STYLE from "./FormElementDetailEditor.js.css" assert {type: "css"};
 
 const SPECIAL_FORM_ELEMENTS = {
+    "Section": FormSection,
     "Fieldset": FormFieldset,
     "Row": FormRow,
     "ActionButton": ActionButton,
@@ -120,7 +122,7 @@ export default class FormElementDetailEditor extends CustomElement {
 
         FormBuilder.replaceForm(this.#detailFormEl, config);
 
-        this.#formContext.loadData({...defaults, ...values, type});
+        this.#formContext.setData({...defaults, ...values, type});
         this.#typeSelectEventManager.active = true;
 
         const editableLogicEl = this.#detailFormEl.querySelector("[name=\"editable\"]");

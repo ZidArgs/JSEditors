@@ -2,6 +2,7 @@ import CustomElement from "/emcJS/ui/element/CustomElement.js";
 // import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
 import "/emcJS/ui/form/FormRow.js";
+import "/emcJS/ui/form/FormSection.js";
 import "/emcJS/ui/form/button/SubmitButton.js";
 import "/emcJS/ui/form/button/ResetButton.js";
 import "/emcJS/ui/form/FormContainer.js";
@@ -33,7 +34,7 @@ export default class FormDetailEditor extends CustomElement {
     }
 
     setData(data) {
-        this.#formContext.loadData({...data});
+        this.#formContext.setData({...data});
     }
 
     getData() {
