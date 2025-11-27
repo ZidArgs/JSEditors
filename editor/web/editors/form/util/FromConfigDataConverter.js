@@ -86,7 +86,7 @@ export default class FromConfigDataConverter extends DefaultFromConfigDataConver
             case "range": return "RangeInput";
             case "color": return "ColorInput";
             case "password": return "PasswordInput";
-            case "hotkey": return "HotkeyInput";
+            case "hotkey": return "KeyBindInput";
             case "choice": return "SearchSelect";
             case "list": return "ListSelect";
         }
