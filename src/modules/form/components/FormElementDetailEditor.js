@@ -3,32 +3,15 @@ import FormElementRegistry from "/emcJS/data/registry/form/FormElementRegistry.j
 import FormBuilder from "/emcJS/util/form/FormBuilder.js";
 import FormContext from "/emcJS/util/form/FormContext.js";
 import EventTargetManager from "/emcJS/util/event/EventTargetManager.js";
-import FormFieldset from "/emcJS/ui/form/FormFieldset.js";
-import FormRow from "/emcJS/ui/form/FormRow.js";
-import FormSection from "/emcJS/ui/form/FormSection.js";
-import ActionButton from "/emcJS/ui/form/button/ActionButton.js";
-import LinkButton from "/emcJS/ui/form/button/LinkButton.js";
-import SubmitButton from "/emcJS/ui/form/button/SubmitButton.js";
-import ResetButton from "/emcJS/ui/form/button/ResetButton.js";
 import {
     extractDefaultValuesFromConfig
 } from "/emcJS/util/helper/ui/Form.js";
+import { FORM_BUTTON_MAPPING, FORM_STRUCTURE_MAPPING } from "/emcJS/ui/form/FormComponentsLoader.js";
 import "/emcJS/ui/form/FormContainer.js";
-import "/emcJS/ui/form/element/FormElementsLoader.js";
 import TPL from "./FormElementDetailEditor.js.html" assert {type: "html"};
 import STYLE from "./FormElementDetailEditor.js.css" assert {type: "css"};
 
-const SPECIAL_FORM_ELEMENTS = {
-    "Section": FormSection,
-    "Fieldset": FormFieldset,
-    "Row": FormRow,
-    "ActionButton": ActionButton,
-    "LinkButton": LinkButton,
-    "SubmitButton": SubmitButton,
-    "ResetButton": ResetButton
-};
-
-const FORM_ELEMENT_TYPES = [...Object.keys(SPECIAL_FORM_ELEMENTS), ...FormElementRegistry.getRegisteredRefs()];
+const FORM_ELEMENT_TYPES = new Set([...FORM_STRUCTURE_MAPPING.keys(), ...FORM_BUTTON_MAPPING.keys(), ...FormElementRegistry.getRegisteredRefs()]);
 
 function addTypeSelectOptions(formEl) {
     for (const ref of FORM_ELEMENT_TYPES) {
@@ -41,8 +24,11 @@ function addTypeSelectOptions(formEl) {
 
 function getDetailConfig(ref) {
     if (ref) {
-        if (ref in SPECIAL_FORM_ELEMENTS) {
-            return SPECIAL_FORM_ELEMENTS[ref].formConfigurationFields;
+        if (FORM_STRUCTURE_MAPPING.has(ref)) {
+            return FORM_STRUCTURE_MAPPING.get(ref).formConfigurationFields;
+        }
+        if (FORM_BUTTON_MAPPING.has(ref)) {
+            return FORM_BUTTON_MAPPING.get(ref).formConfigurationFields;
         }
         const clazz = FormElementRegistry.getRegisteredClass(ref);
         if (clazz != null) {
@@ -54,15 +40,18 @@ function getDetailConfig(ref) {
 
 function getDetailCanHaveChildren(ref) {
     if (ref) {
-        if (ref in SPECIAL_FORM_ELEMENTS) {
-            return SPECIAL_FORM_ELEMENTS[ref].formConfigurationCanHaveChildren;
+        if (FORM_STRUCTURE_MAPPING.has(ref)) {
+            return FORM_STRUCTURE_MAPPING.get(ref).formConfigurationCanHaveChildren;
+        }
+        if (FORM_BUTTON_MAPPING.has(ref)) {
+            return FORM_BUTTON_MAPPING.get(ref).formConfigurationCanHaveChildren;
         }
         const clazz = FormElementRegistry.getRegisteredClass(ref);
         if (clazz != null) {
             return clazz.formConfigurationCanHaveChildren;
         }
     }
-    return [];
+    return false;
 }
 
 export default class FormElementDetailEditor extends CustomElement {
