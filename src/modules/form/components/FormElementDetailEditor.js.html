@@ -1,11 +1,11 @@
-<emc-form-container id="form-container" hasheader hasfooter>
-    <form id="header-form">
+<emc-form-container id="form-container">
+    <form id="header-form" slot="header">
         <h1>Element Config</h1>
         <emc-select-search label="Type" name="type" id="type-select"></emc-select-search>
         <emc-input-string label="ID" name="id"></emc-input-string>
     </form>
     <form id="detail-form"></form>
-    <form id="footer-form">
+    <form id="footer-form" slot="header">
         <emc-form-row align="end">
             <emc-button-reset></emc-button-reset>
             <emc-button-submit></emc-button-submit>
