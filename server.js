@@ -7,14 +7,4 @@ const port = process.argv.indexOf("-port") >= 1 ? process.argv[process.argv.inde
 const service = new WebService(port, {enableCors});
 service.registerServiceModule(StaticService, "", {serveFolder: "./editor/web"});
 
-const po = service.port.toString().padEnd(5);
-
-console.log(``);
-console.log(`╔════════════════════════════════════════╗`);
-console.log(`║ ┌╦┐ ╭────────────────────────────╮ ┌╦┐ ║`);
-console.log(`║  │  │                            │  │  ║`);
-console.log(`╠─═╬═─╡   http://localhost:${po}   ╞─═╬═─╣`);
-console.log(`║  │  │                            │  │  ║`);
-console.log(`║ └╩┘ ╰────────────────────────────╯ └╩┘ ║`);
-console.log(`╚════════════════════════════════════════╝`);
-console.log(``);
+service.printServerInfoPanel();
