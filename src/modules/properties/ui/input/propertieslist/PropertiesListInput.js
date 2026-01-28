@@ -7,7 +7,7 @@ import {
 } from "/emcJS/util/Debouncer.js";
 import SimpleDataProvider from "/emcJS/util/dataprovider/SimpleDataProvider.js";
 import ModalDialog from "/emcJS/ui/modal/ModalDialog.js";
-import "/emcJS/ui/form/element/input/search/SearchInput.js";
+import "/emcJS/ui/form/field/input/search/SearchInput.js";
 import "/emcJS/ui/dataview/datagrid/DataGrid.js";
 import TPL from "./PropertiesListInput.js.html" assert {type: "html"};
 import STYLE from "./PropertiesListInput.js.css" assert {type: "css"};
