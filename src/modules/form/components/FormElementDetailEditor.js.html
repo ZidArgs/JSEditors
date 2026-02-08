@@ -1,8 +1,12 @@
 <emc-form-container id="form-container">
     <form id="header-form" slot="header">
         <h1>Element Config</h1>
-        <emc-field-select-search label="Type" name="type" id="type-select"></emc-field-select-search>
-        <emc-field-input-string label="ID" name="id"></emc-field-input-string>
+        <emc-form-field label="Type">
+            <emc-select-search name="type" id="type-select"></emc-select-search>
+        </emc-form-field>
+        <emc-form-field label="ID">
+            <emc-input-string name="id"></emc-input-string>
+        </emc-form-field>
     </form>
     <form id="detail-form"></form>
     <form id="footer-form" slot="header">
