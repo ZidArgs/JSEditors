@@ -84,13 +84,17 @@ export default class LogicElement extends AbstractElement {
     }
 
     static get observedAttributes() {
-        const attr = AbstractElement.observedAttributes;
-        attr.push("ref", "value", "category");
-        return attr;
+        const superObserved = super.observedAttributes ?? [];
+        return [
+            ...superObserved,
+            "ref",
+            "value",
+            "category"
+        ];
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        super.attributeChangedCallback(name, oldValue, newValue);
+        super.attributeChangedCallback?.(name, oldValue, newValue);
         switch (name) {
             case "ref":
                 if (oldValue != newValue) {

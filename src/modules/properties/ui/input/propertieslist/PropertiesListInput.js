@@ -120,7 +120,7 @@ export default class PropertiesListInput extends CustomFormElementDelegating {
     }
 
     connectedCallback() {
-        super.connectedCallback();
+        super.connectedCallback?.();
         const value = this.value;
         this.#value = value;
         this.#applyValue(value ?? {});
