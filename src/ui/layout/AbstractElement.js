@@ -175,7 +175,7 @@ export default class AbstractElement extends HTMLElement {
 
     static allowDrop(event) {
         const el = event.target.getRootNode().host;
-        if ((typeof el.readonly != "string" || el.readonly == "false")
+        if ((typeof el.readOnly != "string" || el.readOnly == "false")
         &&  (typeof el.template != "string" || el.template == "false")) {
             event.preventDefault();
             event.stopPropagation();

@@ -159,11 +159,11 @@ export default class PropertiesListInput extends CustomFormElementDelegating {
         return this.#value ?? super.value;
     }
 
-    set readonly(value) {
+    set readOnly(value) {
         this.setBooleanAttribute("readonly", value);
     }
 
-    get readonly() {
+    get readOnly() {
         return this.getBooleanAttribute("readonly");
     }
 

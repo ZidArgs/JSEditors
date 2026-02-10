@@ -112,7 +112,7 @@ export default class AbstractElement extends HTMLElement {
     }
 
     connectedCallback() {
-        if (this.readonly === null || this.readonly == "false") {
+        if (this.readOnly === null || this.readOnly == "false") {
             this.setAttribute("draggable", "true");
         }
         this.id = ID.get(this);
@@ -237,11 +237,11 @@ export default class AbstractElement extends HTMLElement {
         }
     }
 
-    get readonly() {
+    get readOnly() {
         return this.getAttribute("readonly");
     }
 
-    set readonly(val) {
+    set readOnly(val) {
         this.setAttribute("readonly", val);
     }
 
@@ -259,7 +259,7 @@ export default class AbstractElement extends HTMLElement {
                         this.removeAttribute("draggable");
                     }
                     for (const ch of this.children) {
-                        ch.readonly = newValue;
+                        ch.readOnly = newValue;
                     }
                 }
                 break;
@@ -317,7 +317,7 @@ export default class AbstractElement extends HTMLElement {
 
     static allowDrop(event) {
         const el = event.target.getRootNode().host;
-        if ((typeof el.readonly != "string" || el.readonly == "false")
+        if ((typeof el.readOnly != "string" || el.readOnly == "false")
         &&  (typeof el.template != "string" || el.template == "false")) {
             event.preventDefault();
             event.stopPropagation();
