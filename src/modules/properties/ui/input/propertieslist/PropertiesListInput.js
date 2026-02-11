@@ -1,4 +1,4 @@
-import CustomFormElementDelegating from "/emcJS/ui/element/CustomFormElementDelegating.js";
+import CustomFormElement from "/emcJS/ui/element/CustomFormElement.js";
 import {
     isEqual
 } from "/emcJS/util/helper/Comparator.js";
@@ -14,7 +14,7 @@ import STYLE from "./PropertiesListInput.js.css" assert {type: "css"};
 
 // TODO add readonly mode
 
-export default class PropertiesListInput extends CustomFormElementDelegating {
+export default class PropertiesListInput extends CustomFormElement {
 
     #value;
 

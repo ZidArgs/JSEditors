@@ -36,6 +36,10 @@ const DEFAULT_CONFIG = {
 
 LogicOperatorRegistry.setGroupCaption("formFields", "Form Fields");
 
+// FIXME element config panell is not updating or dispatching change properly
+// TODO handle elements more like the emcjs element demo, dont expose FormField as placeable element
+// TODO add header/footer forms node
+// TODO make current first form node be content forms node
 class FormEditor extends CustomElement {
 
     #configDataConverter;
