@@ -1,7 +1,7 @@
 {
   "name": "jseditors",
   "author": "Denis Weiß (ZidArgs)",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "JavaScript based editors",
   "type": "module",
   "license": "UNLICENSED",
@@ -11,7 +11,8 @@
   },
   "homepage": "https://bitbucket.org/zidargs/jseditors/src",
   "dependencies": {
-    "emcjs": "git+https://bitbucket.org/zidargs/emcjs.git#0.29.0",
+    "@emcjs/core": "https://github.com/ZidArgs/emcJS-Core.git/#1.0.2",
+    "@emcjs/fe": "https://github.com/ZidArgs/emcJS-FE.git/#0.0.3",
     "jswebservice": "git+https://bitbucket.org/zidargs/jswebservice.git/#3.1.1"
   },
   "devDependencies": {
@@ -22,7 +23,7 @@
     "electron": "^25.0.1",
     "eslint": "^9.35.0",
     "gulp": "^4.0.2",
-    "gulp-newer": "^1.4.0"
+    "gulp-changed": "^5.0.4"
   },
   "exports": {
     "./*": "./src/*"

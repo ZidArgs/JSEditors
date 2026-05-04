@@ -1,24 +1,24 @@
-import CustomElement from "/emcJS/ui/element/CustomElement.js";
-import EventTargetManager from "/emcJS/util/event/EventTargetManager.js";
-import LogicOperatorRegistry from "/emcJS/data/registry/LogicOperatorRegistry.js";
+import CustomElement from "@emcjs/fe/ui/element/CustomElement.js";
+import EventTargetManager from "@emcjs/core/util/event/EventTargetManager.js";
+import LogicOperatorRegistry from "@emcjs/core/data/registry/LogicOperatorRegistry.js";
 import {
     appUID
-} from "/emcJS/util/helper/UniqueGenerator.js";
+} from "@emcjs/core/util/helper/UniqueGenerator.js";
 import {
     getFromTreeConfigByRefPath
-} from "/emcJS/util/helper/TreeConfig.js";
-import FormBuilder from "/emcJS/util/form/FormBuilder.js";
-import FormContext from "/emcJS/util/form/FormContext.js";
+} from "@emcjs/fe/util/tree/TreeConfig.js";
+import FormBuilder from "@emcjs/fe/util/form/FormBuilder.js";
+import FormContext from "@emcjs/fe/util/form/context/FormContext.js";
 import {
     deepClone
-} from "/emcJS/util/helper/DeepClone.js";
+} from "@emcjs/core/util/helper/DeepClone.js";
 import {
     scrollIntoViewIfNeeded
-} from "/emcJS/util/helper/ui/Scroll.js";
+} from "@emcjs/fe/util/node/Scroll.js";
 import DefaultFromConfigDataConverter from "./util/DefaultFromConfigDataConverter.js";
-import "/emcJS/ui/container/CaptionPanel.js";
-import "/emcJS/ui/container/CollapsePanel.js";
-import "/emcJS/ui/form/FormContainer.js";
+import "@emcjs/fe/ui/container/CaptionPanel.js";
+import "@emcjs/fe/ui/container/CollapsePanel.js";
+import "@emcjs/fe/ui/form/FormContainer.js";
 import "./components/tree/StructureEditorTree.js";
 import "./components/FormDetailEditor.js";
 import "./components/FormElementDetailEditor.js";

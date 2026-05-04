@@ -1,6 +1,6 @@
-import CustomElement from "/emcJS/ui/element/CustomElement.js";
-import "/emcJS/ui/Page.js";
-import "/emcJS/ui/navigation/NavBar.js";
+import CustomElement from "@emcjs/fe/ui/element/CustomElement.js";
+import "@emcjs/fe/ui/Page.js";
+import "@emcjs/fe/ui/navigation/NavBar.js";
 import "./EditorChoice.js";
 import TPL from "./EditorContainer.js.html" assert {type: "html"};
 import STYLE from "./EditorContainer.js.css" assert {type: "css"};

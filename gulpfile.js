@@ -1,60 +1,43 @@
 import path from "path";
 import gulp from "gulp";
-import newer from "gulp-newer";
-import sourceImport from "emcjs/_build_tools/sourceImport.js";
+import changed, {compareContents} from "gulp-changed";
+import ImportAnalyzer from "@emcjs/core/build_tools/ImportAnalyzer.js";
+import sourceImport from "@emcjs/fe/build_tools/SourceImport.js";
 
 const __dirname = path.resolve();
-const NODE_FOLDER = path.resolve(__dirname, "node_modules");
-const OUT_PATH = path.resolve(__dirname, "editor/web/");
-const SCRIPT_PATH = path.resolve(__dirname, "src");
-const EMCJS_PATH = path.resolve(NODE_FOLDER, "emcjs/src");
+
+const IN_PATH = path.resolve(__dirname, "src");
+const OUT_PATH = path.resolve(__dirname, "lib");
 
 const REBUILD = process.argv.indexOf("-rebuild") >= 0;
 
 console.log({REBUILD});
 
-/* JS START */
-function copyJS(files, dest) {
-    let res = gulp.src(files);
-    if (!REBUILD) {
-        res = res.pipe(newer(dest));
-    }
-    res = res.pipe(sourceImport());
-    res = res.pipe(gulp.dest(dest));
-    return res;
-}
-
-function copyJSEditors() {
+function copyJS() {
     const FILES = [
-        `${SCRIPT_PATH}/**/*.js`
-    ];
-    const DST = `${OUT_PATH}/JSEditors`;
-    return copyJS(FILES, DST);
-}
-
-function copyEmcJS() {
-    const FILES = [
-        `${EMCJS_PATH}/**/*.js`,
-        `!${EMCJS_PATH}/*.js`
-    ];
-    const DST = `${OUT_PATH}/emcJS`;
-    return copyJS(FILES, DST);
-}
-
-function copyEmcJSCSS() {
-    const FILES = [
-        `${EMCJS_PATH}/_style/**/*.css`
+        `${IN_PATH}/**/*.js`
     ];
     let res = gulp.src(FILES);
+    res = res.pipe(ImportAnalyzer.register(IN_PATH, OUT_PATH, __dirname));
+    res = res.pipe(sourceImport());
     if (!REBUILD) {
-        res = res.pipe(newer(`${OUT_PATH}/emcJS/_style`));
+        res = res.pipe(changed(OUT_PATH, {hasChanged: compareContents}));
     }
-    res = res.pipe(gulp.dest(`${OUT_PATH}/emcJS/_style`));
+    res = res.pipe(gulp.dest(OUT_PATH));
     return res;
 }
 
-export const build = gulp.parallel(
-    copyJSEditors,
-    copyEmcJS,
-    copyEmcJSCSS
-);
+function finish(done) {
+    ImportAnalyzer.printUnresolvedImports();
+    // ImportAnalyzer.writeImportFile();
+    done();
+}
+
+export const build = gulp.series(copyJS, finish);
+
+export const watch = function() {
+    // JS
+    gulp.watch([
+        `src/**/*.js`
+    ], copyJS);
+};

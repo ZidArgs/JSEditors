@@ -1,8 +1,8 @@
-import TreeNode from "/emcJS/ui/tree/components/TreeNode.js";
-import WorldEditorTreeNode from "../../ui/tree/WorldEditorTreeNode.js";
+import ContextMenuManagerMixin from "@emcjs/fe/ui/mixin/ContextMenuManagerMixin.js";
+import TreeNode from "@emcjs/fe/ui/tree/components/TreeNode.js";
 import CtxMenu from "./CtxMenu.js";
 
-export default class TreeNode_Areas extends WorldEditorTreeNode {
+export default class TreeNode_Property extends ContextMenuManagerMixin(TreeNode) {
 
     constructor() {
         super();
@@ -20,10 +20,10 @@ export default class TreeNode_Areas extends WorldEditorTreeNode {
     }
 
     get type() {
-        return "areas";
+        return "properties";
     }
 
 }
 
-TreeNode.registerNodeType("gt-edt-world::areas", TreeNode_Areas);
-customElements.define("gt-edt-world-tree-node-areas", TreeNode_Areas);
+TreeNode.registerNodeType("jse-tree-node::properties", TreeNode_Property);
+customElements.define("jse-tree-node-properties", TreeNode_Property);

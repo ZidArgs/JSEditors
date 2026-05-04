@@ -1,7 +1,7 @@
-import CustomElement from "/emcJS/ui/element/CustomElement.js";
-import "/emcJS/ui/form/FormContainer.js";
-import "/emcJS/ui/form/FormComponentsLoader.js";
-import "/emcJS/ui/i18n/I18nLabel.js";
+import CustomElement from "@emcjs/fe/ui/element/CustomElement.js";
+import "@emcjs/fe/ui/form/FormContainer.js";
+import "@emcjs/fe/ui/form/FormComponentsLoader.js";
+import "@emcjs/fe/ui/i18n/I18nLabel.js";
 import "../../ui/grid/DataGridTypeEntries.js";
 import TPL from "./EditorForm.js.html" assert {type: "html"};
 import STYLE from "./EditorForm.js.css" assert {type: "css"};
@@ -49,4 +49,4 @@ export default class EditorForm_Areas extends CustomElement {
 
 }
 
-customElements.define("gt-edt-world-form-areas", EditorForm_Areas);
+customElements.define("jse-properties-editor-form", EditorForm_Areas);

@@ -1,8 +1,8 @@
-import DragDropMemory from "/emcJS/data/DragDropMemory.js";
-import HTMLTemplate from "/emcJS/util/html/template/HTMLTemplate.js";
+import DragDropMemory from "@emcjs/fe/data/DragDropMemory.js";
+import HTMLTemplate from "@emcjs/fe/util/template/HTMLTemplate.js";
 import {
     appUID
-} from "/emcJS/util/helper/UniqueGenerator.js";
+} from "@emcjs/core/util/helper/UniqueGenerator.js";
 
 const TPL = new HTMLTemplate(`
     <style>

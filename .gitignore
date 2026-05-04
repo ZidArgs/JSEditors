@@ -4,6 +4,7 @@ dev
 prod
 out
 dist
+lib
 yarn-error.log
 yarn.lock
 *.zip

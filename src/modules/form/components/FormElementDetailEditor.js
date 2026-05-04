@@ -1,13 +1,13 @@
-import CustomElement from "/emcJS/ui/element/CustomElement.js";
-import FormElementRegistry from "/emcJS/data/registry/form/FormElementRegistry.js";
-import FormBuilder from "/emcJS/util/form/FormBuilder.js";
-import FormContext from "/emcJS/util/form/FormContext.js";
-import EventTargetManager from "/emcJS/util/event/EventTargetManager.js";
+import CustomElement from "@emcjs/fe/ui/element/CustomElement.js";
+import FormElementRegistry from "@emcjs/fe/data/registry/form/FormElementRegistry.js";
+import FormBuilder from "@emcjs/fe/util/form/FormBuilder.js";
+import FormContext from "@emcjs/fe/util/form/context/FormContext.js";
+import EventTargetManager from "@emcjs/core/util/event/EventTargetManager.js";
 import {
     extractDefaultValuesFromConfig
-} from "/emcJS/util/helper/ui/Form.js";
-import { FORM_BUTTON_MAPPING, FORM_STRUCTURE_MAPPING } from "/emcJS/ui/form/FormComponentsLoader.js";
-import "/emcJS/ui/form/FormContainer.js";
+} from "@emcjs/fe/util/form/ExtractDefaultValuesFromConfig.js";
+import { FORM_BUTTON_MAPPING, FORM_STRUCTURE_MAPPING } from "@emcjs/fe/loader/FormComponentsLoader.js";
+import "@emcjs/fe/ui/form/FormContainer.js";
 import TPL from "./FormElementDetailEditor.js.html" assert {type: "html"};
 import STYLE from "./FormElementDetailEditor.js.css" assert {type: "css"};
 

@@ -1,7 +1,7 @@
-import CustomElement from "/emcJS/ui/element/CustomElement.js";
-import "/emcJS/ui/container/CaptionPanel.js";
-import "/emcJS/ui/container/CollapsePanel.js";
-import "/emcJS/ui/FilteredList.js";
+import CustomElement from "@emcjs/fe/ui/element/CustomElement.js";
+import "@emcjs/fe/ui/container/CaptionPanel.js";
+import "@emcjs/fe/ui/container/CollapsePanel.js";
+import "@emcjs/fe/ui/FilteredList.js";
 import "./panels/Workingarea.js";
 import TPL from "./PropertiesEditor.js.html" assert {type: "html"};
 import STYLE from "./PropertiesEditor.js.css" assert {type: "css"};

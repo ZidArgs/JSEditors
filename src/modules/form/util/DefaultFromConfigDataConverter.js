@@ -1,9 +1,9 @@
 import {
     appUID
-} from "/emcJS/util/helper/UniqueGenerator.js";
+} from "@emcjs/core/util/helper/UniqueGenerator.js";
 import {
     deepClone
-} from "/emcJS/util/helper/DeepClone.js";
+} from "@emcjs/core/util/helper/DeepClone.js";
 
 export default class DefaultFromConfigDataConverter {
 

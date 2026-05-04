@@ -1,9 +1,9 @@
-import CustomElement from "/emcJS/ui/element/CustomElement.js";
-import ContextMenuManagerMixin from "/emcJS/ui/mixin/ContextMenuManagerMixin.js";
+import CustomElement from "@emcjs/fe/ui/element/CustomElement.js";
+import ContextMenuManagerMixin from "@emcjs/fe/ui/mixin/ContextMenuManagerMixin.js";
 import {
     mix
-} from "/emcJS/util/Mixin.js";
-import "/emcJS/ui/tree/Tree.js";
+} from "@emcjs/core/util/Mixin.js";
+import "@emcjs/fe/ui/tree/Tree.js";
 import StructureTreeContextMenuForm from "../contextmenu/StructureTreeContextMenuForm.js";
 import StructureTreeContextMenuFormElement from "../contextmenu/StructureTreeContextMenuFormElement.js";
 import StructureTreeContextMenuFormElementWithChild from "../contextmenu/StructureTreeContextMenuFormElementWithChild.js";
