@@ -1,5 +1,5 @@
 import CustomElement from "@emcjs/fe/ui/element/CustomElement.js";
-import FormElementRegistry from "@emcjs/fe/data/registry/form/FormElementRegistry.js";
+import FormElementRegistry from "@emcjs/fe/registry/form/FormElementRegistry.js";
 import FormBuilder from "@emcjs/fe/util/form/FormBuilder.js";
 import FormContext from "@emcjs/fe/util/form/context/FormContext.js";
 import EventTargetManager from "@emcjs/core/util/event/EventTargetManager.js";

@@ -1,6 +1,6 @@
 import CustomElement from "@emcjs/fe/ui/element/CustomElement.js";
 import EventTargetManager from "@emcjs/core/util/event/EventTargetManager.js";
-import LogicOperatorRegistry from "@emcjs/core/data/registry/LogicOperatorRegistry.js";
+import LogicOperatorRegistry from "@emcjs/core/registry/LogicOperatorRegistry.js";
 import {
     appUID
 } from "@emcjs/core/util/helper/UniqueGenerator.js";
