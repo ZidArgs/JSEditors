@@ -4,7 +4,10 @@ export default class CtxMenu_Areas extends ContextMenu {
 
     initItems() {
         super.setItems([
-            {menuAction: "add", content: "Add area"}
+            {
+                menuAction: "add",
+                content: "Add area"
+            }
         ]);
     }
 

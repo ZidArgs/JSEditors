@@ -1,10 +1,6 @@
 import CustomFormElement from "@emcjs/fe/ui/element/CustomFormElement.js";
-import {
-    isEqual
-} from "@emcjs/core/util/helper/Comparator.js";
-import {
-    debounce
-} from "@emcjs/core/util/Debouncer.js";
+import {isEqual} from "@emcjs/core/util/helper/Comparator.js";
+import {debounce} from "@emcjs/core/util/Debouncer.js";
 import SimpleDataProvider from "@emcjs/core/util/dataprovider/SimpleDataProvider.js";
 import ModalDialog from "@emcjs/fe/ui/modal/ModalDialog.js";
 import "@emcjs/fe/ui/form/element/input/search/SearchInput.js";
@@ -57,7 +53,9 @@ export default class PropertiesListInput extends CustomFormElement {
         this.#gridEl.addEventListener("edit::value", debounce((event) => {
             event.stopPropagation();
             event.preventDefault();
-            const {value, rowKey} = event.data;
+            const {
+                value, rowKey
+            } = event.data;
             const currentValue = {...this.#value};
             if (rowKey in currentValue) {
                 currentValue[rowKey] = value;
@@ -103,17 +101,13 @@ export default class PropertiesListInput extends CustomFormElement {
         });
         /* --- */
         this.#dataManager = new SimpleDataProvider(this.#gridEl);
-        this.#dataManager.setConfig({
-            sort: ["name"]
-        });
+        this.#dataManager.setConfig({sort: ["name"]});
         /* --- */
         this.#searchEl = this.shadowRoot.getElementById("search");
         this.#searchEl.addEventListener("change", () => {
             const options = {filter: {}};
             if (this.#searchEl.value != "") {
-                options.filter = {
-                    name: this.#searchEl.value
-                };
+                options.filter = {name: this.#searchEl.value};
             }
             this.#dataManager.updateConfig(options);
         }, true);
@@ -211,13 +205,9 @@ export default class PropertiesListInput extends CustomFormElement {
 
     #updateSort(value) {
         if (value) {
-            this.#dataManager.setConfig({
-                sort: ["name"]
-            });
+            this.#dataManager.setConfig({sort: ["name"]});
         } else {
-            this.#dataManager.setConfig({
-                sort: []
-            });
+            this.#dataManager.setConfig({sort: []});
         }
     }
 

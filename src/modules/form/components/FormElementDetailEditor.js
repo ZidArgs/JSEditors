@@ -3,10 +3,10 @@ import FormElementRegistry from "@emcjs/fe/registry/form/FormElementRegistry.js"
 import FormBuilder from "@emcjs/fe/util/form/FormBuilder.js";
 import FormContext from "@emcjs/fe/util/form/context/FormContext.js";
 import EventTargetManager from "@emcjs/core/util/event/EventTargetManager.js";
+import {extractDefaultValuesFromConfig} from "@emcjs/fe/util/form/ExtractDefaultValuesFromConfig.js";
 import {
-    extractDefaultValuesFromConfig
-} from "@emcjs/fe/util/form/ExtractDefaultValuesFromConfig.js";
-import { FORM_BUTTON_MAPPING, FORM_STRUCTURE_MAPPING } from "@emcjs/fe/loader/FormComponentsLoader.js";
+    FORM_BUTTON_MAPPING, FORM_STRUCTURE_MAPPING
+} from "@emcjs/fe/loader/FormComponentsLoader.js";
 import "@emcjs/fe/ui/form/FormContainer.js";
 import TPL from "./FormElementDetailEditor.js.html" assert {type: "html"};
 import STYLE from "./FormElementDetailEditor.js.css" assert {type: "css"};
@@ -70,7 +70,10 @@ export default class FormElementDetailEditor extends CustomElement {
         STYLE.apply(this.shadowRoot);
         /* --- */
         this.#formContext.addEventListener("submit", () => {
-            const event = new Event("save", {bubbles: true, cancelable: true});
+            const event = new Event("save", {
+                bubbles: true,
+                cancelable: true
+            });
             const type = this.#typeSelectEl.value;
             const canHaveChildren = getDetailCanHaveChildren(type);
             if (canHaveChildren) {
@@ -79,9 +82,7 @@ export default class FormElementDetailEditor extends CustomElement {
                     ...this.#formContext.getData()
                 };
             } else {
-                event.data = {
-                    ...this.#formContext.getData()
-                };
+                event.data = {...this.#formContext.getData()};
             }
             this.dispatchEvent(event);
         });
@@ -105,13 +106,19 @@ export default class FormElementDetailEditor extends CustomElement {
 
     setData(data) {
         this.#typeSelectEventManager.active = false;
-        const {type, ...values} = data ?? {};
+        const {
+            type, ...values
+        } = data ?? {};
         const config = getDetailConfig(type);
         const defaults = extractDefaultValuesFromConfig(config);
 
         FormBuilder.replaceForm(this.#detailFormEl, config);
 
-        this.#formContext.setData({...defaults, ...values, type});
+        this.#formContext.setData({
+            ...defaults,
+            ...values,
+            type
+        });
         this.#typeSelectEventManager.active = true;
 
         const editableLogicEl = this.#detailFormEl.querySelector("[name=\"editable\"]");

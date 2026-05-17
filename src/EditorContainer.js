@@ -24,7 +24,9 @@ export default class EditorContainer extends CustomElement {
         });
     }
 
-    register({name, panelEl, refreshFn} = {}) {
+    register({
+        name, panelEl, refreshFn
+    } = {}) {
         if (typeof name !== "string" || name == "") {
             throw Error("panel name must be a non empty string");
         }
@@ -55,7 +57,9 @@ export default class EditorContainer extends CustomElement {
             ev.data = "";
             this.dispatchEvent(ev);
         } else {
-            const {panelEl, refreshFn} = this.#panelConfig.get(name);
+            const {
+                panelEl, refreshFn
+            } = this.#panelConfig.get(name);
             if (panelEl == null) {
                 await this.changeApp();
             } else {

@@ -10,7 +10,11 @@ export default class TreeNode_Property extends ContextMenuManagerMixin(TreeNode)
         this.setDefaultContextMenu(CtxMenu);
         this.addDefaultContextMenuHandler("add", (event) => {
             event.stopPropagation();
-            const ev = new Event(`addEntity[${this.type}]`, {bubbles: true, cancelable: true, composed: true});
+            const ev = new Event(`addEntity[${this.type}]`, {
+                bubbles: true,
+                cancelable: true,
+                composed: true
+            });
             ev.data = {
                 element: this,
                 ref: this.ref

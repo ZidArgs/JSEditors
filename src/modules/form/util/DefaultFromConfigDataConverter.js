@@ -1,9 +1,5 @@
-import {
-    appUID
-} from "@emcjs/core/util/helper/UniqueGenerator.js";
-import {
-    deepClone
-} from "@emcjs/core/util/helper/DeepClone.js";
+import {appUID} from "@emcjs/core/util/helper/UniqueGenerator.js";
+import {deepClone} from "@emcjs/core/util/helper/DeepClone.js";
 
 export default class DefaultFromConfigDataConverter {
 
@@ -37,7 +33,9 @@ export default class DefaultFromConfigDataConverter {
     translateSetConfigElementList(elements) {
         const res = [];
         for (const element of elements) {
-            const {children, ...data} = element;
+            const {
+                children, ...data
+            } = element;
             const resElement = {...data};
             if (children != null) {
                 resElement.children = this.translateSetConfigElementList(children);
@@ -67,7 +65,9 @@ export default class DefaultFromConfigDataConverter {
     translateGetConfigElements(elements) {
         const res = [];
         for (const element of elements) {
-            const {children, ...data} = element;
+            const {
+                children, ...data
+            } = element;
             const resElement = {...data};
             if (children != null) {
                 resElement.children = this.translateGetConfigElements(children);
@@ -92,7 +92,9 @@ export default class DefaultFromConfigDataConverter {
     extractTreeStructureElement(elements) {
         const result = {};
         for (const element of elements) {
-            const {children, ...params} = element;
+            const {
+                children, ...params
+            } = element;
             const label = this.extractTreeStructureLabel(params);
             if (children != null) {
                 result[element.data.id] = {
@@ -100,16 +102,16 @@ export default class DefaultFromConfigDataConverter {
                     children: this.extractTreeStructureElement(children)
                 };
             } else {
-                result[element.data.id] = {
-                    label
-                };
+                result[element.data.id] = {label};
             }
         }
         return result;
     }
 
     extractTreeStructureLabel(params) {
-        const {type, text, label = text, name, id} = params;
+        const {
+            type, text, label = text, name, id
+        } = params;
         let res = type ? `(${type})` : "(-- new --)";
         if (label) {
             res = `${label} ${res}`;

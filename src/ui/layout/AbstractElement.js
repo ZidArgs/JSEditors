@@ -1,7 +1,5 @@
 import HTMLTemplate from "@emcjs/fe/util/template/HTMLTemplate.js";
-import {
-    appUID
-} from "@emcjs/core/util/helper/UniqueGenerator.js";
+import {appUID} from "@emcjs/core/util/helper/UniqueGenerator.js";
 
 const TPL = new HTMLTemplate(`
     <style>

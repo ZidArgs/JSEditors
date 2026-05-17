@@ -1,6 +1,4 @@
-import {
-    deepClone
-} from "/emcJS/util/helper/DeepClone.js";
+import {deepClone} from "/emcJS/util/helper/DeepClone.js";
 import DefaultFromConfigDataConverter from "/JSEditors/modules/form/util/DefaultFromConfigDataConverter.js";
 
 export default class FromConfigDataConverter extends DefaultFromConfigDataConverter {
@@ -52,7 +50,9 @@ export default class FromConfigDataConverter extends DefaultFromConfigDataConver
     }
 
     #translateElement(element) {
-        const {name, label = name, type, children, values, ...data} = element;
+        const {
+            name, label = name, type, children, values, ...data
+        } = element;
         const resElement = {
             name,
             label,

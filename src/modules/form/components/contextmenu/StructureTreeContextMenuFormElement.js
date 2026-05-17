@@ -4,15 +4,27 @@ export default class StructureTreeContextMenuFormElement extends ContextMenu {
 
     initItems() {
         super.setItems([
-            {menuAction: "edit", content: "Edit"},
+            {
+                menuAction: "edit",
+                content: "Edit"
+            },
             // "splitter",
             // {menuAction: "moveup", content: "Move element up"},
             // {menuAction: "movedown", content: "Move element down"},
             "splitter",
-            {menuAction: "addbefore", content: "Add element before"},
-            {menuAction: "addafter", content: "Add element after"},
+            {
+                menuAction: "addbefore",
+                content: "Add element before"
+            },
+            {
+                menuAction: "addafter",
+                content: "Add element after"
+            },
             "splitter",
-            {menuAction: "remove", content: "Remove"}
+            {
+                menuAction: "remove",
+                content: "Remove"
+            }
         ]);
     }
 

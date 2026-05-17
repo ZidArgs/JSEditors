@@ -17,7 +17,9 @@ export default class EditorForm_Areas extends CustomElement {
         typeGridEl.addEventListener("edit", (event) => {
             event.stopPropagation();
             event.preventDefault();
-            const {entityType, entityName} = event.data;
+            const {
+                entityType, entityName
+            } = event.data;
             const ev = new Event("edit", {bubbles: true});
             ev.data = {
                 entityType,

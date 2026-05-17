@@ -14,10 +14,11 @@ export default class FormDetailEditor extends CustomElement {
         STYLE.apply(this.shadowRoot);
         /* --- */
         this.#formContext.addEventListener("submit", () => {
-            const event = new Event("save", {bubbles: true, cancelable: true});
-            event.data = {
-                ...this.#formContext.getData()
-            };
+            const event = new Event("save", {
+                bubbles: true,
+                cancelable: true
+            });
+            event.data = {...this.#formContext.getData()};
             this.dispatchEvent(event);
         });
         /* --- */
