@@ -1,5 +1,5 @@
-import DragDropMemory from "/emcJS/data/DragDropMemory.js";
-import HTMLTemplate from "/emcJS/util/html/template/HTMLTemplate.js";
+import DragDropMemory from "@emcjs/fe/data/DragDropMemory.js";
+import HTMLTemplate from "@emcjs/fe/util/template/HTMLTemplate.js";
 
 import LogicAbstractElement from "../../../ui/logic/AbstractElement.js";
 

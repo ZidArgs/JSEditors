@@ -1,24 +1,16 @@
-import CustomElement from "/emcJS/ui/element/CustomElement.js";
-import EventTargetManager from "/emcJS/util/event/EventTargetManager.js";
-import LogicOperatorRegistry from "/emcJS/data/registry/LogicOperatorRegistry.js";
-import {
-    appUID
-} from "/emcJS/util/helper/UniqueGenerator.js";
-import {
-    getFromTreeConfigByRefPath
-} from "/emcJS/util/helper/TreeConfig.js";
-import FormBuilder from "/emcJS/util/form/FormBuilder.js";
-import FormContext from "/emcJS/util/form/FormContext.js";
-import {
-    deepClone
-} from "/emcJS/util/helper/DeepClone.js";
-import {
-    scrollIntoViewIfNeeded
-} from "/emcJS/util/helper/ui/Scroll.js";
+import CustomElement from "@emcjs/fe/ui/element/CustomElement.js";
+import EventTargetManager from "@emcjs/core/util/event/EventTargetManager.js";
+import LogicOperatorRegistry from "@emcjs/core/registry/LogicOperatorRegistry.js";
+import {appUID} from "@emcjs/core/util/helper/UniqueGenerator.js";
+import {getFromTreeConfigByRefPath} from "@emcjs/fe/util/tree/TreeConfig.js";
+import FormBuilder from "@emcjs/fe/util/form/FormBuilder.js";
+import FormContext from "@emcjs/fe/util/form/context/FormContext.js";
+import {deepClone} from "@emcjs/core/util/helper/DeepClone.js";
+import {scrollIntoViewIfNeeded} from "@emcjs/fe/util/node/Scroll.js";
 import DefaultFromConfigDataConverter from "./util/DefaultFromConfigDataConverter.js";
-import "/emcJS/ui/container/CaptionPanel.js";
-import "/emcJS/ui/container/CollapsePanel.js";
-import "/emcJS/ui/form/FormContainer.js";
+import "@emcjs/fe/ui/container/CaptionPanel.js";
+import "@emcjs/fe/ui/container/CollapsePanel.js";
+import "@emcjs/fe/ui/form/FormContainer.js";
 import "./components/tree/StructureEditorTree.js";
 import "./components/FormDetailEditor.js";
 import "./components/FormElementDetailEditor.js";
@@ -36,6 +28,10 @@ const DEFAULT_CONFIG = {
 
 LogicOperatorRegistry.setGroupCaption("formFields", "Form Fields");
 
+// FIXME element config panell is not updating or dispatching change properly
+// TODO handle elements more like the emcjs element demo, dont expose FormField as placeable element
+// TODO add header/footer forms node
+// TODO make current first form node be content forms node
 class FormEditor extends CustomElement {
 
     #configDataConverter;
@@ -103,16 +99,12 @@ class FormEditor extends CustomElement {
                     context[index] = {
                         ...event.data,
                         children: context[index].children,
-                        data: {
-                            id: context[index].data.id
-                        }
+                        data: {id: context[index].data.id}
                     };
                 } else {
                     context[index] = {
                         ...event.data,
-                        data: {
-                            id: context[index].data.id
-                        }
+                        data: {id: context[index].data.id}
                     };
                 }
                 this.#setLogicOperator(event.data);
@@ -128,11 +120,7 @@ class FormEditor extends CustomElement {
             const calculatedIndex = this.#normalizeIndex(path, this.#config);
             const newElement = {
                 elements: [],
-                config: {
-                    data: {
-                        id: appUID("form")
-                    }
-                }
+                config: {data: {id: appUID("form")}}
             };
             this.#config.forms.splice(calculatedIndex, 0, newElement);
             this.#editPath = [calculatedIndex];
@@ -161,9 +149,7 @@ class FormEditor extends CustomElement {
             const calculatedIndex = this.#normalizeIndex(index, context);
             const newElement = {
                 type: "",
-                data: {
-                    id: appUID("form-element")
-                }
+                data: {id: appUID("form-element")}
             };
             context.splice(calculatedIndex, 0, newElement);
             this.#editPath = [...path, calculatedIndex];
@@ -365,9 +351,7 @@ class FormEditor extends CustomElement {
                 });
                 LogicOperatorRegistry.linkOperator(config.name, "formFields");
             } else {
-                LogicOperatorRegistry.setOperator(config.name, {
-                    type: "value"
-                });
+                LogicOperatorRegistry.setOperator(config.name, {type: "value"});
                 LogicOperatorRegistry.linkOperator(config.name, "formFields");
             }
         }

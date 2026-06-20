@@ -1,7 +1,7 @@
-import HTMLTemplate from "/emcJS/util/html/template/HTMLTemplate.js";
-import DragDropMemory from "/emcJS/data/DragDropMemory.js";
-import "/emcJS/ui/container/CollapsePanel.js";
-import "/emcJS/ui/FilteredList.js";
+import HTMLTemplate from "@emcjs/fe/util/template/HTMLTemplate.js";
+import DragDropMemory from "@emcjs/fe/data/DragDropMemory.js";
+import "@emcjs/fe/ui/container/CollapsePanel.js";
+import "@emcjs/fe/ui/FilteredList.js";
 
 import LogicAbstractElement from "./logic/AbstractElement.js";
 import "./logic/ComparatorEqual.js";

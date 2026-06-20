@@ -4,6 +4,7 @@ dev
 prod
 out
 dist
+lib
 yarn-error.log
 yarn.lock
 *.zip
@@ -11,6 +12,9 @@ yarn.lock
 .idea
 package-lock.json
 backup.json
+import_tree.json
+import_removed.json
+import_unresolved.json
 editor/build
 editor/info.log
 editor/web/emcJS

@@ -1,6 +1,4 @@
-import {
-    deepClone
-} from "/emcJS/util/helper/DeepClone.js";
+import {deepClone} from "/emcJS/util/helper/DeepClone.js";
 import DefaultFromConfigDataConverter from "/JSEditors/modules/form/util/DefaultFromConfigDataConverter.js";
 
 export default class FromConfigDataConverter extends DefaultFromConfigDataConverter {
@@ -52,7 +50,9 @@ export default class FromConfigDataConverter extends DefaultFromConfigDataConver
     }
 
     #translateElement(element) {
-        const {name, label = name, type, children, values, ...data} = element;
+        const {
+            name, label = name, type, children, values, ...data
+        } = element;
         const resElement = {
             name,
             label,
@@ -80,15 +80,15 @@ export default class FromConfigDataConverter extends DefaultFromConfigDataConver
     #translateType(type) {
         switch (type) {
             case "button": return "ActionButton";
-            case "check": return "SwitchInputField";
-            case "string": return "StringInputField";
-            case "number": return "NumberInputField";
-            case "range": return "RangeInputField";
-            case "color": return "ColorInputField";
-            case "password": return "PasswordInputField";
-            case "hotkey": return "KeyBindInputField";
-            case "choice": return "SearchSelectField";
-            case "list": return "ListSelectField";
+            case "check": return "SwitchInput";
+            case "string": return "StringInput";
+            case "number": return "NumberInput";
+            case "range": return "RangeInput";
+            case "color": return "ColorInput";
+            case "password": return "PasswordInput";
+            case "hotkey": return "KeyBindInput";
+            case "choice": return "SearchSelect";
+            case "list": return "ListSelect";
         }
         return type;
     }

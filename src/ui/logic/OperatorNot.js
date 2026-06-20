@@ -1,4 +1,4 @@
-import HTMLTemplate from "/emcJS/util/html/template/HTMLTemplate.js";
+import HTMLTemplate from "@emcjs/fe/util/template/HTMLTemplate.js";
 import AbstractElement from "./AbstractElement.js";
 
 const TPL_CAPTION = "NOT";

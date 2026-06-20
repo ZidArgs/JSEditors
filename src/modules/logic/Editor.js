@@ -1,7 +1,7 @@
-import HTMLTemplate from "/emcJS/util/html/template/HTMLTemplate.js";
-import "/emcJS/ui/container/CaptionPanel.js";
-import "/emcJS/ui/container/CollapsePanel.js";
-import "/emcJS/ui/FilteredList.js";
+import HTMLTemplate from "@emcjs/fe/util/template/HTMLTemplate.js";
+import "@emcjs/fe/ui/container/CaptionPanel.js";
+import "@emcjs/fe/ui/container/CollapsePanel.js";
+import "@emcjs/fe/ui/FilteredList.js";
 
 import "./panels/Clipboard.js";
 import "./panels/Trashcan.js";

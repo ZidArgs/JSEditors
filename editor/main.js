@@ -1,4 +1,6 @@
-const {app, protocol, BrowserWindow} = require("electron");
+const {
+    app, protocol, BrowserWindow
+} = require("electron");
 const path = require("path");
 // const {startServer} = require("./server.js");
 

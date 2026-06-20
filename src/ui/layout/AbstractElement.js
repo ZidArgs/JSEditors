@@ -1,7 +1,5 @@
-import HTMLTemplate from "/emcJS/util/html/template/HTMLTemplate.js";
-import {
-    appUID
-} from "/emcJS/util/helper/UniqueGenerator.js";
+import HTMLTemplate from "@emcjs/fe/util/template/HTMLTemplate.js";
+import {appUID} from "@emcjs/core/util/helper/UniqueGenerator.js";
 
 const TPL = new HTMLTemplate(`
     <style>
@@ -175,7 +173,7 @@ export default class AbstractElement extends HTMLElement {
 
     static allowDrop(event) {
         const el = event.target.getRootNode().host;
-        if ((typeof el.readonly != "string" || el.readonly == "false")
+        if ((typeof el.readOnly != "string" || el.readOnly == "false")
         &&  (typeof el.template != "string" || el.template == "false")) {
             event.preventDefault();
             event.stopPropagation();

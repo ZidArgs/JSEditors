@@ -1,7 +1,6 @@
-import CustomElement from "/emcJS/ui/element/CustomElement.js";
-// import FormBuilder from "/emcJS/util/form/FormBuilder.js";
-import FormContext from "/emcJS/util/form/FormContext.js";
-import "/emcJS/ui/form/FormComponentsLoader.js";
+import CustomElement from "@emcjs/fe/ui/element/CustomElement.js";
+import FormContext from "@emcjs/fe/util/form/context/FormContext.js";
+import "@emcjs/fe/loader/FormComponentsLoader.js";
 import TPL from "./FormDetailEditor.js.html" assert {type: "html"};
 import STYLE from "./FormDetailEditor.js.css" assert {type: "css"};
 
@@ -15,10 +14,11 @@ export default class FormDetailEditor extends CustomElement {
         STYLE.apply(this.shadowRoot);
         /* --- */
         this.#formContext.addEventListener("submit", () => {
-            const event = new Event("save", {bubbles: true, cancelable: true});
-            event.data = {
-                ...this.#formContext.getData()
-            };
+            const event = new Event("save", {
+                bubbles: true,
+                cancelable: true
+            });
+            event.data = {...this.#formContext.getData()};
             this.dispatchEvent(event);
         });
         /* --- */

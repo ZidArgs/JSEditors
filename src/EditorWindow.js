@@ -1,6 +1,6 @@
-import CustomElement from "/emcJS/ui/element/CustomElement.js";
-import "/emcJS/ui/Page.js";
-import "/emcJS/ui/navigation/NavBar.js";
+import CustomElement from "@emcjs/fe/ui/element/CustomElement.js";
+import "@emcjs/fe/ui/Page.js";
+import "@emcjs/fe/ui/navigation/NavBar.js";
 import "./EditorChoice.js";
 import TPL from "./EditorWindow.js.html" assert {type: "html"};
 import STYLE from "./EditorWindow.js.css" assert {type: "css"};
@@ -45,7 +45,9 @@ export default class EditorWindow extends CustomElement {
         });
     }
 
-    register({name, panelEl, navConfig, refreshFn} = {}) {
+    register({
+        name, panelEl, navConfig, refreshFn
+    } = {}) {
         if (typeof name !== "string" || name == "") {
             throw Error("Panel name must be a non empty string");
         }
@@ -75,7 +77,9 @@ export default class EditorWindow extends CustomElement {
             this.#currentPanel = null;
             this.#navbarEl.loadNavigation(this.buildNav(this.#mainNav));
         } else {
-            const {panelEl, refreshFn, navConfig} = this.#panelConfig.get(name);
+            const {
+                panelEl, refreshFn, navConfig
+            } = this.#panelConfig.get(name);
             if (panelEl == null) {
                 await this.changeApp();
             } else {

@@ -1,20 +1,16 @@
-import CustomFormElementDelegating from "/emcJS/ui/element/CustomFormElementDelegating.js";
-import {
-    isEqual
-} from "/emcJS/util/helper/Comparator.js";
-import {
-    debounce
-} from "/emcJS/util/Debouncer.js";
-import SimpleDataProvider from "/emcJS/util/dataprovider/SimpleDataProvider.js";
-import ModalDialog from "/emcJS/ui/modal/ModalDialog.js";
-import "/emcJS/ui/form/element/input/search/SearchInput.js";
-import "/emcJS/ui/dataview/datagrid/DataGrid.js";
+import CustomFormElement from "@emcjs/fe/ui/element/CustomFormElement.js";
+import {isEqual} from "@emcjs/core/util/helper/Comparator.js";
+import {debounce} from "@emcjs/core/util/Debouncer.js";
+import SimpleDataProvider from "@emcjs/core/util/dataprovider/SimpleDataProvider.js";
+import ModalDialog from "@emcjs/fe/ui/modal/ModalDialog.js";
+import "@emcjs/fe/ui/form/element/input/search/SearchInput.js";
+import "@emcjs/fe/ui/dataview/datagrid/DataGrid.js";
 import TPL from "./PropertiesListInput.js.html" assert {type: "html"};
 import STYLE from "./PropertiesListInput.js.css" assert {type: "css"};
 
 // TODO add readonly mode
 
-export default class PropertiesListInput extends CustomFormElementDelegating {
+export default class PropertiesListInput extends CustomFormElement {
 
     #value;
 
@@ -57,7 +53,9 @@ export default class PropertiesListInput extends CustomFormElementDelegating {
         this.#gridEl.addEventListener("edit::value", debounce((event) => {
             event.stopPropagation();
             event.preventDefault();
-            const {value, rowKey} = event.data;
+            const {
+                value, rowKey
+            } = event.data;
             const currentValue = {...this.#value};
             if (rowKey in currentValue) {
                 currentValue[rowKey] = value;
@@ -103,24 +101,20 @@ export default class PropertiesListInput extends CustomFormElementDelegating {
         });
         /* --- */
         this.#dataManager = new SimpleDataProvider(this.#gridEl);
-        this.#dataManager.setConfig({
-            sort: ["name"]
-        });
+        this.#dataManager.setConfig({sort: ["name"]});
         /* --- */
         this.#searchEl = this.shadowRoot.getElementById("search");
         this.#searchEl.addEventListener("change", () => {
             const options = {filter: {}};
             if (this.#searchEl.value != "") {
-                options.filter = {
-                    name: this.#searchEl.value
-                };
+                options.filter = {name: this.#searchEl.value};
             }
             this.#dataManager.updateConfig(options);
         }, true);
     }
 
     connectedCallback() {
-        super.connectedCallback();
+        super.connectedCallback?.();
         const value = this.value;
         this.#value = value;
         this.#applyValue(value ?? {});
@@ -159,11 +153,11 @@ export default class PropertiesListInput extends CustomFormElementDelegating {
         return this.#value ?? super.value;
     }
 
-    set readonly(value) {
+    set readOnly(value) {
         this.setBooleanAttribute("readonly", value);
     }
 
-    get readonly() {
+    get readOnly() {
         return this.getBooleanAttribute("readonly");
     }
 
@@ -211,13 +205,9 @@ export default class PropertiesListInput extends CustomFormElementDelegating {
 
     #updateSort(value) {
         if (value) {
-            this.#dataManager.setConfig({
-                sort: ["name"]
-            });
+            this.#dataManager.setConfig({sort: ["name"]});
         } else {
-            this.#dataManager.setConfig({
-                sort: []
-            });
+            this.#dataManager.setConfig({sort: []});
         }
     }
 
